@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
-          scope: "@layer5"          
+          scope: "@sistent"          
 
       - name: Install Dependencies
         run: npm ci

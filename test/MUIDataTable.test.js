@@ -707,7 +707,7 @@ describe('<MUIDataTable />', function() {
     };
     const fullWrapper = mount(<MUIDataTable columns={columns} data={data} options={options} />);
 
-    const clickSortButton = (index) => {
+    const clickSortButton = index => {
       const btn = fullWrapper.find(`[data-testid="headcol-${index}"]`).at(0);
       btn.prop('onClick')({ preventDefault: () => {} });
       fullWrapper.update();
@@ -736,7 +736,7 @@ describe('<MUIDataTable />', function() {
     };
     const fullWrapper = mount(<MUIDataTable columns={columns} data={data} options={options} />);
 
-    const clickPaginationButton = (id) => {
+    const clickPaginationButton = id => {
       const btn = fullWrapper.find(id).at(0);
       if (btn.prop('onClick')) {
         btn.prop('onClick')({ preventDefault: () => {} });
@@ -1975,9 +1975,11 @@ describe('<MUIDataTable />', function() {
       expandableRowsOnClick: true,
       onRowExpansionChange: spy(),
     };
-    const shallowWrapper = shallow(<MUIDataTable columns={columns} data={data} options={options} tableId={tableId} />).dive();
+    const shallowWrapper = shallow(
+      <MUIDataTable columns={columns} data={data} options={options} tableId={tableId} />,
+    ).dive();
     const instance = shallowWrapper.instance();
-    
+
     // Simulate row expansion via the toggle method
     instance.toggleExpandRow({ index: 2, dataIndex: 2 });
     shallowWrapper.update();
@@ -1999,9 +2001,11 @@ describe('<MUIDataTable />', function() {
       selectableRowsOnClick: true,
       onRowSelectionChange: spy(),
     };
-    const shallowWrapper = shallow(<MUIDataTable columns={columns} data={data} options={options} tableId={tableId} />).dive();
+    const shallowWrapper = shallow(
+      <MUIDataTable columns={columns} data={data} options={options} tableId={tableId} />,
+    ).dive();
     const instance = shallowWrapper.instance();
-    
+
     // Simulate row selection via selectRowUpdate
     instance.selectRowUpdate('cell', { index: 2, dataIndex: 2 });
     shallowWrapper.update();
@@ -2395,7 +2399,7 @@ describe('<MUIDataTable />', function() {
 
     const shallowWrapper = shallow(<MUIDataTable columns={testColumns} data={data} options={options} />).dive();
     const instance = shallowWrapper.instance();
-    
+
     // Use the instance method to filter directly
     instance.filterUpdate(0, 'James', 'Name', 'textField');
     shallowWrapper.update();

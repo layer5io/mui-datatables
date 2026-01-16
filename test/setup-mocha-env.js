@@ -12,7 +12,7 @@ function setupDom() {
   const Node = require('jsdom/lib/jsdom/living/node-document-position');
 
   const dom = new JSDOM('<!doctype html><html><body></body></html>', {
-    url: 'http://localhost'
+    url: 'http://localhost',
   });
 
   global.window = dom.window;

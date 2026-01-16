@@ -133,7 +133,10 @@ describe('<TableHeadCell />', function() {
     if (btn.length > 0 && btn.prop('onClick')) {
       btn.prop('onClick')({ preventDefault: () => {} });
     } else {
-      const instance = wrapper.find('td').at(0).childAt(0);
+      const instance = wrapper
+        .find('td')
+        .at(0)
+        .childAt(0);
       instance.simulate('click');
     }
     wrapper.update();

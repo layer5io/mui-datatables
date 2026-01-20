@@ -22,8 +22,6 @@ import DefaultTableToolbar from './components/TableToolbar';
 import DefaultTableToolbarSelect from './components/TableToolbarSelect';
 import getTextLabels from './textLabels';
 import { buildMap, getCollatorComparator, getPageValue, sortCompare, warnDeprecated, warnInfo } from './utils';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { load, save } from './localStorage';
 
 const defaultTableStyles = theme => ({
@@ -280,7 +278,6 @@ class MUIDataTable extends React.Component {
     super(props);
     this.tableRef = React.createRef();
     this.tableContent = React.createRef();
-    this.draggableHeadCellRefs = {};
     this.resizeHeadCellRefs = {};
     this.timers = {};
     this.setHeadResizeable = () => {};
@@ -578,7 +575,6 @@ class MUIDataTable extends React.Component {
   }
 
   setHeadCellRef = (index, pos, el) => {
-    this.draggableHeadCellRefs[index] = el;
     this.resizeHeadCellRefs[pos] = el;
   };
 
@@ -1834,16 +1830,7 @@ class MUIDataTable extends React.Component {
       classes,
       className,
       title,
-      components: {
-        TableBody,
-        TableFilterList,
-        TableFooter,
-        TableHead,
-        TableResize,
-        TableToolbar,
-        TableToolbarSelect,
-        DragDropBackend = HTML5Backend,
-      },
+      components: { TableBody, TableFilterList, TableFooter, TableHead, TableResize, TableToolbar, TableToolbarSelect },
     } = this.props;
     const {
       announceText,
@@ -1932,11 +1919,6 @@ class MUIDataTable extends React.Component {
     const tableProps = this.options.setTableProps ? this.options.setTableProps() || {} : {};
     const tableClassNames = clsx(classes.tableRoot, tableProps.className);
     delete tableProps.className; // remove className from props to avoid the className being applied twice
-
-    const dndProps = {};
-    if (typeof window !== 'undefined') {
-      dndProps.context = window;
-    }
 
     return (
       <Paper elevation={this.options.elevation} ref={this.tableContent} className={paperClasses}>
@@ -2034,10 +2016,7 @@ class MUIDataTable extends React.Component {
                   sortOrder={sortOrder}
                   columnOrder={columnOrder}
                   updateColumnOrder={this.updateColumnOrder}
-                  draggableHeadCellRefs={this.draggableHeadCellRefs}
-                  tableRef={this.getTableContentRef}
                   tableId={this.options.tableId}
-                  timers={this.timers}
                   components={this.props.components}
                 />
                 <TableBodyComponent
@@ -2068,14 +2047,6 @@ class MUIDataTable extends React.Component {
                   : null}
               </MuiTable>
             );
-            if (DragDropBackend) {
-              return (
-                <DndProvider backend={DragDropBackend} {...dndProps}>
-                  {components}
-                </DndProvider>
-              );
-            }
-
             return components;
           })()}
         </div>

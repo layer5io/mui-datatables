@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
@@ -24,6 +25,18 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
         use: ['babel-loader', 'eslint-loader'],
+      },
+      {
+        test: /\.(js|jsx)$/,
+        include: /node_modules\/(@mui|@emotion|tss-react)/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              configFile: path.resolve(__dirname, '.babelrc'),
+            },
+          },
+        ],
       },
       {
         test: /\.css$/i,

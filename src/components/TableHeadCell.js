@@ -6,9 +6,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import useColumnDrop from '../hooks/useColumnDrop.js';
 import { makeStyles } from 'tss-react/mui';
-import { useDrag } from 'react-dnd';
+import { useDraggable, useDroppable } from '@dnd-kit/core';
 
 const useStyles = makeStyles({ name: 'MUIDataTableHeadCell' })(theme => ({
   root: {},
@@ -68,10 +67,7 @@ const TableHeadCell = ({
   children,
   colPosition,
   column,
-  columns,
-  columnOrder = [],
   components = {},
-  draggableHeadCellRefs,
   draggingHook,
   hint,
   index,
@@ -80,11 +76,8 @@ const TableHeadCell = ({
   setCellRef,
   sort,
   sortDirection,
-  tableRef,
   tableId,
-  timers,
   toggleSort,
-  updateColumnOrder,
 }) => {
   const [sortTooltipOpen, setSortTooltipOpen] = useState(false);
   const [hintTooltipOpen, setHintTooltipOpen] = useState(false);
@@ -103,9 +96,9 @@ const TableHeadCell = ({
     toggleSort(index);
   };
 
-  const [dragging, setDragging] = draggingHook ? draggingHook : [];
+  const [dragging] = draggingHook ? draggingHook : [];
 
-  const { className, ...otherProps } = cellHeaderProps;
+  const { className, style: cellHeaderStyle, ...otherProps } = cellHeaderProps;
   const Tooltip = components.Tooltip || MuiTooltip;
   const sortActive = sortDirection !== 'none' && sortDirection !== undefined;
   const ariaSortDirection = sortDirection === 'none' ? false : sortDirection;
@@ -123,46 +116,22 @@ const TableHeadCell = ({
     ...(ariaSortDirection ? { direction: sortDirection } : {}),
   };
 
-  const [{ opacity }, dragRef, preview] = useDrag({
-    item: {
-      type: 'HEADER',
-      colIndex: index,
-      headCellRefs: draggableHeadCellRefs,
-    },
-    begin: monitor => {
-      setTimeout(() => {
-        setHintTooltipOpen(false);
-        setSortTooltipOpen(false);
-        setDragging(true);
-      }, 0);
-      return null;
-    },
-    end: (item, monitor) => {
-      setDragging(false);
-    },
-    collect: monitor => {
-      return {
-        opacity: monitor.isDragging() ? 1 : 0,
-      };
-    },
+  const { attributes, listeners, setActivatorNodeRef, setNodeRef, transform, isDragging } = useDraggable({
+    id: `column-${index}`,
+    data: { index },
+    disabled: !isDraggingEnabled(),
   });
-
-  const [drop] = useColumnDrop({
-    drop: (item, mon) => {
-      setSortTooltipOpen(false);
-      setHintTooltipOpen(false);
-      setDragging(false);
-    },
-    index,
-    headCellRefs: draggableHeadCellRefs,
-    updateColumnOrder,
-    columnOrder,
-    columns,
-    transitionTime: options.draggableColumns ? options.draggableColumns.transitionTime : 300,
-    tableRef: tableRef ? tableRef() : null,
-    tableId: tableId || 'none',
-    timers,
+  const { setNodeRef: setDroppableNodeRef } = useDroppable({
+    id: `column-${index}`,
+    data: { index },
+    disabled: !isDraggingEnabled(),
   });
+  const dragStyle = transform ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` } : {};
+  const cellStyle = {
+    ...(cellHeaderStyle || {}),
+    ...dragStyle,
+    ...(isDragging ? { opacity: 0.4 } : {}),
+  };
 
   const cellClass = clsx({
     [classes.root]: true,
@@ -191,7 +160,8 @@ const TableHeadCell = ({
   return (
     <TableCell
       ref={ref => {
-        drop && drop(ref);
+        setNodeRef(ref);
+        setDroppableNodeRef(ref);
         setCellRef && setCellRef(index + 1, colPosition + 1, ref);
       }}
       className={cellClass}
@@ -200,6 +170,7 @@ const TableHeadCell = ({
       data-colindex={index}
       data-tableid={tableId}
       onMouseDown={closeTooltip}
+      style={cellStyle}
       {...otherProps}>
       {options.sort && sort ? (
         <span className={classes.contentWrapper}>
@@ -219,7 +190,9 @@ const TableHeadCell = ({
               onClick={handleSortClick}
               className={classes.toolButton}
               data-testid={`headcol-${index}`}
-              ref={isDraggingEnabled() ? dragRef : null}>
+              ref={isDraggingEnabled() ? setActivatorNodeRef : null}
+              {...(isDraggingEnabled() ? listeners : {})}
+              {...(isDraggingEnabled() ? attributes : {})}>
               <div className={classes.sortAction}>
                 <div
                   className={clsx({
@@ -245,7 +218,11 @@ const TableHeadCell = ({
           )}
         </span>
       ) : (
-        <div className={hint ? classes.sortAction : null} ref={isDraggingEnabled() ? dragRef : null}>
+        <div
+          className={hint ? classes.sortAction : null}
+          ref={isDraggingEnabled() ? setActivatorNodeRef : null}
+          {...(isDraggingEnabled() ? listeners : {})}
+          {...(isDraggingEnabled() ? attributes : {})}>
           {children}
           {hint && (
             <Tooltip

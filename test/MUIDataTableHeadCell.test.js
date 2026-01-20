@@ -7,8 +7,7 @@ import TableHeadCell from '../src/components/TableHeadCell';
 import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import HelpIcon from '@mui/icons-material/Help';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndContext } from '@dnd-kit/core';
 
 describe('<TableHeadCell />', function() {
   let classes;
@@ -27,7 +26,7 @@ describe('<TableHeadCell />', function() {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <DndProvider backend={HTML5Backend}>
+      <DndContext>
         <TableHeadCell
           cellHeaderProps={setCellHeaderProps}
           options={options}
@@ -37,7 +36,7 @@ describe('<TableHeadCell />', function() {
           classes={classes}>
           some content
         </TableHeadCell>
-      </DndProvider>,
+      </DndContext>,
     );
 
     const props = mountWrapper.find(TableCell).props();
@@ -53,11 +52,11 @@ describe('<TableHeadCell />', function() {
     const toggleSort = () => {};
 
     const wrapper = mount(
-      <DndProvider backend={HTML5Backend}>
+      <DndContext>
         <TableHeadCell options={options} sortDirection={'asc'} sort={true} toggleSort={toggleSort} classes={classes}>
           some content
         </TableHeadCell>
-      </DndProvider>,
+      </DndContext>,
     );
 
     const actualResult = wrapper.find(TableSortLabel);
@@ -69,11 +68,11 @@ describe('<TableHeadCell />', function() {
     const toggleSort = () => {};
 
     const shallowWrapper = shallow(
-      <DndProvider backend={HTML5Backend}>
+      <DndContext>
         <TableHeadCell options={options} sortDirection={'asc'} sort={true} toggleSort={toggleSort} classes={classes}>
           some content
         </TableHeadCell>
-      </DndProvider>,
+      </DndContext>,
     );
 
     const actualResult = shallowWrapper.find(TableSortLabel);
@@ -84,11 +83,11 @@ describe('<TableHeadCell />', function() {
     const options = { sort: true, textLabels: getTextLabels() };
 
     const wrapper = mount(
-      <DndProvider backend={HTML5Backend}>
+      <DndContext>
         <TableHeadCell options={options} hint={'hint text'} classes={classes}>
           some content
         </TableHeadCell>
-      </DndProvider>,
+      </DndContext>,
     );
 
     const actualResult = wrapper.find(HelpIcon);
@@ -99,11 +98,11 @@ describe('<TableHeadCell />', function() {
     const options = { sort: true, textLabels: getTextLabels() };
 
     const shallowWrapper = shallow(
-      <DndProvider backend={HTML5Backend}>
+      <DndContext>
         <TableHeadCell options={options} classes={classes}>
           some content
         </TableHeadCell>
-      </DndProvider>,
+      </DndContext>,
     ).dive();
 
     const actualResult = shallowWrapper.find(HelpIcon);
@@ -115,7 +114,7 @@ describe('<TableHeadCell />', function() {
     const toggleSort = spy();
 
     const wrapper = mount(
-      <DndProvider backend={HTML5Backend}>
+      <DndContext>
         <TableHeadCell
           options={options}
           sort={true}
@@ -125,7 +124,7 @@ describe('<TableHeadCell />', function() {
           classes={classes}>
           some content
         </TableHeadCell>
-      </DndProvider>,
+      </DndContext>,
     );
 
     // Find the button with data-testid

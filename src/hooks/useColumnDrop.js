@@ -2,8 +2,6 @@
   This hook handles the dragging and dropping effects that occur for columns.
 */
 
-import { useDrop } from 'react-dnd';
-
 const getColModel = (headCellRefs, columnOrder, columns) => {
   let colModel = [];
   let leftMostCell = headCellRefs[0] ? headCellRefs[0] : null; // left most cell is the select cell, if it exists
@@ -166,18 +164,8 @@ const handleHover = opts => {
   }
 };
 
-const useColumnDrop = opts => {
-  const [{ isOver, canDrop }, drop] = useDrop({
-    accept: 'HEADER',
-    drop: opts.drop,
-    hover: (item, mon) => handleHover(Object.assign({}, opts, { item, mon })),
-    collect: mon => ({
-      isOver: !!mon.isOver(),
-      canDrop: !!mon.canDrop(),
-    }),
-  });
-
-  return [drop];
+const useColumnDrop = () => {
+  return [null];
 };
 
 export { getColModel, reorderColumns, handleHover };

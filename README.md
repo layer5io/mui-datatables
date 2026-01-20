@@ -33,7 +33,7 @@ MUI-Datatables is a responsive datatables component built on [Material-UI](https
 
 `npm install mui-datatables --save`
 
-React 18 is required (both `react` and `react-dom`). This is a breaking change for projects still on React 16 or 17.
+React 18+ is required (both `react` and `react-dom`). This is a breaking change for projects still on React 16 or 17.
 
 If your project doesn't already use them, you need to install MUI v7 and its icon pack:  
 `npm --save install @mui/material @emotion/react @emotion/styled @mui/icons-material`

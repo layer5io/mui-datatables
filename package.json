@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --color",
-    "test": "cross-env NODE_ENV=test mocha --require ./test/babel-register.js --extensions js,jsx test/**/*.test.js",
+    "test": "cross-env NODE_ENV=test mocha --require ./test/swc-register.js --extension js --extension jsx test/**/*.test.js",
     "docs:dev": "next docs",
     "docs:build": "cross-env NODE_ENV=production next build docs",
     "docs:export": "next export docs -o docs/export",
@@ -149,7 +149,7 @@
     "exclude": [
       "test/**/*.test.js"
     ],
-    "sourceMap": false,
+    "sourceMap": true,
     "instrument": false
   },
   "directories": {

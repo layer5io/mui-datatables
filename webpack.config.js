@@ -23,7 +23,31 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
-        use: ['babel-loader', 'eslint-loader'],
+        use: [
+          {
+            loader: 'swc-loader',
+            options: {
+              jsc: {
+                parser: {
+                  syntax: 'ecmascript',
+                  jsx: true,
+                },
+                transform: {
+                  react: {
+                    runtime: 'automatic',
+                    development: true,
+                    refresh: true,
+                  },
+                },
+                target: 'es2018',
+              },
+              module: {
+                type: 'es6',
+              },
+            },
+          },
+          'eslint-loader',
+        ],
       },
       {
         test: /\.css$/i,

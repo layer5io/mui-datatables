@@ -1,0 +1,40 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "development": false,
+                "useBuiltins": true
+            }
+        },
+        "loose": false,
+        "externalHelpers": false
+    },
+    "env": {
+        "targets": {
+            "ie": "11",
+            "chrome": "58",
+            "firefox": "54",
+            "safari": "10",
+            "edge": "15",
+            "ios": "8",
+            "android": "4"
+        },
+        "mode": "usage",
+        "coreJs": "3"
+    },
+    "module": {
+        "type": "commonjs",
+        "strict": false,
+        "strictMode": true,
+        "lazy": false,
+        "noInterop": false
+    },
+    "minify": false,
+    "isModule": true
+}

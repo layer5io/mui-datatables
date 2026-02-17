@@ -1,0 +1,24 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "development": true
+      }
+    },
+    "target": "es2018",
+    "experimental": {
+      "plugins": [
+        ["swc-plugin-coverage-instrument", {}]
+      ]
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  }
+}

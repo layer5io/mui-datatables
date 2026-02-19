@@ -30,13 +30,9 @@ export default {
         externalHelpers: false,
       },
       env: {
-        targets: {
-          ie: '11',
-          chrome: '58',
-          firefox: '54',
-          safari: '10',
-          edge: '15',
-        },
+        // Aligned with MUI v7's official browser support policy:
+        // https://mui.com/material-ui/getting-started/supported-platforms/
+        targets: '> 0.5%, last 2 versions, Firefox ESR, not dead, safari >= 15.4, iOS >= 15.4',
         mode: 'usage',
         coreJs: '3',
       },

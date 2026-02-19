@@ -1,0 +1,32 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "development": false,
+                "useBuiltins": true
+            }
+        },
+        "loose": false,
+        "externalHelpers": false
+    },
+    "env": {
+        "targets": "> 0.5%, last 2 versions, Firefox ESR, not dead, safari >= 15.4, iOS >= 15.4",
+        "mode": "usage",
+        "coreJs": "3"
+    },
+    "module": {
+        "type": "commonjs",
+        "strict": false,
+        "strictMode": true,
+        "lazy": false,
+        "noInterop": false
+    },
+    "minify": false,
+    "isModule": true
+}

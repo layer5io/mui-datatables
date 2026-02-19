@@ -1,13 +1,11 @@
 {
-  "parser": "babel-eslint",
   "settings": {
     "react": {
-      "version": "latest"
+      "version": "detect"
     },
     "import/extensions": [
       ".js"
     ],
-    "import/parser": "babel-eslint",
     "import/resolver": {
       "node": {
         "extensions": [
@@ -20,7 +18,7 @@
     }
   },
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2020,
     "sourceType": "module",
     "allowImportExportEverywhere": true,
     "ecmaFeatures": {

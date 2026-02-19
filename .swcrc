@@ -16,15 +16,7 @@
         "externalHelpers": false
     },
     "env": {
-        "targets": {
-            "ie": "11",
-            "chrome": "58",
-            "firefox": "54",
-            "safari": "10",
-            "edge": "15",
-            "ios": "8",
-            "android": "4"
-        },
+        "targets": "> 0.5%, last 2 versions, Firefox ESR, not dead, safari >= 15.4, iOS >= 15.4",
         "mode": "usage",
         "coreJs": "3"
     },

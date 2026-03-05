@@ -65,9 +65,11 @@ jobs:
           echo "Build New Package" >> $GITHUB_STEP_SUMMARY
 
       - name: Publish Package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -e
-          npm publish --provenance --access public --verbose
+          npm publish --access public --verbose
 
       - name: Pull changes from remote
         run: git pull origin master
@@ -81,6 +83,5 @@ jobs:
           commit_user_email: lee@toones.io
           commit_author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-
 
 

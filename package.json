@@ -62,7 +62,7 @@
     "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^7.0.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "chai": "^6.2.2",
+    "chai": "^5.3.3",
     "core-js": "^3.49.0",
     "coveralls": "^3.1.1",
     "cross-env": "^10.1.0",
@@ -122,7 +122,7 @@
     "prop-types": "^15.8.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
-    "react-to-print": "^3.3.0",
+    "react-to-print": "^2.15.1",
     "tss-react": "^4.9.20"
   },
   "overrides": {

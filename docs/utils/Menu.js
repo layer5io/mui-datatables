@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 
-const styles = theme => ({
+const styles = (theme) => ({
   list: {
     width: 250,
   },
@@ -26,7 +26,7 @@ const sandboxes = [
   { name: 'Resizable Columns', href: 'https://codesandbox.io/embed/q8w3230qpj?autoresize=1&hidenavigation=1' },
 ];
 
-const SandboxItem = props => (
+const SandboxItem = (props) => (
   <ListItem button>
     <ListItemText onClick={() => window.open(props.href, '_blank')} primary={props.name} />
   </ListItem>
@@ -49,8 +49,9 @@ class Menu extends React.Component {
               <ListSubheader className={classes.listTitle} component="h2">
                 Examples
               </ListSubheader>
-            }>
-            {sandboxes.map(item => (
+            }
+          >
+            {sandboxes.map((item) => (
               <SandboxItem href={item.href} name={item.name} />
             ))}
           </List>

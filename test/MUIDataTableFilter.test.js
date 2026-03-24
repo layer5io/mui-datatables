@@ -9,7 +9,7 @@ import { spy } from 'sinon';
 import TableFilter from '../src/components/TableFilter';
 import getTextLabels from '../src/textLabels';
 
-describe('<TableFilter />', function() {
+describe('<TableFilter />', function () {
   let data;
   let columns;
   let filterData;
@@ -45,8 +45,8 @@ describe('<TableFilter />', function() {
     );
     const labels = shallowWrapper
       .find(Typography)
-      .filterWhere(n => n.html().match(/MUIDataTableFilter-checkboxListTitle/))
-      .map(n => n.text());
+      .filterWhere((n) => n.html().match(/MUIDataTableFilter-checkboxListTitle/))
+      .map((n) => n.text());
     assert.deepEqual(labels, ['First Name', 'Company', 'City Label', 'State']);
   });
 
@@ -64,7 +64,7 @@ describe('<TableFilter />', function() {
   it('should render data table filter view with no checkboxes if filter=false for each column', () => {
     const options = { filterType: 'checkbox', textLabels: getTextLabels() };
     const filterList = [[], [], [], []];
-    columns = columns.map(item => (item.filter = false));
+    columns = columns.map((item) => (item.filter = false));
 
     const mountWrapper = mount(
       <TableFilter columns={columns} filterData={filterData} filterList={filterList} options={options} />,
@@ -89,7 +89,7 @@ describe('<TableFilter />', function() {
   it('should render data table filter view no selects if filter=false for each column', () => {
     const options = { filterType: 'select', textLabels: getTextLabels() };
     const filterList = [['Joe James'], [], [], []];
-    columns = columns.map(item => (item.filter = false));
+    columns = columns.map((item) => (item.filter = false));
 
     const mountWrapper = mount(
       <TableFilter columns={columns} filterData={filterData} filterList={filterList} options={options} />,
@@ -112,11 +112,11 @@ describe('<TableFilter />', function() {
   });
 
   it("should render data table filter view with custom rendering of items if filterType = 'select'", () => {
-    columns.forEach(item => (item.filterOptions = { renderValue: v => v.toUpperCase() }));
+    columns.forEach((item) => (item.filterOptions = { renderValue: (v) => v.toUpperCase() }));
     const options = {
       filterType: 'select',
       textLabels: getTextLabels(),
-      filterOptions: { renderValue: v => v.toUpperCase() },
+      filterOptions: { renderValue: (v) => v.toUpperCase() },
     };
     const filterList = [['Joe James'], [null], [], []];
 
@@ -130,7 +130,7 @@ describe('<TableFilter />', function() {
   });
 
   it("should render data table filter view with custom rendering of items for filterType = 'multiselect' if renderValue is provided", () => {
-    columns.forEach(item => (item.filterOptions = { renderValue: v => v.toUpperCase() }));
+    columns.forEach((item) => (item.filterOptions = { renderValue: (v) => v.toUpperCase() }));
     const options = { filterType: 'multiselect', textLabels: getTextLabels() };
     const filterList = [['Joe James', 'John Walsh'], [], [], []];
 
@@ -195,8 +195,8 @@ describe('<TableFilter />', function() {
     );
     const labels = shallowWrapper
       .find(TextField)
-      .filterWhere(n => n.html().match(/MuiInputLabel-formControl/))
-      .map(n => n.text());
+      .filterWhere((n) => n.html().match(/MuiInputLabel-formControl/))
+      .map((n) => n.text());
     assert.deepEqual(labels, ['First Name', 'Company', 'City Label', 'State']);
   });
 
@@ -214,7 +214,7 @@ describe('<TableFilter />', function() {
   it("should data table filter view with no TextFields if filter=false when filterType = 'textField'", () => {
     const options = { filterType: 'textField', textLabels: getTextLabels() };
     const filterList = [[], [], [], []];
-    columns = columns.map(item => (item.filter = false));
+    columns = columns.map((item) => (item.filter = false));
 
     const shallowWrapper = mount(
       <TableFilter columns={columns} filterData={filterData} filterList={filterList} options={options} />,
@@ -227,7 +227,7 @@ describe('<TableFilter />', function() {
   it("should data table filter view with checkboxes if column.filterType = 'checkbox' irrespective of global filterType value", () => {
     const options = { filterType: 'textField', textLabels: getTextLabels() };
     const filterList = [[], [], [], []];
-    columns.forEach(item => (item.filterType = 'checkbox'));
+    columns.forEach((item) => (item.filterType = 'checkbox'));
 
     const shallowWrapper = mount(
       <TableFilter columns={columns} filterData={filterData} filterList={filterList} options={options} />,
@@ -366,10 +366,7 @@ describe('<TableFilter />', function() {
     instance.handleDropdownChange(event, 0);
     assert.strictEqual(onFilterUpdate.callCount, 2);
 
-    shallowWrapper
-      .find(Select)
-      .first()
-      .simulate('change', event);
+    shallowWrapper.find(Select).first().simulate('change', event);
     assert.strictEqual(onFilterUpdate.callCount, 3);
   });
 
@@ -400,10 +397,7 @@ describe('<TableFilter />', function() {
     instance.handleMultiselectChange(event, 0);
     assert.strictEqual(onFilterUpdate.callCount, 2);
 
-    shallowWrapper
-      .find(Select)
-      .first()
-      .simulate('change', event);
+    shallowWrapper.find(Select).first().simulate('change', event);
     assert.strictEqual(onFilterUpdate.callCount, 3);
   });
 
@@ -434,10 +428,7 @@ describe('<TableFilter />', function() {
     instance.handleTextFieldChange(event, 0);
     assert.strictEqual(onFilterUpdate.callCount, 2);
 
-    shallowWrapper
-      .find(TextField)
-      .first()
-      .simulate('change', event);
+    shallowWrapper.find(TextField).first().simulate('change', event);
     assert.strictEqual(onFilterUpdate.callCount, 3);
   });
 });

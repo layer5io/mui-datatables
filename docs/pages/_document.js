@@ -75,9 +75,9 @@ class MyDocument extends Document {
   }
 }
 
-MyDocument.getInitialProps = ctx => {
+MyDocument.getInitialProps = (ctx) => {
   const pageContext = getPageContext();
-  const page = ctx.renderPage(Component => props => (
+  const page = ctx.renderPage((Component) => (props) => (
     <JssProvider registry={pageContext.sheetsRegistry} generateClassName={pageContext.generateClassName}>
       <Component pageContext={pageContext} {...props} />
     </JssProvider>

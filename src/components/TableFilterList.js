@@ -34,7 +34,7 @@ const TableFilterList = ({
       removedFilter = filterList[index];
     }
 
-    filterUpdate(index, filterValue, columnName, filterType, customFilterListUpdate, filterList => {
+    filterUpdate(index, filterValue, columnName, filterType, customFilterListUpdate, (filterList) => {
       if (options.onFilterChipClose) {
         options.onFilterChipClose(index, removedFilter, filterList);
       }
@@ -91,7 +91,7 @@ const TableFilterList = ({
     />
   );
 
-  const getFilterList = filterList => {
+  const getFilterList = (filterList) => {
     return filterList.map((item, index) => {
       if (columnNames[index].filterType === 'custom' && filterList[index].length) {
         const filterListRenderersValue = filterListRenderers[index](item);

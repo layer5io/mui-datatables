@@ -5,7 +5,7 @@ import { assert, expect, should } from 'chai';
 import Checkbox from '@mui/material/Checkbox';
 import TableSelectCell from '../src/components/TableSelectCell';
 
-describe('<TableSelectCell />', function() {
+describe('<TableSelectCell />', function () {
   before(() => {});
 
   it('should render table select cell', () => {

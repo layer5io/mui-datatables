@@ -11,7 +11,7 @@ import React from 'react';
 import TableToolbar from '../src/components/TableToolbar';
 import getTextLabels from '../src/textLabels';
 
-const CustomChip = props => {
+const CustomChip = (props) => {
   return <Chip variant="outlined" color="secondary" label={props.label} />;
 };
 
@@ -59,18 +59,18 @@ const data = [
   },
 ];
 
-const testCustomIcon = iconName => {
+const testCustomIcon = (iconName) => {
   const components = { icons: { [iconName]: CustomChip } };
   const wrapper = mount(<TableToolbar {...{ columns, data, options, setTableAction, components }} />);
   assert.strictEqual(wrapper.find(IconButton).length, 5); // All icons show
   assert.strictEqual(wrapper.find(CustomChip).length, 1); // Custom chip shows once
-  Object.keys(icons).forEach(icon => {
+  Object.keys(icons).forEach((icon) => {
     // The original default for the custom icon should be gone, the rest should remain
     assert.strictEqual(wrapper.find(icons[icon]).length, iconName === icon ? 0 : 1);
   });
 };
 
-describe('<TableToolbar /> with custom icons', function() {
+describe('<TableToolbar /> with custom icons', function () {
   it('should render a toolbar with a custom chip in place of the search icon', () => {
     testCustomIcon('SearchIcon');
   });

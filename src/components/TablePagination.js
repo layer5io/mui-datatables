@@ -10,7 +10,7 @@ import JumpToPage from './JumpToPage';
 import { makeStyles } from 'tss-react/mui';
 import { getPageValue } from '../utils';
 
-const useStyles = makeStyles({ name: 'MUIDataTablePagination' })(theme => ({
+const useStyles = makeStyles({ name: 'MUIDataTablePagination' })((theme) => ({
   root: {},
   tableCellContainer: {
     padding: '0px 24px 0px 24px',
@@ -36,7 +36,7 @@ const useStyles = makeStyles({ name: 'MUIDataTablePagination' })(theme => ({
 function TablePagination(props) {
   const { classes } = useStyles();
 
-  const handleRowChange = event => {
+  const handleRowChange = (event) => {
     props.changeRowsPerPage(event.target.value);
   };
 

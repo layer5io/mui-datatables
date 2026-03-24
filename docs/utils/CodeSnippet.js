@@ -7,7 +7,7 @@ import 'prismjs/components/prism-bash';
 import Paper from '@mui/material/Paper';
 import { withStyles } from 'tss-react/mui';
 
-const styles = theme => ({});
+const styles = (theme) => ({});
 
 class CodeSnippet extends React.Component {
   static propTypes = {

@@ -5,15 +5,15 @@ import MUIDataTable from '../src/MUIDataTable';
 import Chip from '@mui/material/Chip';
 import TableFilterList from '../src/components/TableFilterList';
 
-const CustomChip = props => {
+const CustomChip = (props) => {
   return <Chip variant="outlined" color="secondary" label={props.label} />;
 };
 
-const CustomFilterList = props => {
+const CustomFilterList = (props) => {
   return <TableFilterList {...props} ItemComponent={CustomChip} />;
 };
 
-describe('<MUIDataTable /> with custom components', function() {
+describe('<MUIDataTable /> with custom components', function () {
   let data;
   let columns;
 

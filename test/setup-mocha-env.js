@@ -19,24 +19,25 @@ function setupDom() {
   global.document = window.document;
   global.Node = Node;
 
-  global.navigator = {
-    userAgent: 'node.js',
-    appVersion: '',
-  };
+  Object.defineProperty(global, 'navigator', {
+    value: { userAgent: 'node.js', appVersion: '' },
+    writable: true,
+    configurable: true,
+  });
   global.localStorage = global.window.localStorage;
   global.sessionStorage = global.window.sessionStorage;
 
   function copyProps(src, target) {
     const props = Object.getOwnPropertyNames(src)
-      .filter(prop => typeof target[prop] === 'undefined')
-      .map(prop => Object.getOwnPropertyDescriptor(src, prop));
+      .filter((prop) => typeof target[prop] === 'undefined')
+      .map((prop) => Object.getOwnPropertyDescriptor(src, prop));
     Object.defineProperties(target, props);
   }
 
   copyProps(dom.window, global);
 
   const KEYS = ['HTMLElement'];
-  KEYS.forEach(key => {
+  KEYS.forEach((key) => {
     global[key] = window[key];
   });
 
@@ -54,7 +55,7 @@ function setupDom() {
     },
   });
 
-  global.requestAnimationFrame = callback => {
+  global.requestAnimationFrame = (callback) => {
     setTimeout(callback, 0);
   };
 
@@ -73,4 +74,4 @@ function setupDom() {
 }
 
 setupDom();
-console.error = function() {};
+console.error = function () {};

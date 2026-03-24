@@ -10,7 +10,7 @@ import Layout from '../utils/layout';
 import withRoot from '../utils/withRoot';
 import { withStyles } from 'tss-react/mui';
 
-const styles = theme => ({
+const styles = (theme) => ({
   stepIcon: {
     fontSize: '30px',
     marginRight: theme.spacing.unit * 2,

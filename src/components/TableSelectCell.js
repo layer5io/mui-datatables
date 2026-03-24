@@ -5,7 +5,7 @@ import { Checkbox, TableCell } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import ExpandButton from './ExpandButton';
 
-const useStyles = makeStyles({ name: 'MUIDataTableSelectCell' })(theme => ({
+const useStyles = makeStyles({ name: 'MUIDataTableSelectCell' })((theme) => ({
   root: {
     '@media print': {
       display: 'none',
@@ -92,7 +92,7 @@ const TableSelectCell = ({
 
   let refProp = {};
   if (setHeadCellRef) {
-    refProp.ref = el => {
+    refProp.ref = (el) => {
       setHeadCellRef(0, 0, el);
     };
   }

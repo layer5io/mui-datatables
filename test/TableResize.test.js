@@ -5,7 +5,7 @@ import { assert, expect, should } from 'chai';
 import TableResize from '../src/components/TableResize';
 import MUIDataTable from '../src/MUIDataTable';
 
-describe('<TableResize />', function() {
+describe('<TableResize />', function () {
   let options;
 
   before(() => {
@@ -36,10 +36,7 @@ describe('<TableResize />', function() {
 
     const shallowWrapper = mount(<MUIDataTable columns={columns} data={data} options={options} />);
 
-    var state = shallowWrapper
-      .find(TableResize)
-      .childAt(0)
-      .state();
+    var state = shallowWrapper.find(TableResize).childAt(0).state();
 
     var colCoordCount = 0;
     for (let prop in state.resizeCoords) {
@@ -89,7 +86,7 @@ describe('<TableResize />', function() {
       },
     };
 
-    const setResizeable = next => {
+    const setResizeable = (next) => {
       next(cellsRef, tableRef);
     };
 

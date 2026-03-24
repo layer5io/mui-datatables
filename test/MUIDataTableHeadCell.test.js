@@ -10,7 +10,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-describe('<TableHeadCell />', function() {
+describe('<TableHeadCell />', function () {
   let classes;
 
   before(() => {
@@ -34,7 +34,8 @@ describe('<TableHeadCell />', function() {
           sortDirection={'asc'}
           sort={true}
           toggleSort={toggleSort}
-          classes={classes}>
+          classes={classes}
+        >
           some content
         </TableHeadCell>
       </DndProvider>,
@@ -122,7 +123,8 @@ describe('<TableHeadCell />', function() {
           index={0}
           sortDirection={'asc'}
           toggleSort={toggleSort}
-          classes={classes}>
+          classes={classes}
+        >
           some content
         </TableHeadCell>
       </DndProvider>,
@@ -133,10 +135,7 @@ describe('<TableHeadCell />', function() {
     if (btn.length > 0 && btn.prop('onClick')) {
       btn.prop('onClick')({ preventDefault: () => {} });
     } else {
-      const instance = wrapper
-        .find('td')
-        .at(0)
-        .childAt(0);
+      const instance = wrapper.find('td').at(0).childAt(0);
       instance.simulate('click');
     }
     wrapper.update();

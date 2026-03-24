@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { TableCell } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-const useStyles = makeStyles({ name: 'MUIDataTableBodyCell' })(theme => ({
+const useStyles = makeStyles({ name: 'MUIDataTableBodyCell' })((theme) => ({
   root: {},
   cellHide: {
     display: 'none',
@@ -92,22 +92,12 @@ const useStyles = makeStyles({ name: 'MUIDataTableBodyCell' })(theme => ({
 
 function TableBodyCell(props) {
   const { classes } = useStyles();
-  const {
-    children,
-    colIndex,
-    columnHeader,
-    options,
-    dataIndex,
-    rowIndex,
-    className,
-    print,
-    tableId,
-    ...otherProps
-  } = props;
+  const { children, colIndex, columnHeader, options, dataIndex, rowIndex, className, print, tableId, ...otherProps } =
+    props;
   const onCellClick = options.onCellClick;
 
   const handleClick = useCallback(
-    event => {
+    (event) => {
       onCellClick(children, { colIndex, rowIndex, dataIndex, event });
     },
     [onCellClick, children, colIndex, rowIndex, dataIndex],
@@ -141,7 +131,8 @@ function TableBodyCell(props) {
           'datatables-noprint': !print,
         },
         className,
-      )}>
+      )}
+    >
       {columnHeader}
     </div>,
     <div
@@ -162,7 +153,8 @@ function TableBodyCell(props) {
           'datatables-noprint': !print,
         },
         className,
-      )}>
+      )}
+    >
       {typeof children === 'function' ? children(dataIndex, rowIndex) : children}
     </div>,
   ];
@@ -199,7 +191,8 @@ function TableBodyCell(props) {
         },
         className,
       )}
-      {...otherProps}>
+      {...otherProps}
+    >
       {innerCells}
     </TableCell>
   );

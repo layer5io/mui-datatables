@@ -16,7 +16,7 @@ import find from 'lodash.find';
 import { withStyles } from 'tss-react/mui';
 import { createCSVDownload, downloadCSV } from '../utils';
 
-export const defaultToolbarStyles = theme => ({
+export const defaultToolbarStyles = (theme) => ({
   root: {
     '@media print': {
       display: 'none',
@@ -108,9 +108,9 @@ class TableToolbar extends React.Component {
     iconActive: null,
     showSearch: Boolean(
       this.props.searchText ||
-        this.props.options.searchText ||
-        this.props.options.searchOpen ||
-        this.props.options.searchAlwaysOpen,
+      this.props.options.searchText ||
+      this.props.options.searchOpen ||
+      this.props.options.searchAlwaysOpen,
     ),
     searchText: this.props.searchText || null,
   };
@@ -131,15 +131,15 @@ class TableToolbar extends React.Component {
       columnOrderCopy = columns.map((item, idx) => idx);
     }
 
-    data.forEach(row => {
+    data.forEach((row) => {
       let newRow = { index: row.index, data: [] };
-      columnOrderCopy.forEach(idx => {
+      columnOrderCopy.forEach((idx) => {
         newRow.data.push(row.data[idx]);
       });
       dataToDownload.push(newRow);
     });
 
-    columnOrderCopy.forEach(idx => {
+    columnOrderCopy.forEach((idx) => {
       columnsToDownload.push(columns[idx]);
     });
 
@@ -153,7 +153,7 @@ class TableToolbar extends React.Component {
           row.index = index;
 
           return {
-            data: row.data.map(column => {
+            data: row.data.map((column) => {
               i += 1;
 
               // if we have a custom render, which will appear as a react element, we must grab the actual value from data
@@ -161,18 +161,18 @@ class TableToolbar extends React.Component {
               // TODO: Create a utility function for checking whether or not something is a react object
               let val =
                 typeof column === 'object' && column !== null && !Array.isArray(column)
-                  ? find(data, d => d.index === row.dataIndex).data[i]
+                  ? find(data, (d) => d.index === row.dataIndex).data[i]
                   : column;
-              val = typeof val === 'function' ? find(data, d => d.index === row.dataIndex).data[i] : val;
+              val = typeof val === 'function' ? find(data, (d) => d.index === row.dataIndex).data[i] : val;
               return val;
             }),
           };
         });
 
         dataToDownload = [];
-        filteredDataToDownload.forEach(row => {
+        filteredDataToDownload.forEach((row) => {
           let newRow = { index: row.index, data: [] };
-          columnOrderCopy.forEach(idx => {
+          columnOrderCopy.forEach((idx) => {
             newRow.data.push(row.data[idx]);
           });
           dataToDownload.push(newRow);
@@ -181,9 +181,9 @@ class TableToolbar extends React.Component {
 
       // now, check columns:
       if (options.downloadOptions.filterOptions.useDisplayedColumnsOnly) {
-        columnsToDownload = columnsToDownload.filter(_ => _.display === 'true');
+        columnsToDownload = columnsToDownload.filter((_) => _.display === 'true');
 
-        dataToDownload = dataToDownload.map(row => {
+        dataToDownload = dataToDownload.map((row) => {
           row.data = row.data.filter((_, index) => columns[columnOrderCopy[index]].display === 'true');
           return row;
         });
@@ -192,9 +192,9 @@ class TableToolbar extends React.Component {
     createCSVDownload(columnsToDownload, dataToDownload, options, downloadCSV);
   };
 
-  setActiveIcon = iconName => {
+  setActiveIcon = (iconName) => {
     this.setState(
-      prevState => ({
+      (prevState) => ({
         showSearch: this.isSearchShown(iconName),
         iconActive: iconName,
         prevIconActive: prevState.iconActive,
@@ -218,7 +218,7 @@ class TableToolbar extends React.Component {
     );
   };
 
-  isSearchShown = iconName => {
+  isSearchShown = (iconName) => {
     if (this.props.options.searchAlwaysOpen) {
       return true;
     }
@@ -268,7 +268,7 @@ class TableToolbar extends React.Component {
     }));
   };
 
-  handleSearch = value => {
+  handleSearch = (value) => {
     this.setState({ searchText: value });
     this.props.searchTextUpdate(value);
   };
@@ -324,7 +324,8 @@ class TableToolbar extends React.Component {
       <Toolbar
         className={options.responsive !== RESPONSIVE_FULL_WIDTH_NAME ? classes.root : classes.fullWidthRoot}
         role={'toolbar'}
-        aria-label={'Table Toolbar'}>
+        aria-label={'Table Toolbar'}
+      >
         <div className={options.responsive !== RESPONSIVE_FULL_WIDTH_NAME ? classes.left : classes.fullWidthLeft}>
           {showSearch === true ? (
             options.customSearchRender ? (
@@ -345,7 +346,8 @@ class TableToolbar extends React.Component {
                 variant="h6"
                 className={
                   options.responsive !== RESPONSIVE_FULL_WIDTH_NAME ? classes.titleText : classes.fullWidthTitleText
-                }>
+                }
+              >
                 {title}
               </Typography>
             </div>
@@ -357,10 +359,11 @@ class TableToolbar extends React.Component {
               <IconButton
                 aria-label={search}
                 data-testid={search + '-iconButton'}
-                ref={el => (this.searchButton = el)}
+                ref={(el) => (this.searchButton = el)}
                 classes={{ root: this.getActiveIcon(classes, 'search') }}
                 disabled={options.search === 'disabled'}
-                onClick={this.handleSearchIconClick}>
+                onClick={this.handleSearchIconClick}
+              >
                 <SearchIconComponent />
               </IconButton>
             </Tooltip>
@@ -372,7 +375,8 @@ class TableToolbar extends React.Component {
                 aria-label={downloadCsv}
                 classes={{ root: classes.icon }}
                 disabled={options.download === 'disabled'}
-                onClick={this.handleCSVDownload}>
+                onClick={this.handleCSVDownload}
+              >
                 <DownloadIconComponent />
               </IconButton>
             </Tooltip>
@@ -389,7 +393,8 @@ class TableToolbar extends React.Component {
                           aria-label={print}
                           disabled={options.print === 'disabled'}
                           onClick={handlePrint}
-                          classes={{ root: classes.icon }}>
+                          classes={{ root: classes.icon }}
+                        >
                           <PrintIconComponent />
                         </IconButton>
                       </Tooltip>
@@ -411,7 +416,8 @@ class TableToolbar extends React.Component {
                     aria-label={viewColumns}
                     classes={{ root: this.getActiveIcon(classes, 'viewcolumns') }}
                     disabled={options.viewColumns === 'disabled'}
-                    onClick={this.setActiveIcon.bind(null, 'viewcolumns')}>
+                    onClick={this.setActiveIcon.bind(null, 'viewcolumns')}
+                  >
                     <ViewColumnIconComponent />
                   </IconButton>
                 </Tooltip>
@@ -440,7 +446,8 @@ class TableToolbar extends React.Component {
                     aria-label={filterTable}
                     classes={{ root: this.getActiveIcon(classes, 'filter') }}
                     disabled={options.filter === 'disabled'}
-                    onClick={this.setActiveIcon.bind(null, 'filter')}>
+                    onClick={this.setActiveIcon.bind(null, 'filter')}
+                  >
                     <FilterIconComponent />
                   </IconButton>
                 </Tooltip>

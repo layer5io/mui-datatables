@@ -7,7 +7,7 @@ import TableViewCol from '../src/components/TableViewCol';
 import getTextLabels from '../src/textLabels';
 import { FormControlLabel } from '@mui/material';
 
-describe('<TableViewCol />', function() {
+describe('<TableViewCol />', function () {
   let columns;
   let options;
 
@@ -32,7 +32,7 @@ describe('<TableViewCol />', function() {
 
   it('should labels as view column names when present', () => {
     const mountWrapper = mount(<TableViewCol columns={columns} options={options} />);
-    const labels = mountWrapper.find(FormControlLabel).map(n => n.text());
+    const labels = mountWrapper.find(FormControlLabel).map((n) => n.text());
     assert.deepEqual(labels, ['A', 'B', 'C', 'D']);
   });
 

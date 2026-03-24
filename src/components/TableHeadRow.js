@@ -15,7 +15,8 @@ const TableHeadRow = ({ children }) => {
     <TableRow
       className={clsx({
         [classes.root]: true,
-      })}>
+      })}
+    >
       {children}
     </TableRow>
   );

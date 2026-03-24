@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 import { assert, expect, should } from 'chai';
 import { getColModel, reorderColumns, handleHover } from '../src/hooks/useColumnDrop';
 
-describe('useColumnDrop', function() {
+describe('useColumnDrop', function () {
   before(() => {});
 
   it('should reorder columns when reorderColumns is called', () => {

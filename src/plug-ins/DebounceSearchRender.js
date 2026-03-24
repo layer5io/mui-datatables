@@ -5,10 +5,10 @@ import { withStyles } from 'tss-react/mui';
 
 function debounce(func, wait, immediate) {
   var timeout;
-  return function() {
+  return function () {
     var context = this,
       args = arguments;
-    var later = function() {
+    var later = function () {
       timeout = null;
       if (!immediate) func.apply(context, args);
     };
@@ -19,7 +19,7 @@ function debounce(func, wait, immediate) {
   };
 }
 
-const defaultStyles = theme => ({
+const defaultStyles = (theme) => ({
   main: {
     display: 'flex',
     flex: '1 0 auto',
@@ -40,8 +40,8 @@ const defaultStyles = theme => ({
 });
 
 class _DebounceTableSearch extends React.Component {
-  handleTextChangeWrapper = debouncedSearch => {
-    return function(event) {
+  handleTextChangeWrapper = (debouncedSearch) => {
+    return function (event) {
       debouncedSearch(event.target.value);
     };
   };
@@ -54,7 +54,7 @@ class _DebounceTableSearch extends React.Component {
     document.removeEventListener('keydown', this.onKeyDown, false);
   }
 
-  onKeyDown = event => {
+  onKeyDown = (event) => {
     if (event.keyCode === 27) {
       this.props.onHide();
     }
@@ -63,7 +63,7 @@ class _DebounceTableSearch extends React.Component {
   render() {
     const { classes, options, onHide, searchText, debounceWait } = this.props;
 
-    const debouncedSearch = debounce(value => {
+    const debouncedSearch = debounce((value) => {
       this.props.onSearch(value);
     }, debounceWait);
 
@@ -84,7 +84,7 @@ class _DebounceTableSearch extends React.Component {
             defaultValue={searchText}
             onChange={this.handleTextChangeWrapper(debouncedSearch)}
             fullWidth={true}
-            inputRef={el => (this.searchField = el)}
+            inputRef={(el) => (this.searchField = el)}
             placeholder={options.searchPlaceholder}
             {...(options.searchProps ? options.searchProps : {})}
           />

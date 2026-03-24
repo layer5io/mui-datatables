@@ -6,7 +6,7 @@ import MuiTablePagination from '@mui/material/TablePagination';
 import getTextLabels from '../src/textLabels';
 import TablePagination from '../src/components/TablePagination';
 
-describe('<TablePagination />', function() {
+describe('<TablePagination />', function () {
   let options;
 
   before(() => {

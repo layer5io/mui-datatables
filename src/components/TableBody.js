@@ -9,7 +9,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { getPageValue } from '../utils';
 import clsx from 'clsx';
 
-const defaultBodyStyles = theme => ({
+const defaultBodyStyles = (theme) => ({
   root: {},
   emptyTitle: {
     textAlign: 'center',
@@ -141,7 +141,7 @@ class TableBody extends React.Component {
 
       // Add the clicked on row to our copy of selectedRows (if it isn't already present).
       let clickedDataIndex = this.props.data[data.index].dataIndex;
-      if (selectedRows.data.filter(d => d.dataIndex === clickedDataIndex).length === 0) {
+      if (selectedRows.data.filter((d) => d.dataIndex === clickedDataIndex).length === 0) {
         selectedRows.data.push({
           index: data.index,
           dataIndex: clickedDataIndex,
@@ -159,7 +159,7 @@ class TableBody extends React.Component {
           };
 
           // Add adjacent row to temp selectedRow object if it isn't present.
-          if (selectedRows.data.filter(d => d.dataIndex === dataIndex).length === 0) {
+          if (selectedRows.data.filter((d) => d.dataIndex === dataIndex).length === 0) {
             selectedRows.data.push(lookup);
             selectedRows.lookup[dataIndex] = true;
           }
@@ -231,7 +231,7 @@ class TableBody extends React.Component {
       tableId,
     } = this.props;
     const tableRows = this.buildRows();
-    const visibleColCnt = columns.filter(c => c.display === 'true').length;
+    const visibleColCnt = columns.filter((c) => c.display === 'true').length;
 
     return (
       <MuiTableBody>
@@ -266,7 +266,8 @@ class TableBody extends React.Component {
                     [bodyClasses.className]: bodyClasses.className,
                   })}
                   data-testid={'MUIDataTableBodyRow-' + dataIndex}
-                  id={`MUIDataTableBodyRow-${tableId}-${dataIndex}`}>
+                  id={`MUIDataTableBodyRow-${tableId}-${dataIndex}`}
+                >
                   <TableSelectCell
                     onChange={this.handleRowSelect.bind(null, {
                       index: this.getRowIndex(rowIndex),
@@ -292,7 +293,7 @@ class TableBody extends React.Component {
                     components={components}
                   />
                   {processedRow.map(
-                    column =>
+                    (column) =>
                       columns[column.index].display === 'true' && (
                         <TableBodyCell
                           {...(columns[column.index].setCellProps
@@ -306,7 +307,8 @@ class TableBody extends React.Component {
                           print={columns[column.index].print}
                           options={options}
                           tableId={tableId}
-                          key={column.index}>
+                          key={column.index}
+                        >
                           {column.value}
                         </TableBodyCell>
                       ),
@@ -322,7 +324,8 @@ class TableBody extends React.Component {
               colSpan={options.selectableRows !== 'none' || options.expandableRows ? visibleColCnt + 1 : visibleColCnt}
               options={options}
               colIndex={0}
-              rowIndex={0}>
+              rowIndex={0}
+            >
               <Typography variant="body1" className={classes.emptyTitle} component={'div'}>
                 {options.textLabels.body.noMatch}
               </Typography>

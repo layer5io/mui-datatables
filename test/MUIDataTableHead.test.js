@@ -9,7 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-describe('<TableHead />', function() {
+describe('<TableHead />', function () {
   let columns;
   let handleHeadUpdateRef;
 
@@ -23,7 +23,7 @@ describe('<TableHead />', function() {
         label: 'State',
         display: 'true',
         options: { fixedHeaderOptions: { xAxis: true, yAxis: true }, selectableRows: 'multiple' },
-        customHeadRender: columnMeta => <TableHeadCell {...columnMeta}>{columnMeta.name + 's'}</TableHeadCell>,
+        customHeadRender: (columnMeta) => <TableHeadCell {...columnMeta}>{columnMeta.name + 's'}</TableHeadCell>,
         sort: null,
       },
     ];
@@ -64,7 +64,7 @@ describe('<TableHead />', function() {
         />
       </DndProvider>,
     );
-    const labels = mountWrapper.find(TableHeadCell).map(n => n.text());
+    const labels = mountWrapper.find(TableHeadCell).map((n) => n.text());
     assert.deepEqual(labels, ['First Name', 'Company', 'City Label', 'States']);
   });
 
@@ -72,7 +72,7 @@ describe('<TableHead />', function() {
     const options = {};
     const toggleSort = () => {};
 
-    const newColumns = columns.map(column => ({ ...column, display: false }));
+    const newColumns = columns.map((column) => ({ ...column, display: false }));
     const mountWrapper = mount(
       <DndProvider backend={HTML5Backend}>
         <TableHead

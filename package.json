@@ -1,6 +1,6 @@
 {
   "name": "@sistent/mui-datatables",
-  "version": "6.0.1",
+  "version": "6.1.1",
   "description": "Datatables for React using Material-UI",
   "main": "dist/index.js",
   "files": [
@@ -14,7 +14,7 @@
     "docs:export": "next export docs -o docs/export",
     "docs:deploy": "npm run docs:build && npm run docs:export && firebase deploy",
     "docs:start": "next start docs",
-    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --require ./test/babel-register.js --extensions js,jsx test/*.js && nyc report --reporter=html | cat coverage/lcov.info | coveralls",
+    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --require ./test/babel-register.js --extensions js,jsx test/*.js && nyc report --reporter=html",
     "coverage:html": "cross-env NODE_ENV=test nyc check-coverage --lines 55 --reporter=html --reporter=text mocha --require ./test/babel-register.js --extensions js,jsx test/*.js && nyc report --reporter=html",
     "prettier": "find src/ docs/ test/ -type f -name \"*.js\" ! -path \"*/.next/*\" | xargs prettier --write",
     "lint": "eslint src",
@@ -39,10 +39,10 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/plugin-external-helpers": "^7.27.1",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
-    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
-    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@babel/plugin-transform-class-properties": "^7.25.9",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.26.6",
+    "@babel/plugin-transform-object-rest-spread": "^7.25.9",
+    "@babel/plugin-transform-optional-chaining": "^7.25.9",
     "@babel/plugin-transform-async-to-generator": "^7.28.6",
     "@babel/plugin-transform-runtime": "^7.29.0",
     "@babel/preset-env": "^7.29.2",
@@ -58,18 +58,17 @@
     "@rollup/plugin-commonjs": "^29.0.2",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
-    "babel-eslint": "^10.1.0",
+    "@babel/eslint-parser": "^7.27.1",
     "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^7.0.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "chai": "^5.3.3",
     "core-js": "^3.49.0",
-    "coveralls": "^3.1.1",
     "cross-env": "^10.1.0",
     "css-loader": "^7.1.4",
     "enzyme": "^3.11.0",
     "eslint": "^10.1.0",
-    "eslint-loader": "^4.0.2",
+    "eslint-webpack-plugin": "^5.0.3",
     "eslint-plugin-filenames": "^1.3.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -125,8 +124,15 @@
     "react-to-print": "^2.15.1",
     "tss-react": "^4.9.20"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "overrides": {
-    "cheerio": "1.0.0-rc.12"
+    "cheerio": "1.0.0-rc.12",
+    "test-exclude": "^8.0.0",
+    "diff": "^8.0.4",
+    "minimatch": ">=3.1.4",
+    "serialize-javascript": "^7.0.4"
   },
   "side-effects": false,
   "nyc": {

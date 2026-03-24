@@ -71,8 +71,7 @@ function JumpToPage(props) {
         input={<InputBase className={clsx(classes.input, classes.selectRoot)} />}
         value={getPageValue(count, rowsPerPage, page)}
         onChange={handlePageChange}
-        style={{ marginRight: 0 }}
-      >
+        style={{ marginRight: 0 }}>
         {pages.map((pageVal) => (
           <MenuItemComponent className={classes.menuItem} key={pageVal} value={pageVal}>
             {pageVal + 1}

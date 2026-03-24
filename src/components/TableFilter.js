@@ -222,8 +222,7 @@ class TableFilter extends React.Component {
         item
         key={index}
         xs={width}
-        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}
-      >
+        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
         <FormControl key={index} variant={'standard'} fullWidth>
           <InputLabel htmlFor={column.name}>{column.label}</InputLabel>
           <Select
@@ -231,8 +230,7 @@ class TableFilter extends React.Component {
             value={filterList[index].length ? filterList[index].toString() : textLabels.all}
             name={column.name}
             onChange={(event) => this.handleDropdownChange(event, index, column.name)}
-            input={<Input name={column.name} id={column.name} />}
-          >
+            input={<Input name={column.name} id={column.name} />}>
             <MenuItem value={textLabels.all} key={0}>
               {textLabels.all}
             </MenuItem>
@@ -260,8 +258,7 @@ class TableFilter extends React.Component {
         item
         key={index}
         xs={width}
-        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}
-      >
+        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
         <FormControl key={index} fullWidth>
           <TextField
             fullWidth
@@ -289,8 +286,7 @@ class TableFilter extends React.Component {
         item
         key={index}
         xs={width}
-        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}
-      >
+        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
         <FormControl key={index} variant={'standard'} fullWidth>
           <InputLabel htmlFor={column.name}>{column.label}</InputLabel>
           <Select
@@ -300,8 +296,7 @@ class TableFilter extends React.Component {
             renderValue={(selected) => selected.map(renderItem).join(', ')}
             name={column.name}
             onChange={(event) => this.handleMultiselectChange(index, event.target.value, column.name)}
-            input={<Input name={column.name} id={column.name} />}
-          >
+            input={<Input name={column.name} id={column.name} />}>
             {filterData[index].map((filterValue, filterIndex) => (
               <MenuItem value={filterValue} key={filterIndex + 1}>
                 <CheckboxComponent
@@ -345,8 +340,7 @@ class TableFilter extends React.Component {
         item
         key={index}
         xs={width}
-        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}
-      >
+        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
         <FormControl key={index} fullWidth>
           {display(filterList, this.handleCustomChange, index, column, filterData)}
         </FormControl>
@@ -389,8 +383,7 @@ class TableFilter extends React.Component {
               variant="body2"
               className={clsx({
                 [classes.title]: true,
-              })}
-            >
+              })}>
               {textLabels.title}
             </Typography>
             <Button
@@ -399,8 +392,7 @@ class TableFilter extends React.Component {
               tabIndex={0}
               aria-label={textLabels.reset}
               data-testid={'filterReset-button'}
-              onClick={this.resetFilters}
-            >
+              onClick={this.resetFilters}>
               {textLabels.reset}
             </Button>
           </div>

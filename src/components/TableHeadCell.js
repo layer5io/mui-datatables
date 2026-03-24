@@ -196,8 +196,7 @@ const TableHeadCell = ({
       data-colindex={index}
       data-tableid={tableId}
       onMouseDown={closeTooltip}
-      {...otherProps}
-    >
+      {...otherProps}>
       {options.sort && sort ? (
         <span className={classes.contentWrapper}>
           <Tooltip
@@ -209,24 +208,21 @@ const TableHeadCell = ({
             classes={{
               tooltip: classes.tooltip,
               popper: classes.mypopper,
-            }}
-          >
+            }}>
             <Button
               variant=""
               onKeyUp={handleKeyboardSortInput}
               onClick={handleSortClick}
               className={classes.toolButton}
               data-testid={`headcol-${index}`}
-              ref={isDraggingEnabled() ? dragRef : null}
-            >
+              ref={isDraggingEnabled() ? dragRef : null}>
               <div className={classes.sortAction}>
                 <div
                   className={clsx({
                     [classes.data]: true,
                     [classes.sortActive]: sortActive,
                     [classes.dragCursor]: isDraggingEnabled(),
-                  })}
-                >
+                  })}>
                   {children}
                 </div>
                 <div className={classes.sortAction}>
@@ -258,8 +254,7 @@ const TableHeadCell = ({
                 tooltip: classes.tooltip,
                 popper: classes.mypopper,
               }}
-              enterDelay={300}
-            >
+              enterDelay={300}>
               <HelpIcon className={classes.hintIconAlone} fontSize="small" />
             </Tooltip>
           )}

@@ -104,8 +104,7 @@ const TableHead = ({
         [classes.responsiveStackedAlways]: options.responsive === 'verticalAlways',
         [classes.responsiveSimple]: options.responsive === 'simple',
         [classes.main]: true,
-      })}
-    >
+      })}>
       <TableHeadRow>
         <TableSelectCell
           setHeadCellRef={setCellRef}
@@ -155,8 +154,7 @@ const TableHead = ({
                 draggableHeadCellRefs={draggableHeadCellRefs}
                 tableRef={tableRef}
                 tableId={tableId}
-                components={components}
-              >
+                components={components}>
                 {column.customHeadLabelRender
                   ? column.customHeadLabelRender({ index, colPos, ...column })
                   : column.label}

@@ -2011,8 +2011,7 @@ class MUIDataTable extends React.Component {
                 tabIndex={'0'}
                 role={'grid'}
                 className={tableClassNames}
-                {...tableProps}
-              >
+                {...tableProps}>
                 <caption className={classes.caption}>{title}</caption>
                 <TableHeadComponent
                   columns={columns}

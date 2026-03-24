@@ -34,8 +34,7 @@ describe('<TableHeadCell />', function () {
           sortDirection={'asc'}
           sort={true}
           toggleSort={toggleSort}
-          classes={classes}
-        >
+          classes={classes}>
           some content
         </TableHeadCell>
       </DndProvider>,
@@ -123,8 +122,7 @@ describe('<TableHeadCell />', function () {
           index={0}
           sortDirection={'asc'}
           toggleSort={toggleSort}
-          classes={classes}
-        >
+          classes={classes}>
           some content
         </TableHeadCell>
       </DndProvider>,

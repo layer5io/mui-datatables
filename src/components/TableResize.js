@@ -270,8 +270,7 @@ class TableResize extends React.Component {
                 height: tableHeight - 2,
                 cursor: 'ew-resize',
                 zIndex: 1000,
-              }}
-            >
+              }}>
               <div
                 aria-hidden="true"
                 onMouseDown={this.onResizeStart.bind(null, key)}

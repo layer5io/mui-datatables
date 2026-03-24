@@ -77,7 +77,7 @@ jobs:
           npm publish --provenance --access public --verbose
 
       - name: Pull changes from remote
-        run: git pull origin master
+        run: git pull --rebase --autostash origin master
 
       - uses: stefanzweifel/git-auto-commit-action@v7
         with:

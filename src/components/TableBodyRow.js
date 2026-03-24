@@ -74,8 +74,7 @@ class TableBodyRow extends React.Component {
           className,
         )}
         selected={rowSelected}
-        {...rest}
-      >
+        {...rest}>
         {this.props.children}
       </TableRow>
     );

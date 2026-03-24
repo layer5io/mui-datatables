@@ -131,8 +131,7 @@ function TableBodyCell(props) {
           'datatables-noprint': !print,
         },
         className,
-      )}
-    >
+      )}>
       {columnHeader}
     </div>,
     <div
@@ -153,8 +152,7 @@ function TableBodyCell(props) {
           'datatables-noprint': !print,
         },
         className,
-      )}
-    >
+      )}>
       {typeof children === 'function' ? children(dataIndex, rowIndex) : children}
     </div>,
   ];
@@ -191,8 +189,7 @@ function TableBodyCell(props) {
         },
         className,
       )}
-      {...otherProps}
-    >
+      {...otherProps}>
       {innerCells}
     </TableCell>
   );

@@ -35,11 +35,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: "@sistent"          
 
-      - name: "Set Package Version"
-        uses: reedyuk/npm-version@1.1.1
-        with:
-          version: ${{ github.event.release.tag_name }} || ${{ inputs.release_version }}
-
       - name: Install Dependencies
         run: npm ci
         env:
@@ -88,4 +83,3 @@ jobs:
           commit_user_email: lee@toones.io
           commit_author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-

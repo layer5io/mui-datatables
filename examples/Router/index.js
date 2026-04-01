@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { HashRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { withStyles } from 'tss-react/mui';
 import ExamplesGrid from './ExamplesGrid';
 import examples from '../examples';
@@ -19,7 +19,7 @@ const styles = {
 
 class Examples extends React.Component {
   returnHome = () => {
-    this.props.history.push('/');
+    this.props.navigate('/');
   };
 
   render() {
@@ -33,17 +33,16 @@ class Examples extends React.Component {
       <ThemeProvider theme={defaultTheme}>
         <main className={classes.root}>
           <div className={classes.contentWrapper}>
-            <Switch>
-              <Route path="/" exact render={() => <ExamplesGrid examples={examples} />} />
+            <Routes>
+              <Route path="/" element={<ExamplesGrid examples={examples} />} />
               {Object.keys(examples).map((label, index) => (
                 <Route
                   key={index}
                   path={`/${label.replace(/\s+/g, '-').toLowerCase()}`}
-                  exact
-                  component={examples[label]}
+                  element={React.createElement(examples[label])}
                 />
               ))}
-            </Switch>
+            </Routes>
             <div>
               {this.props.location.pathname !== '/' && (
                 <div style={returnHomeStyle}>
@@ -60,15 +59,22 @@ class Examples extends React.Component {
   }
 }
 
-const StyledExamples = withRouter(withStyles(Examples, styles));
+const StyledExamples = withStyles(Examples, styles);
+
+function RoutedExamples(props) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  return <StyledExamples {...props} navigate={navigate} location={location} />;
+}
 
 function App() {
   return (
     <Router hashType="noslash">
-      <StyledExamples />
+      <RoutedExamples />
     </Router>
   );
 }
-const container = document.getElementById('app-root');
+const container = document.getElementById('app-root') || document.getElementById('root');
 const root = createRoot(container);
 root.render(<App />);

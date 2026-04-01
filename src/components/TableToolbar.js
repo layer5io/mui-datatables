@@ -11,7 +11,7 @@ import Popover from './Popover';
 import TableFilter from './TableFilter';
 import TableViewCol from './TableViewCol';
 import TableSearch from './TableSearch';
-import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
+import { useReactToPrint } from 'react-to-print';
 import find from 'lodash.find';
 import { withStyles } from 'tss-react/mui';
 import { createCSVDownload, downloadCSV } from '../utils';
@@ -102,6 +102,23 @@ export const defaultToolbarStyles = (theme) => ({
 });
 
 const RESPONSIVE_FULL_WIDTH_NAME = 'scrollFullHeightFullWidth';
+
+const PrintTableButton = ({ print, options, classes, tableRef, PrintIconComponent, Tooltip }) => {
+  const handlePrint = useReactToPrint({});
+
+  return (
+    <Tooltip title={print}>
+      <IconButton
+        data-testid={print + '-iconButton'}
+        aria-label={print}
+        disabled={options.print === 'disabled'}
+        onClick={() => handlePrint(() => tableRef())}
+        classes={{ root: classes.icon }}>
+        <PrintIconComponent />
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 class TableToolbar extends React.Component {
   state = {
@@ -379,24 +396,14 @@ class TableToolbar extends React.Component {
           )}
           {!(options.print === false || options.print === 'false') && (
             <span>
-              <ReactToPrint content={() => this.props.tableRef()}>
-                <PrintContextConsumer>
-                  {({ handlePrint }) => (
-                    <span>
-                      <Tooltip title={print}>
-                        <IconButton
-                          data-testid={print + '-iconButton'}
-                          aria-label={print}
-                          disabled={options.print === 'disabled'}
-                          onClick={handlePrint}
-                          classes={{ root: classes.icon }}>
-                          <PrintIconComponent />
-                        </IconButton>
-                      </Tooltip>
-                    </span>
-                  )}
-                </PrintContextConsumer>
-              </ReactToPrint>
+              <PrintTableButton
+                print={print}
+                options={options}
+                classes={classes}
+                tableRef={this.props.tableRef}
+                PrintIconComponent={PrintIconComponent}
+                Tooltip={Tooltip}
+              />
             </span>
           )}
           {!(options.viewColumns === false || options.viewColumns === 'false') && (

@@ -1,13 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   entry: {
     app: ['core-js/stable', 'regenerator-runtime/runtime', './examples/Router/index.js'],
   },
-  stats: 'verbose',
+  stats: 'errors-warnings',
   context: __dirname,
   output: {
     filename: 'bundle.js',
@@ -17,12 +16,11 @@ module.exports = {
     mainFields: ['browser', 'module', 'main'],
   },
   devServer: {
-    disableHostCheck: true,
+    allowedHosts: 'all',
     host: 'localhost',
+    historyApiFallback: true,
     hot: true,
-    inline: true,
     port: process.env.PORT || 5050,
-    stats: 'errors-warnings',
   },
   module: {
     rules: [
@@ -32,32 +30,27 @@ module.exports = {
         use: ['babel-loader'],
       },
       {
-        test: /\.(js|jsx)$/,
-        include: /node_modules\/(@mui|@emotion)\//,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-env', { modules: 'commonjs' }],
-              '@babel/preset-react',
-            ],
-            plugins: [
-              '@babel/plugin-transform-optional-chaining',
-              '@babel/plugin-transform-nullish-coalescing-operator',
-            ],
-          },
-        },
-      },
-      {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
     ],
   },
   plugins: [
-    new ESLintPlugin({ extensions: ['js', 'jsx'] }),
+    new HtmlWebpackPlugin({
+      title: 'MUI Datatables',
+      templateContent: ({ htmlWebpackPlugin }) => `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${htmlWebpackPlugin.options.title}</title>
+  </head>
+  <body>
+    <div id="app-root"></div>
+  </body>
+</html>`,
+    }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),

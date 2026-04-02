@@ -38,17 +38,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'MUI Datatables',
-      templateContent: ({ htmlWebpackPlugin }) => `<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>${htmlWebpackPlugin.options.title}</title>
-  </head>
-  <body>
-    <div id="app-root"></div>
-  </body>
-</html>`,
+      template: path.resolve(__dirname, 'public', 'dev-index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({

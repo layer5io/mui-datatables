@@ -2,9 +2,21 @@ import { swc } from 'rollup-plugin-swc3';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import uglify from '@lopatnov/rollup-plugin-uglify';
+import packageJson from './package.json' with { type: 'json' };
+
+// Automatically externalize all dependencies and peerDependencies.
+// This prevents bundling tss-react, MUI, emotion etc. into dist and ensures
+// the consuming app's single instance of each package is used (critical for
+// React Context-based theme sharing with tss-react).
+const externalPackages = [
+  ...Object.keys(packageJson.dependencies || {}),
+  ...Object.keys(packageJson.peerDependencies || {}),
+];
+const isExternal = (id) => externalPackages.some((pkg) => id === pkg || id.startsWith(`${pkg}/`));
 
 export default {
   input: 'src/index.js',
+  external: isExternal,
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),

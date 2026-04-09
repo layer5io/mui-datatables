@@ -46,22 +46,22 @@ class Example extends React.Component {
       ["Gabby Strickland", "Business Process Consultant", "Scottsdale", 26, 45000],
       ["Mason Ray", "Computer Scientist", "San Francisco", 39, 142000]
     ]
-  }
+  };
 
   handleFilterNameChange = (event) => {
     let string = prompt("Write a semicolon-separated string to change filter names in the first column!");
     if (string) this.setState({ filterOptions: string.split(';') });
-  }
+  };
 
   handleAddData = (event) => {
     const string = prompt("Write a semicolon-separated string with values for 'Name', 'Title', 'Location', 'Age' and 'Salary' to add a new row of data!");
     if (string) this.setState({ data: [string.split(';'), ...this.state.data] });
-  }
+  };
 
   handleChangeDisplay = (event) => {
     const string = prompt("Write a semicolon-separated string of display options for each of the 5 columns. Options are either 'true', 'false', or 'excluded'");
     if (string) this.setState({ display: string.split(';') });
-  }
+  };
 
   render() {
     const { data, filterList, filterOptions } = this.state;

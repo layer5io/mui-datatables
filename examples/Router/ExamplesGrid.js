@@ -35,13 +35,13 @@ class ExamplesGrid extends React.Component {
 
   state = {
     searchVal: ''
-  }
+  };
 
   setSearchVal = (val) => {
     this.setState({
       searchVal: val
     });
-  }
+  };
 
   render() {
     const {classes} = this.props;

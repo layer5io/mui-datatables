@@ -12,13 +12,13 @@ class Example extends React.Component {
       { name: "Jaden Collins", title: "Attorney", location: "Santa Ana", age: 27, salary: "$500,000", phone: { home: '867-5311', cell: '123-4569' } },
       { name: "Franky Rees", title: "Business Analyst", location: "St. Petersburg", age: 22, salary: "$50,000", phone: { home: '867-5312', cell: '123-4569' } }
     ]
-  }
+  };
 
   rerender = () => {
     this.setState((prevState, props) => ({
       counter: prevState.counter + 1
     })); 
-  }
+  };
 
   render() {
 

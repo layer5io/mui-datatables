@@ -11,7 +11,7 @@ class CustomToolbar extends React.Component {
   
   handleClick = () => {
     console.log("clicked on icon!");
-  }
+  };
 
   render() {
     const { classes } = this.props;

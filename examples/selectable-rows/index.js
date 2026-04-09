@@ -46,7 +46,7 @@ class Example extends React.Component {
     this.setState({
       selectableRowsHideCheckboxes: event.target.checked
     });
-  }
+  };
 
   render() {
 

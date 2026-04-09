@@ -77,7 +77,7 @@ class Example extends React.Component {
         2000
       );
     });
-  }
+  };
 
   handleFilterSubmit = applyFilters => {
     let filterList = applyFilters();

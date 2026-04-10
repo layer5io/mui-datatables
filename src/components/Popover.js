@@ -45,7 +45,6 @@ const Popover = ({ className, trigger, refExit, hide, content, ...providedProps 
   };
 
   const triggerProps = {
-    key: 'content',
     onClick: (event) => {
       if (trigger.props.onClick) trigger.props.onClick();
       handleClick(event);
@@ -54,7 +53,9 @@ const Popover = ({ className, trigger, refExit, hide, content, ...providedProps 
 
   return (
     <>
-      <span {...triggerProps}>{trigger}</span>
+      <span key="content" {...triggerProps}>
+        {trigger}
+      </span>
       <MuiPopover
         elevation={2}
         open={isOpen}

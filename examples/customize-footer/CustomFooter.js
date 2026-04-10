@@ -44,8 +44,8 @@ class CustomFooter extends React.Component {
                 'aria-label': textLabels.next,
               }}
               rowsPerPageOptions={[10,20,100]}
-              onChangePage={this.handlePageChange}
-              onChangeRowsPerPage={this.handleRowChange}
+              onPageChange={this.handlePageChange}
+              onRowsPerPageChange={this.handleRowChange}
             />
           </TableCell>
         </TableRow>

@@ -21,8 +21,8 @@ const CustomTooltip = (props) => {
   return (
     <MuiTooltip
       title={props.title}
-      TransitionComponent={Fade}
-      TransitionProps={{ timeout: 250 }}
+      slots={{ transition: Fade }}
+      slotProps={{ transition: { timeout: 250 } }}
       leaveDelay={250}>{props.children}</MuiTooltip>
   );
 };

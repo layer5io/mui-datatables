@@ -20,8 +20,6 @@ register({
         development: true,
       },
     },
-    target: 'es2018',
-    keepClassNames: true,
   },
   sourcemap: true,
   ignore: [/node_modules/],

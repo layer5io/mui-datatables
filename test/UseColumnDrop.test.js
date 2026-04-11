@@ -5,7 +5,7 @@ import { assert, expect, should } from 'chai';
 import { getColModel, reorderColumns, handleHover } from '../src/hooks/useColumnDrop';
 
 describe('useColumnDrop', function () {
-  before(() => {});
+  beforeAll(() => {});
 
   it('should reorder columns when reorderColumns is called', () => {
     let prevColumnOrder = [1, 2, 3, 4];

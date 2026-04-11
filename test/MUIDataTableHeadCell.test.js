@@ -10,10 +10,10 @@ import HelpIcon from '@mui/icons-material/Help';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-describe('<TableHeadCell />', function () {
+describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />', function () {
   let classes;
 
-  before(() => {
+  beforeAll(() => {
     classes = {
       root: {},
     };

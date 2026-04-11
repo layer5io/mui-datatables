@@ -9,7 +9,7 @@ import TablePagination from '../src/components/TablePagination';
 describe('<TablePagination />', function () {
   let options;
 
-  before(() => {
+  beforeAll(() => {
     options = {
       rowsPerPageOptions: [5, 10, 15],
       textLabels: getTextLabels(),

@@ -31,7 +31,7 @@ describe('<MUIDataTable />', function () {
   let defaultRenderCustomFilterList = (f) => f;
   let renderCustomFilterList = (f) => `Name: ${f}`;
 
-  before(() => {
+  beforeAll(() => {
     columns = [
       {
         name: 'Name',
@@ -430,21 +430,17 @@ describe('<MUIDataTable />', function () {
     assert.deepEqual(JSON.stringify(state.displayData), displayData);
   });
 
-  it('should correctly re-build display after xhr with serverSide=true', (done) => {
+  it('should correctly re-build display after xhr with serverSide=true', async () => {
     const fullWrapper = mount(<MUIDataTable columns={columns} data={[]} options={{ serverSide: true }} />);
     assert.strictEqual(fullWrapper.find('tbody tr').length, 1);
 
     // simulate xhr and test number of displayed rows
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        fullWrapper.setProps({ data });
-        fullWrapper.update();
-        assert.strictEqual(fullWrapper.find('tbody tr').length, 4);
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    fullWrapper.setProps({ data });
+    fullWrapper.update();
+    assert.strictEqual(fullWrapper.find('tbody tr').length, 4);
 
-        fullWrapper.unmount();
-        done();
-      }, 10);
-    });
+    fullWrapper.unmount();
   });
 
   it('should correctly set tableId', () => {

@@ -13,7 +13,7 @@ describe('<TableBody />', function () {
   let columns;
   const tableId = 'tableID';
 
-  before(() => {
+  beforeAll(() => {
     columns = [{ name: 'First Name' }, { name: 'Company' }, { name: 'City' }, { name: 'State' }];
     data = [
       ['Joe James', 'Test Corp', 'Yonkers', 'NY'],
@@ -47,20 +47,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
-      />,
+      />
+      </table>,
     );
 
     const actualResult = mountWrapper.find(Checkbox);
@@ -73,19 +75,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={[]}
+        count={0}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
-      />,
+      />
+      </table>,
     );
 
     const actualResult = mountWrapper.html();
@@ -98,20 +103,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
-      />,
+      />
+      </table>,
     );
 
     const actualResult = mountWrapper.find(TableSelectCell);
@@ -132,7 +139,7 @@ describe('<TableBody />', function () {
         rowsPerPage={2}
         selectedRows={[1, 2, 3]}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
@@ -160,7 +167,7 @@ describe('<TableBody />', function () {
         rowsPerPage={15}
         selectedRows={[1, 2, 3]}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
@@ -186,9 +193,9 @@ describe('<TableBody />', function () {
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
@@ -214,7 +221,8 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
@@ -223,13 +231,14 @@ describe('<TableBody />', function () {
         selectedRows={selectedRows}
         selectRowUpdate={selectRowUpdate}
         previousSelectedRow={previousSelectedRow}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper
@@ -247,21 +256,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy();
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -282,21 +293,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy();
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -320,20 +333,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy((_, data) => (expandedRowData = data));
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
-        expandedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -357,7 +372,8 @@ describe('<TableBody />', function () {
     };
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
@@ -365,13 +381,14 @@ describe('<TableBody />', function () {
         rowsPerPage={10}
         selectedRows={initialSelectedRows}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -395,7 +412,8 @@ describe('<TableBody />', function () {
     };
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
@@ -403,13 +421,14 @@ describe('<TableBody />', function () {
         rowsPerPage={10}
         selectedRows={initialSelectedRows}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-1`).first().simulate('click');
@@ -433,20 +452,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy((data) => (expandedRowData = data));
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
-        expandedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -462,21 +483,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = (data) => (expandedRowData = data);
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -499,21 +522,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = (data) => (expandedRowData = data);
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -529,20 +554,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy();
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find('TableSelectCell').first().find('input').simulate('click');
@@ -556,20 +583,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy();
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find('TableSelectCell').first().simulate('click');
@@ -583,21 +612,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -612,21 +643,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     const props = mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-1`).first().props();
@@ -642,21 +675,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
         tableId={tableId}
-      />,
+      />
+      </table>,
     );
 
     const props = mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-1`).first().props();
@@ -672,20 +707,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
         filterList={[]}
-      />,
+      />
+      </table>,
     );
 
     const html = mountWrapper.html();
@@ -707,18 +744,20 @@ describe('<TableBody />', function () {
     const options = { selectableRows: true, isRowSelectable };
 
     mount(
-      <TableBody
+      <table>
+        <TableBody
         data={displayData}
         count={displayData.length}
         columns={columns}
         page={0}
         selectedRows={originalSelectedRows}
         rowsPerPage={10}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         options={options}
         searchText={''}
         filterList={[]}
-      />,
+      />
+      </table>,
     );
 
     assert.equal(isRowSelectable.callCount, displayData.length);

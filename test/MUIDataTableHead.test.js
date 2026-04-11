@@ -13,7 +13,7 @@ describe('<TableHead />', function () {
   let columns;
   let handleHeadUpdateRef;
 
-  before(() => {
+  beforeAll(() => {
     columns = [
       { name: 'First Name', label: 'First Name', display: 'true', sort: true },
       { name: 'Company', label: 'Company', display: 'true', sort: null },

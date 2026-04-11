@@ -6,7 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import TableSelectCell from '../src/components/TableSelectCell';
 
 describe('<TableSelectCell />', function () {
-  before(() => {});
+  beforeAll(() => {});
 
   it('should render table select cell', () => {
     const mountWrapper = mount(<TableSelectCell checked={false} selectableOn={true} />);

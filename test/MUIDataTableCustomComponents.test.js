@@ -17,7 +17,7 @@ describe('<MUIDataTable /> with custom components', function () {
   let data;
   let columns;
 
-  before(() => {
+  beforeAll(() => {
     columns = [
       { name: 'Name' },
       {

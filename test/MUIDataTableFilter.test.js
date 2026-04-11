@@ -6,9 +6,10 @@ import Typography from '@mui/material/Typography';
 import { assert } from 'chai';
 import { mount, shallow } from 'enzyme';
 import React from 'react';
-import { spy } from 'sinon';
+import { spy, stub } from 'sinon';
 import TableFilter from '../src/components/TableFilter';
 import getTextLabels from '../src/textLabels';
+import { act } from 'react-dom/test-utils';
 
 describe('<TableFilter />', function () {
   let data;
@@ -170,6 +171,7 @@ describe('<TableFilter />', function () {
   });
 
   it("does not render filter if filterType = 'custom' and no display filterOption is provided", () => {
+    const errorSpy = stub(console, 'error');
     const options = {
       filterType: 'custom',
       textLabels: getTextLabels(),
@@ -186,6 +188,8 @@ describe('<TableFilter />', function () {
 
     const actualResult = mountWrapper.find('#custom-filter-render');
     assert.strictEqual(actualResult.length, 0);
+    assert.strictEqual(errorSpy.callCount, 4);
+    errorSpy.restore();
   });
 
   it("should render column.label as filter label if filterType = 'textField'", () => {
@@ -305,17 +309,21 @@ describe('<TableFilter />', function () {
     );
 
     const resetBtn = wrapper.find('[data-testid="filterReset-button"]').at(0);
-    if (resetBtn.prop('onClick')) {
-      resetBtn.prop('onClick')({ preventDefault: () => {} });
-    } else {
-      resetBtn.simulate('click');
-    }
+    act(() => {
+      if (resetBtn.prop('onClick')) {
+        resetBtn.prop('onClick')({ preventDefault: () => {} });
+      } else {
+        resetBtn.simulate('click');
+      }
+    });
     wrapper.update();
 
     assert.equal(onFilterReset.callCount, 1);
     assert.equal(handleClose.callCount, 0);
 
-    wrapper.unmount();
+    act(() => {
+      wrapper.unmount();
+    });
   });
 
   it('should trigger onFilterUpdate prop callback when calling method handleCheckboxChange', () => {

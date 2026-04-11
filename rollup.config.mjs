@@ -2,26 +2,6 @@ import { swc } from 'rollup-plugin-swc3';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import uglify from '@lopatnov/rollup-plugin-uglify';
-<<<<<<< HEAD:rollup.config.js
-import { createRequire } from 'module';
-
-const pkg = createRequire(import.meta.url)('./package.json');
-
-// Treat anything declared as a dependency or peerDependency as external —
-// including subpath imports like `@babel/runtime-corejs3/helpers/extends` —
-// since they belong to the consumer's resolution graph, not our bundle.
-const externals = [
-  ...Object.keys(pkg.dependencies || {}),
-  ...Object.keys(pkg.peerDependencies || {}),
-];
-const externalRegex = new RegExp(
-  '^(' + externals.map((d) => d.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')).join('|') + ')(/|$)',
-);
-
-export default {
-  input: 'src/index.js',
-  external: (id) => externalRegex.test(id),
-=======
 import packageJson from './package.json' with { type: 'json' };
 
 // Automatically externalize all dependencies and peerDependencies.
@@ -37,7 +17,6 @@ const isExternal = (id) => externalPackages.some((pkg) => id === pkg || id.start
 export default {
   input: 'src/index.js',
   external: isExternal,
->>>>>>> 475fc3d (update rollup config):rollup.config.mjs
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
@@ -60,7 +39,7 @@ export default {
             runtime: 'automatic',
           },
         },
-        externalHelpers: false,
+        externalHelpers: true,
       },
       env: {
         // Aligned with MUI v7's official browser support policy:

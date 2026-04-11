@@ -9,7 +9,7 @@ describe('<TableBodyCell />', function () {
   let data;
   let columns;
 
-  before(() => {
+  beforeAll(() => {
     columns = [
       {
         name: 'Name',

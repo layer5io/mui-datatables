@@ -2,11 +2,12 @@
 .PHONY: install start build test clean
 
 # Install project dependencies
-install:
+site:
 	npm install
+	npm run dev
 
 # Start the development server
-start:
+site:
 	npm run dev
 
 # Build the project for production
@@ -17,6 +18,3 @@ build:
 test:
 	npm run test
 
-# Clean up build artifacts and installed modules
-clean:
-	rm -rf dist node_modules

@@ -64,7 +64,13 @@ describe('<TableHeadCell print={true} sort={null} toggleSort={() => {}} />', fun
         <table>
           <thead>
             <tr>
-              <TableHeadCell options={options} sortDirection={'asc'} sort={true} toggleSort={toggleSort} print={true} classes={classes}>
+              <TableHeadCell
+                options={options}
+                sortDirection={'asc'}
+                sort={true}
+                toggleSort={toggleSort}
+                print={true}
+                classes={classes}>
                 some content
               </TableHeadCell>
             </tr>
@@ -86,7 +92,13 @@ describe('<TableHeadCell print={true} sort={null} toggleSort={() => {}} />', fun
         <table>
           <thead>
             <tr>
-              <TableHeadCell options={options} sortDirection={'asc'} sort={true} toggleSort={toggleSort} print={true} classes={classes}>
+              <TableHeadCell
+                options={options}
+                sortDirection={'asc'}
+                sort={true}
+                toggleSort={toggleSort}
+                print={true}
+                classes={classes}>
                 some content
               </TableHeadCell>
             </tr>
@@ -107,7 +119,13 @@ describe('<TableHeadCell print={true} sort={null} toggleSort={() => {}} />', fun
         <table>
           <thead>
             <tr>
-              <TableHeadCell options={options} hint={'hint text'} sort={true} toggleSort={() => {}} print={true} classes={classes}>
+              <TableHeadCell
+                options={options}
+                hint={'hint text'}
+                sort={true}
+                toggleSort={() => {}}
+                print={true}
+                classes={classes}>
                 some content
               </TableHeadCell>
             </tr>

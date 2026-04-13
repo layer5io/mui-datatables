@@ -13,8 +13,8 @@ Enzyme.configure({ adapter: new Adapter() });
 // Keep any mocked DOM functions necessary for the tests that Vitest's jsdom might not perfectly simulate yet
 if (global.document) {
   global.document.createRange = () => ({
-    setStart: () => { },
-    setEnd: () => { },
+    setStart: () => {},
+    setEnd: () => {},
     commonAncestorContainer: {
       nodeName: 'BODY',
       ownerDocument: {
@@ -32,12 +32,12 @@ global.requestAnimationFrame = (callback) => {
 };
 
 if (global.window) {
-  global.window.cancelAnimationFrame = () => { };
+  global.window.cancelAnimationFrame = () => {};
   global.window.getComputedStyle = () => ({});
-  Object.defineProperty(global.window.URL, 'createObjectURL', { value: () => { } });
-  
+  Object.defineProperty(global.window.URL, 'createObjectURL', { value: () => {} });
+
   if (global.window.HTMLAnchorElement) {
-    global.window.HTMLAnchorElement.prototype.click = () => { };
+    global.window.HTMLAnchorElement.prototype.click = () => {};
   }
 }
 

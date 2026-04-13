@@ -23,7 +23,11 @@ describe('<TableHead />', function () {
         label: 'State',
         display: 'true',
         options: { fixedHeaderOptions: { xAxis: true, yAxis: true }, selectableRows: 'multiple' },
-        customHeadRender: (columnMeta) => <TableHeadCell {...columnMeta} print={true} sort={true} toggleSort={() => {}}>{columnMeta.name + 's'}</TableHeadCell>,
+        customHeadRender: (columnMeta) => (
+          <TableHeadCell {...columnMeta} print={true} sort={true} toggleSort={() => {}}>
+            {columnMeta.name + 's'}
+          </TableHeadCell>
+        ),
         sort: false,
         print: true,
       },
@@ -39,12 +43,12 @@ describe('<TableHead />', function () {
       <DndProvider backend={HTML5Backend}>
         <table>
           <TableHead
-          columns={columns}
-          options={options}
-          setCellRef={() => {}}
-          handleHeadUpdateRef={handleHeadUpdateRef}
-          toggleSort={toggleSort}
-        />
+            columns={columns}
+            options={options}
+            setCellRef={() => {}}
+            handleHeadUpdateRef={handleHeadUpdateRef}
+            toggleSort={toggleSort}
+          />
         </table>
       </DndProvider>,
     );
@@ -60,12 +64,12 @@ describe('<TableHead />', function () {
       <DndProvider backend={HTML5Backend}>
         <table>
           <TableHead
-          columns={columns}
-          options={options}
-          setCellRef={() => {}}
-          handleHeadUpdateRef={handleHeadUpdateRef}
-          toggleSort={toggleSort}
-        />
+            columns={columns}
+            options={options}
+            setCellRef={() => {}}
+            handleHeadUpdateRef={handleHeadUpdateRef}
+            toggleSort={toggleSort}
+          />
         </table>
       </DndProvider>,
     );
@@ -82,12 +86,12 @@ describe('<TableHead />', function () {
       <DndProvider backend={HTML5Backend}>
         <table>
           <TableHead
-          columns={newColumns}
-          options={options}
-          setCellRef={() => {}}
-          handleHeadUpdateRef={handleHeadUpdateRef}
-          toggleSort={toggleSort}
-        />
+            columns={newColumns}
+            options={options}
+            setCellRef={() => {}}
+            handleHeadUpdateRef={handleHeadUpdateRef}
+            toggleSort={toggleSort}
+          />
         </table>
       </DndProvider>,
     );
@@ -103,12 +107,12 @@ describe('<TableHead />', function () {
       <DndProvider backend={HTML5Backend}>
         <table>
           <TableHead
-          columns={columns}
-          options={options}
-          setCellRef={() => {}}
-          handleHeadUpdateRef={handleHeadUpdateRef}
-          toggleSort={toggleSort}
-        />
+            columns={columns}
+            options={options}
+            setCellRef={() => {}}
+            handleHeadUpdateRef={handleHeadUpdateRef}
+            toggleSort={toggleSort}
+          />
         </table>
       </DndProvider>,
     );
@@ -133,12 +137,12 @@ describe('<TableHead />', function () {
       <DndProvider backend={HTML5Backend}>
         <table>
           <TableHead
-          columns={columns}
-          options={options}
-          setCellRef={() => {}}
-          handleHeadUpdateRef={handleHeadUpdateRef}
-          selectRowUpdate={rowSelectUpdate}
-        />
+            columns={columns}
+            options={options}
+            setCellRef={() => {}}
+            handleHeadUpdateRef={handleHeadUpdateRef}
+            selectRowUpdate={rowSelectUpdate}
+          />
         </table>
       </DndProvider>,
     );
@@ -156,11 +160,11 @@ describe('<TableHead />', function () {
       <DndProvider backend={HTML5Backend}>
         <table>
           <TableHead
-          columns={columns}
-          options={options}
-          setCellRef={() => {}}
-          handleHeadUpdateRef={handleHeadUpdateRef}
-        />
+            columns={columns}
+            options={options}
+            setCellRef={() => {}}
+            handleHeadUpdateRef={handleHeadUpdateRef}
+          />
         </table>
       </DndProvider>,
     );
@@ -176,11 +180,11 @@ describe('<TableHead />', function () {
       <DndProvider backend={HTML5Backend}>
         <table>
           <TableHead
-          columns={columns}
-          options={options}
-          setCellRef={() => {}}
-          handleHeadUpdateRef={handleHeadUpdateRef}
-        />
+            columns={columns}
+            options={options}
+            setCellRef={() => {}}
+            handleHeadUpdateRef={handleHeadUpdateRef}
+          />
         </table>
       </DndProvider>,
     );
@@ -196,11 +200,11 @@ describe('<TableHead />', function () {
       <DndProvider backend={HTML5Backend}>
         <table>
           <TableHead
-          columns={columns}
-          options={options}
-          setCellRef={() => {}}
-          handleHeadUpdateRef={handleHeadUpdateRef}
-        />
+            columns={columns}
+            options={options}
+            setCellRef={() => {}}
+            handleHeadUpdateRef={handleHeadUpdateRef}
+          />
         </table>
       </DndProvider>,
     );

@@ -9,21 +9,45 @@ describe('<TableSelectCell />', function () {
   beforeAll(() => {});
 
   it('should render table select cell', () => {
-    const mountWrapper = mount(<TableSelectCell checked={false} selectableOn={true} />);
+    const mountWrapper = mount(
+      <table>
+        <tbody>
+          <tr>
+            <TableSelectCell checked={false} selectableOn="multiple" />
+          </tr>
+        </tbody>
+      </table>,
+    );
 
     const actualResult = mountWrapper.find(Checkbox);
     assert.strictEqual(actualResult.length, 1);
   });
 
   it('should render table select cell checked', () => {
-    const mountWrapper = mount(<TableSelectCell checked={true} selectableOn={true} />);
+    const mountWrapper = mount(
+      <table>
+        <tbody>
+          <tr>
+            <TableSelectCell checked={true} selectableOn="multiple" />
+          </tr>
+        </tbody>
+      </table>,
+    );
 
     const actualResult = mountWrapper.find(Checkbox);
     assert.strictEqual(actualResult.props().checked, true);
   });
 
   it('should render table select cell unchecked', () => {
-    const mountWrapper = mount(<TableSelectCell checked={false} selectableOn={true} />);
+    const mountWrapper = mount(
+      <table>
+        <tbody>
+          <tr>
+            <TableSelectCell checked={false} selectableOn="multiple" />
+          </tr>
+        </tbody>
+      </table>,
+    );
 
     const actualResult = mountWrapper.find(Checkbox);
     assert.strictEqual(actualResult.props().checked, false);

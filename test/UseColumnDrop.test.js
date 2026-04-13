@@ -22,19 +22,16 @@ describe('useColumnDrop', function () {
     let headCellRefs = {
       0: {
         offsetLeft: 0,
-        offsetParent: 0,
         offsetWidth: 0,
         offsetParent: offsetParent,
       },
       1: {
         offsetLeft: 0,
-        offsetParent: 0,
         offsetWidth: 0,
         offsetParent: null,
       },
       2: {
         offsetLeft: 0,
-        offsetParent: 0,
         offsetWidth: 0,
         offsetParent: null,
       },
@@ -62,13 +59,11 @@ describe('useColumnDrop', function () {
       0: null,
       1: {
         offsetLeft: 0,
-        offsetParent: 0,
         offsetWidth: 0,
         offsetParent: null,
       },
       2: {
         offsetLeft: 0,
-        offsetParent: 0,
         offsetWidth: 0,
         offsetParent: null,
       },
@@ -98,21 +93,18 @@ describe('useColumnDrop', function () {
     let headCellRefs = {
       0: {
         offsetLeft: 0,
-        offsetParent: 0,
         offsetWidth: 0,
         offsetParent: offsetParent,
         style: {},
       },
       1: {
         offsetLeft: 0,
-        offsetParent: 0,
         offsetWidth: 10,
         offsetParent: null,
         style: {},
       },
       2: {
         offsetLeft: 0,
-        offsetParent: 0,
         offsetWidth: 10,
         offsetParent: null,
         style: {},

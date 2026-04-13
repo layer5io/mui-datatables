@@ -808,11 +808,11 @@ describe('<MUIDataTable />', function () {
   });
 
   it('should add custom props to table if setTableProps provided', () => {
-    const options = { setTableProps: stub().returns({ myProp: 'test', className: 'testClass' }) };
+    const options = { setTableProps: stub().returns({ 'data-myprop': 'test', className: 'testClass' }) };
     const fullWrapper = mount(<MUIDataTable columns={columns} data={[]} options={options} />);
     const props = fullWrapper.find('table').first().props();
 
-    assert.strictEqual(props.myProp, 'test');
+    assert.strictEqual(props['data-myprop'], 'test');
     assert.isTrue(props.className.includes('testClass'));
     assert.isAtLeast(options.setTableProps.callCount, 1);
   });
@@ -1040,7 +1040,7 @@ describe('<MUIDataTable />', function () {
       defaultRenderCustomFilterList,
       defaultRenderCustomFilterList,
     ];
-    const columnNames = columns.map((column) => ({ name: column.name }));
+    const columnNames = columns.map((column) => ({ name: column.name || column }));
 
     const mountWrapper = mount(
       <TableFilterList
@@ -1062,7 +1062,7 @@ describe('<MUIDataTable />', function () {
         ? c.options.customFilterListOptions.render
         : defaultRenderCustomFilterList;
     });
-    const columnNames = columns.map((column) => ({ name: column.name }));
+    const columnNames = columns.map((column) => ({ name: column.name || column }));
 
     const mountWrapper = mount(
       <TableFilterList
@@ -1099,12 +1099,13 @@ describe('<MUIDataTable />', function () {
       defaultRenderCustomFilterList,
       defaultRenderCustomFilterList,
     ];
-    const columnNames = columns.map((column) => ({ name: column.name }));
+    const columnNames = columns.map((column) => ({ name: column.name || column }));
 
     const mountWrapper = mount(
       <TableFilterList
         options={{ serverSide: true }}
         serverSideFilterList={serverSideFilterList}
+        filterList={[]}
         filterListRenderers={filterListRenderers}
         filterUpdate={() => true}
         columnNames={columnNames}
@@ -1123,12 +1124,13 @@ describe('<MUIDataTable />', function () {
       defaultRenderCustomFilterList,
       defaultRenderCustomFilterList,
     ];
-    const columnNames = columns.map((column) => ({ name: column.name }));
+    const columnNames = columns.map((column) => ({ name: column.name || column }));
 
     const mountWrapper = mount(
       <TableFilterList
         options={{ serverSide: true }}
         serverSideFilterList={[]}
+        filterList={[]}
         filterListRenderers={filterListRenderers}
         filterUpdate={() => true}
         columnNames={columnNames}
@@ -1896,6 +1898,7 @@ describe('<MUIDataTable />', function () {
     newCols[0].options.filterOptions = [];
     newCols[0].options.customFilterListRender = () => {};
 
+    const errorSpy = stub(console, 'error');
     const shallowWrapper = shallow(<MUIDataTable columns={newCols} data={data} options={options} />).dive();
     const instance = shallowWrapper.instance();
 
@@ -1927,6 +1930,7 @@ describe('<MUIDataTable />', function () {
     const instance3 = shallowWrapper3.instance();
 
     assert.strictEqual(warnCallback.callCount, 6);
+    errorSpy.restore();
   });
 
   it('should remove selected data on selectRowDelete when type=cell', () => {

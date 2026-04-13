@@ -15,16 +15,17 @@ describe('<TableHead />', function () {
 
   beforeAll(() => {
     columns = [
-      { name: 'First Name', label: 'First Name', display: 'true', sort: true },
-      { name: 'Company', label: 'Company', display: 'true', sort: null },
-      { name: 'City', label: 'City Label', display: 'true', sort: null },
+      { name: 'First Name', label: 'First Name', display: 'true', sort: true, print: true },
+      { name: 'Company', label: 'Company', display: 'true', sort: false, print: true },
+      { name: 'City', label: 'City Label', display: 'true', sort: false, print: true },
       {
         name: 'State',
         label: 'State',
         display: 'true',
         options: { fixedHeaderOptions: { xAxis: true, yAxis: true }, selectableRows: 'multiple' },
-        customHeadRender: (columnMeta) => <TableHeadCell {...columnMeta}>{columnMeta.name + 's'}</TableHeadCell>,
-        sort: null,
+        customHeadRender: (columnMeta) => <TableHeadCell {...columnMeta} print={true} sort={true} toggleSort={() => {}}>{columnMeta.name + 's'}</TableHeadCell>,
+        sort: false,
+        print: true,
       },
     ];
 
@@ -36,13 +37,15 @@ describe('<TableHead />', function () {
     const toggleSort = () => {};
     const mountWrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHead
+        <table>
+          <TableHead
           columns={columns}
           options={options}
           setCellRef={() => {}}
           handleHeadUpdateRef={handleHeadUpdateRef}
           toggleSort={toggleSort}
         />
+        </table>
       </DndProvider>,
     );
     const actualResult = mountWrapper.find(TableHeadCell);
@@ -55,13 +58,15 @@ describe('<TableHead />', function () {
 
     const mountWrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHead
+        <table>
+          <TableHead
           columns={columns}
           options={options}
           setCellRef={() => {}}
           handleHeadUpdateRef={handleHeadUpdateRef}
           toggleSort={toggleSort}
         />
+        </table>
       </DndProvider>,
     );
     const labels = mountWrapper.find(TableHeadCell).map((n) => n.text());
@@ -75,13 +80,15 @@ describe('<TableHead />', function () {
     const newColumns = columns.map((column) => ({ ...column, display: false }));
     const mountWrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHead
+        <table>
+          <TableHead
           columns={newColumns}
           options={options}
           setCellRef={() => {}}
           handleHeadUpdateRef={handleHeadUpdateRef}
           toggleSort={toggleSort}
         />
+        </table>
       </DndProvider>,
     );
     const actualResult = mountWrapper.find(TableHeadCell);
@@ -94,13 +101,15 @@ describe('<TableHead />', function () {
 
     const wrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHead
+        <table>
+          <TableHead
           columns={columns}
           options={options}
           setCellRef={() => {}}
           handleHeadUpdateRef={handleHeadUpdateRef}
           toggleSort={toggleSort}
         />
+        </table>
       </DndProvider>,
     );
 
@@ -122,13 +131,15 @@ describe('<TableHead />', function () {
 
     const wrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHead
+        <table>
+          <TableHead
           columns={columns}
           options={options}
           setCellRef={() => {}}
           handleHeadUpdateRef={handleHeadUpdateRef}
           selectRowUpdate={rowSelectUpdate}
         />
+        </table>
       </DndProvider>,
     );
 
@@ -143,12 +154,14 @@ describe('<TableHead />', function () {
 
     const mountWrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHead
+        <table>
+          <TableHead
           columns={columns}
           options={options}
           setCellRef={() => {}}
           handleHeadUpdateRef={handleHeadUpdateRef}
         />
+        </table>
       </DndProvider>,
     );
 
@@ -161,12 +174,14 @@ describe('<TableHead />', function () {
 
     const mountWrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHead
+        <table>
+          <TableHead
           columns={columns}
           options={options}
           setCellRef={() => {}}
           handleHeadUpdateRef={handleHeadUpdateRef}
         />
+        </table>
       </DndProvider>,
     );
 
@@ -179,12 +194,14 @@ describe('<TableHead />', function () {
 
     const mountWrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHead
+        <table>
+          <TableHead
           columns={columns}
           options={options}
           setCellRef={() => {}}
           handleHeadUpdateRef={handleHeadUpdateRef}
         />
+        </table>
       </DndProvider>,
     );
 

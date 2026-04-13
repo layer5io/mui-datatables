@@ -10,7 +10,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />', function () {
+describe('<TableHeadCell print={true} sort={null} toggleSort={() => {}} />', function () {
   let classes;
 
   beforeAll(() => {
@@ -22,21 +22,28 @@ describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />',
   it('should add custom props to header cell if "setCellHeaderProps" provided', () => {
     const options = { sort: true, textLabels: getTextLabels() };
     const toggleSort = () => {};
-    const setCellHeaderProps = { myProp: 'test', className: 'testClass' };
+    const setCellHeaderProps = { 'data-myprop': 'test', className: 'testClass' };
     const selectRowUpdate = stub();
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHeadCell
-          cellHeaderProps={setCellHeaderProps}
-          options={options}
-          sortDirection={'asc'}
-          sort={true}
-          toggleSort={toggleSort}
-          classes={classes}>
-          some content
-        </TableHeadCell>
+        <table>
+          <thead>
+            <tr>
+              <TableHeadCell
+                cellHeaderProps={setCellHeaderProps}
+                options={options}
+                sortDirection={'asc'}
+                sort={true}
+                toggleSort={toggleSort}
+                print={true}
+                classes={classes}>
+                some content
+              </TableHeadCell>
+            </tr>
+          </thead>
+        </table>
       </DndProvider>,
     );
 
@@ -44,7 +51,7 @@ describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />',
     const classNames = props.className.split(' ');
     const finalClass = classNames[classNames.length - 1];
 
-    assert.strictEqual(props.myProp, 'test');
+    assert.strictEqual(props['data-myprop'], 'test');
     assert.strictEqual(finalClass, 'testClass');
   });
 
@@ -54,9 +61,15 @@ describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />',
 
     const wrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHeadCell options={options} sortDirection={'asc'} sort={true} toggleSort={toggleSort} classes={classes}>
-          some content
-        </TableHeadCell>
+        <table>
+          <thead>
+            <tr>
+              <TableHeadCell options={options} sortDirection={'asc'} sort={true} toggleSort={toggleSort} print={true} classes={classes}>
+                some content
+              </TableHeadCell>
+            </tr>
+          </thead>
+        </table>
       </DndProvider>,
     );
 
@@ -70,9 +83,15 @@ describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />',
 
     const shallowWrapper = shallow(
       <DndProvider backend={HTML5Backend}>
-        <TableHeadCell options={options} sortDirection={'asc'} sort={true} toggleSort={toggleSort} classes={classes}>
-          some content
-        </TableHeadCell>
+        <table>
+          <thead>
+            <tr>
+              <TableHeadCell options={options} sortDirection={'asc'} sort={true} toggleSort={toggleSort} print={true} classes={classes}>
+                some content
+              </TableHeadCell>
+            </tr>
+          </thead>
+        </table>
       </DndProvider>,
     );
 
@@ -85,9 +104,15 @@ describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />',
 
     const wrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHeadCell options={options} hint={'hint text'} classes={classes}>
-          some content
-        </TableHeadCell>
+        <table>
+          <thead>
+            <tr>
+              <TableHeadCell options={options} hint={'hint text'} sort={true} toggleSort={() => {}} print={true} classes={classes}>
+                some content
+              </TableHeadCell>
+            </tr>
+          </thead>
+        </table>
       </DndProvider>,
     );
 
@@ -100,9 +125,15 @@ describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />',
 
     const shallowWrapper = shallow(
       <DndProvider backend={HTML5Backend}>
-        <TableHeadCell options={options} classes={classes}>
-          some content
-        </TableHeadCell>
+        <table>
+          <thead>
+            <tr>
+              <TableHeadCell options={options} sort={true} toggleSort={() => {}} print={true} classes={classes}>
+                some content
+              </TableHeadCell>
+            </tr>
+          </thead>
+        </table>
       </DndProvider>,
     ).dive();
 
@@ -116,15 +147,22 @@ describe('<TableHeadCell print={() => {}} sort={null} toggleSort={() => {}} />',
 
     const wrapper = mount(
       <DndProvider backend={HTML5Backend}>
-        <TableHeadCell
-          options={options}
-          sort={true}
-          index={0}
-          sortDirection={'asc'}
-          toggleSort={toggleSort}
-          classes={classes}>
-          some content
-        </TableHeadCell>
+        <table>
+          <thead>
+            <tr>
+              <TableHeadCell
+                options={options}
+                sort={true}
+                index={0}
+                sortDirection={'asc'}
+                toggleSort={toggleSort}
+                print={true}
+                classes={classes}>
+                some content
+              </TableHeadCell>
+            </tr>
+          </thead>
+        </table>
       </DndProvider>,
     );
 

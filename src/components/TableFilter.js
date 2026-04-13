@@ -167,16 +167,16 @@ class TableFilter extends React.Component {
       column.filterOptions && column.filterOptions.renderValue ? column.filterOptions.renderValue : (v) => v;
 
     return (
-      <Grid item key={index} xs={6}>
+      <Grid key={index} size={6}>
         <FormGroup>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="body2" className={classes.checkboxListTitle}>
               {column.label}
             </Typography>
           </Grid>
           <Grid container>
             {filterData[index].map((filterValue, filterIndex) => (
-              <Grid item key={filterIndex}>
+              <Grid key={filterIndex}>
                 <FormControlLabel
                   key={filterIndex}
                   classes={{
@@ -219,9 +219,8 @@ class TableFilter extends React.Component {
 
     return (
       <Grid
-        item
         key={index}
-        xs={width}
+        size={width}
         classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
         <FormControl key={index} variant={'standard'} fullWidth>
           <InputLabel htmlFor={column.name}>{column.label}</InputLabel>
@@ -255,9 +254,8 @@ class TableFilter extends React.Component {
 
     return (
       <Grid
-        item
         key={index}
-        xs={width}
+        size={width}
         classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
         <FormControl key={index} fullWidth>
           <TextField
@@ -283,9 +281,8 @@ class TableFilter extends React.Component {
     const width = (column.filterOptions && column.filterOptions.fullWidth) === true ? 12 : 6;
     return (
       <Grid
-        item
         key={index}
-        xs={width}
+        size={width}
         classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
         <FormControl key={index} variant={'standard'} fullWidth>
           <InputLabel htmlFor={column.name}>{column.label}</InputLabel>
@@ -337,9 +334,8 @@ class TableFilter extends React.Component {
 
     return (
       <Grid
-        item
         key={index}
-        xs={width}
+        size={width}
         classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
         <FormControl key={index} fullWidth>
           {display(filterList, this.handleCustomChange, index, column, filterData)}

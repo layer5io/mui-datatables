@@ -13,7 +13,7 @@ describe('<TableBody />', function () {
   let columns;
   const tableId = 'tableID';
 
-  before(() => {
+  beforeAll(() => {
     columns = [{ name: 'First Name' }, { name: 'Company' }, { name: 'City' }, { name: 'State' }];
     data = [
       ['Joe James', 'Test Corp', 'Yonkers', 'NY'],
@@ -47,20 +47,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+        />
+      </table>,
     );
 
     const actualResult = mountWrapper.find(Checkbox);
@@ -73,19 +75,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
-        data={[]}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-      />,
+      <table>
+        <TableBody
+          data={[]}
+          count={0}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+        />
+      </table>,
     );
 
     const actualResult = mountWrapper.html();
@@ -93,25 +98,27 @@ describe('<TableBody />', function () {
   });
 
   it('should render a table body with selectable cells if selectableRows = true', () => {
-    const options = { selectableRows: true };
+    const options = { selectableRows: 'multiple' };
     const selectRowUpdate = () => {};
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+        />
+      </table>,
     );
 
     const actualResult = mountWrapper.find(TableSelectCell);
@@ -119,7 +126,7 @@ describe('<TableBody />', function () {
   });
 
   it('should return the correct rowIndex when calling instance method getRowIndex', () => {
-    const options = { sort: true, selectableRows: true };
+    const options = { sort: true, selectableRows: 'multiple' };
     const selectRowUpdate = () => {};
     const toggleExpandRow = () => {};
 
@@ -130,9 +137,9 @@ describe('<TableBody />', function () {
         columns={columns}
         page={1}
         rowsPerPage={2}
-        selectedRows={[1, 2, 3]}
+        selectedRows={{ data: [], lookup: { 1: true, 2: true, 3: true } }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
@@ -147,7 +154,7 @@ describe('<TableBody />', function () {
   });
 
   it('should return correctly if row exists in selectedRows when calling instance method isRowSelected', () => {
-    const options = { sort: true, selectableRows: true };
+    const options = { sort: true, selectableRows: 'multiple' };
     const selectRowUpdate = () => {};
     const toggleExpandRow = () => {};
 
@@ -158,9 +165,9 @@ describe('<TableBody />', function () {
         columns={columns}
         page={0}
         rowsPerPage={15}
-        selectedRows={[1, 2, 3]}
+        selectedRows={{ data: [], lookup: { 1: true, 2: true, 3: true } }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
@@ -175,7 +182,7 @@ describe('<TableBody />', function () {
   });
 
   it('should trigger selectRowUpdate prop callback when calling method handleRowSelect', () => {
-    const options = { sort: true, selectableRows: true };
+    const options = { sort: true, selectableRows: 'multiple' };
     const selectRowUpdate = spy();
     const toggleExpandRow = () => {};
 
@@ -186,9 +193,9 @@ describe('<TableBody />', function () {
         columns={columns}
         page={0}
         rowsPerPage={10}
-        selectedRows={[]}
+        selectedRows={{ data: [], lookup: {} }}
         selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
+        expandedRows={{ data: [], lookup: {} }}
         toggleExpandRow={toggleExpandRow}
         options={options}
         searchText={''}
@@ -205,7 +212,7 @@ describe('<TableBody />', function () {
 
   it('should select the adjacent rows when a row is shift+clicked and a previous row has been selected.', () => {
     let adjacentRows = [];
-    const options = { sort: true, selectableRows: true, selectableRowsOnClick: true };
+    const options = { sort: true, selectableRows: 'multiple', selectableRowsOnClick: true };
     const previousSelectedRow = { index: 0, dataIndex: 0 };
     const selectRowUpdate = (type, data, adjacent) => {
       adjacentRows = adjacent;
@@ -214,22 +221,24 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={selectedRows}
-        selectRowUpdate={selectRowUpdate}
-        previousSelectedRow={previousSelectedRow}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={selectedRows}
+          selectRowUpdate={selectRowUpdate}
+          previousSelectedRow={previousSelectedRow}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper
@@ -242,26 +251,28 @@ describe('<TableBody />', function () {
 
   it('should gather selected row data when clicking row with selectableRowsOnClick=true.', () => {
     let selectedRowData;
-    const options = { selectableRows: true, selectableRowsOnClick: true };
+    const options = { selectableRows: 'multiple', selectableRowsOnClick: true };
     const selectRowUpdate = (type, data) => (selectedRowData = data);
     const toggleExpandRow = spy();
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -274,7 +285,7 @@ describe('<TableBody />', function () {
   it('should not gather selected row data when clicking row with selectableRowsOnClick=true when it is disabled with isRowSelectable via index.', () => {
     let selectedRowData;
     const options = {
-      selectableRows: true,
+      selectableRows: 'multiple',
       selectableRowsOnClick: true,
       isRowSelectable: (dataIndex) => (dataIndex === 2 ? false : true),
     };
@@ -282,21 +293,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy();
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -320,20 +333,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy((_, data) => (expandedRowData = data));
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -345,7 +360,7 @@ describe('<TableBody />', function () {
   it('should not gather selected row data when clicking row with selectableRowsOnClick=true when it is disabled with isRowSelectable via selectedRows.', () => {
     let selectedRowData;
     const options = {
-      selectableRows: true,
+      selectableRows: 'multiple',
       selectableRowsOnClick: true,
       isRowSelectable: (dataIndex, selectedRows) => selectedRows.lookup[dataIndex] || selectedRows.data.length < 1,
     };
@@ -357,21 +372,23 @@ describe('<TableBody />', function () {
     };
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={initialSelectedRows}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={initialSelectedRows}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -383,7 +400,7 @@ describe('<TableBody />', function () {
   it('should gather selected row data when clicking row with selectableRowsOnClick=true when it is enabled with isRowSelectable via dataIndex.', () => {
     let selectedRowData;
     const options = {
-      selectableRows: true,
+      selectableRows: 'multiple',
       selectableRowsOnClick: true,
       isRowSelectable: (dataIndex, selectedRows) => selectedRows.lookup[dataIndex] || selectedRows.data.length < 1,
     };
@@ -395,21 +412,23 @@ describe('<TableBody />', function () {
     };
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={initialSelectedRows}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={initialSelectedRows}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-1`).first().simulate('click');
@@ -433,20 +452,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = spy((data) => (expandedRowData = data));
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -457,26 +478,28 @@ describe('<TableBody />', function () {
 
   it('should gather expanded row data when clicking row with expandableRows=true and expandableRowsOnClick=true.', () => {
     let expandedRowData;
-    const options = { selectableRows: true, expandableRows: true, expandableRowsOnClick: true };
+    const options = { selectableRows: 'multiple', expandableRows: true, expandableRowsOnClick: true };
     const selectRowUpdate = spy();
     const toggleExpandRow = (data) => (expandedRowData = data);
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -490,7 +513,7 @@ describe('<TableBody />', function () {
     let expandedRowData;
     let selectedRowData;
     const options = {
-      selectableRows: true,
+      selectableRows: 'multiple',
       selectableRowsOnClick: true,
       expandableRows: true,
       expandableRowsOnClick: true,
@@ -499,21 +522,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = (data) => (expandedRowData = data);
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -524,25 +549,27 @@ describe('<TableBody />', function () {
   });
 
   it('should not call onRowClick when clicking on checkbox for selectable row', () => {
-    const options = { selectableRows: true, onRowClick: spy() };
+    const options = { selectableRows: 'multiple', onRowClick: spy() };
     const selectRowUpdate = spy();
     const toggleExpandRow = spy();
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+        />
+      </table>,
     );
 
     mountWrapper.find('TableSelectCell').first().find('input').simulate('click');
@@ -551,25 +578,27 @@ describe('<TableBody />', function () {
   });
 
   it('should not call onRowClick when clicking to select a row', () => {
-    const options = { selectableRows: true, selectableRowsOnClick: true, onRowClick: spy() };
+    const options = { selectableRows: 'multiple', selectableRowsOnClick: true, onRowClick: spy() };
     const selectRowUpdate = spy();
     const toggleExpandRow = spy();
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+        />
+      </table>,
     );
 
     mountWrapper.find('TableSelectCell').first().simulate('click');
@@ -578,26 +607,28 @@ describe('<TableBody />', function () {
   });
 
   it('should call onRowClick when Row is clicked', () => {
-    const options = { selectableRows: true, onRowClick: spy() };
+    const options = { selectableRows: 'multiple', onRowClick: spy() };
     const selectRowUpdate = stub();
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-2`).first().simulate('click');
@@ -612,21 +643,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     const props = mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-1`).first().props();
@@ -642,21 +675,23 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-        tableId={tableId}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+          tableId={tableId}
+        />
+      </table>,
     );
 
     const props = mountWrapper.find(`#MUIDataTableBodyRow-${tableId}-1`).first().props();
@@ -672,20 +707,22 @@ describe('<TableBody />', function () {
     const toggleExpandRow = () => {};
 
     const mountWrapper = mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        rowsPerPage={10}
-        selectedRows={[]}
-        selectRowUpdate={selectRowUpdate}
-        expandedRows={[]}
-        toggleExpandRow={toggleExpandRow}
-        options={options}
-        searchText={''}
-        filterList={[]}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          rowsPerPage={10}
+          selectedRows={{ data: [], lookup: {} }}
+          selectRowUpdate={selectRowUpdate}
+          expandedRows={{ data: [], lookup: {} }}
+          toggleExpandRow={toggleExpandRow}
+          options={options}
+          searchText={''}
+          filterList={[]}
+        />
+      </table>,
     );
 
     const html = mountWrapper.html();
@@ -704,21 +741,23 @@ describe('<TableBody />', function () {
       return true;
     });
 
-    const options = { selectableRows: true, isRowSelectable };
+    const options = { selectableRows: 'multiple', isRowSelectable };
 
     mount(
-      <TableBody
-        data={displayData}
-        count={displayData.length}
-        columns={columns}
-        page={0}
-        selectedRows={originalSelectedRows}
-        rowsPerPage={10}
-        expandedRows={[]}
-        options={options}
-        searchText={''}
-        filterList={[]}
-      />,
+      <table>
+        <TableBody
+          data={displayData}
+          count={displayData.length}
+          columns={columns}
+          page={0}
+          selectedRows={originalSelectedRows}
+          rowsPerPage={10}
+          expandedRows={{ data: [], lookup: {} }}
+          options={options}
+          searchText={''}
+          filterList={[]}
+        />
+      </table>,
     );
 
     assert.equal(isRowSelectable.callCount, displayData.length);

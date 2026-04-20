@@ -3,12 +3,8 @@
 
 # Install project dependencies
 site:
-	npm install
-	npm run dev
-
-# Start the development server
-site:
-	npm run dev
+	@echo "🏗️  Building site ..."
+	npm install && npm run dev
 
 # Build the project for production
 build:

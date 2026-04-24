@@ -61,7 +61,7 @@ jobs:
       - name: Build Package
         run: |
           set -e
-          npm run build
+          make build
           echo "Build New Package" >> $GITHUB_STEP_SUMMARY
 
       - name: Publish Package

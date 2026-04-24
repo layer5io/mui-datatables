@@ -2,6 +2,10 @@
 .PHONY: install start build test clean
 
 # Install project dependencies
+setup:
+	npm ci
+
+# Build site with development server
 site:
 	@echo "🏗️  Building site ..."
 	npm install && npm run dev

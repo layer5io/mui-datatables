@@ -16,6 +16,9 @@ export default defineConfig({
       reporter: ['text', 'html', 'lcov'],
       include: ['src/**/*.js'],
       exclude: ['test/**/*.test.js'],
+      thresholds: {
+        lines: 55,
+      },
     },
   },
 })

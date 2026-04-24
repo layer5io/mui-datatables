@@ -5,6 +5,13 @@ import { beforeAll, afterAll } from 'vitest';
 global.before = beforeAll;
 global.after = afterAll;
 
+// jsdom@26+ is stricter: timers that fire after the environment is torn down
+// throw "window is not defined". This afterAll flushes any pending
+// react-transition-group animation timeouts while jsdom is still alive.
+afterAll(async () => {
+  await new Promise((resolve) => setTimeout(resolve, 100));
+});
+
 const Adapter = AdapterPkg.default || AdapterPkg;
 
 /* required when running >= 16.0 */
@@ -56,8 +63,6 @@ console.error = function (...args) {
       msg.includes('findDOMNode is deprecated') ||
       msg.includes('roots directly with document.body is discouraged') ||
       msg.includes('ReactDOMTestUtils.act is deprecated') ||
-      msg.includes('Each child in a list should have a unique') ||
-      msg.includes('validateDOMNesting') ||
       msg.includes('container that has already been passed to createRoot()'))
   ) {
     return;

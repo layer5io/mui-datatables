@@ -20,13 +20,6 @@
         "mode": "usage",
         "coreJs": "3"
     },
-    "module": {
-        "type": "commonjs",
-        "strict": false,
-        "strictMode": true,
-        "lazy": false,
-        "noInterop": false
-    },
     "minify": false,
     "isModule": true
 }

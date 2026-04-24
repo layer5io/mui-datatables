@@ -27,7 +27,7 @@ describe('<MUIDataTable />', function () {
   );
   let renderName = (value) => value.split(' ')[1] + ', ' + value.split(' ')[0];
   let renderState = (value) => value;
-  let renderHead = (columnMeta) => columnMeta.name + 's';
+  let renderHead = (columnMeta) => <td>{columnMeta.name + 's'}</td>;
   let defaultRenderCustomFilterList = (f) => f;
   let renderCustomFilterList = (f) => `Name: ${f}`;
 

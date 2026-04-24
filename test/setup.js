@@ -63,6 +63,7 @@ console.error = function (...args) {
       msg.includes('findDOMNode is deprecated') ||
       msg.includes('roots directly with document.body is discouraged') ||
       msg.includes('ReactDOMTestUtils.act is deprecated') ||
+      msg.includes('react-dom/test-utils') ||
       msg.includes('container that has already been passed to createRoot()'))
   ) {
     return;

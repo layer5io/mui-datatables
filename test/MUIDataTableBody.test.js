@@ -702,7 +702,13 @@ describe('<TableBody />', function () {
   });
 
   it("should use 'customRowRender' when provided", () => {
-    const options = { customRowRender: () => <div>Test_Text</div> };
+    const options = {
+      customRowRender: (row, dataIndex, rowIndex) => (
+        <tr key={rowIndex}>
+          <td>Test_Text</td>
+        </tr>
+      ),
+    };
     const selectRowUpdate = stub();
     const toggleExpandRow = () => {};
 

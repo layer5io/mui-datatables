@@ -36,7 +36,7 @@ jobs:
           scope: "@sistent"          
 
       - name: Install Dependencies
-        run: npm ci
+        run: make setup
         env:
           NODE_AUTH_TOKEN: ''  # Explicitly empty for install
           
@@ -61,7 +61,7 @@ jobs:
       - name: Build Package
         run: |
           set -e
-          npm run build
+          make build
           echo "Build New Package" >> $GITHUB_STEP_SUMMARY
 
       - name: Publish Package

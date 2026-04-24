@@ -3,7 +3,7 @@
 
 # Install project dependencies
 setup:
-	npm ci
+	npm install
 
 # Build site with development server
 site:

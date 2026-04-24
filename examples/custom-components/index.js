@@ -9,21 +9,20 @@ import TableViewCol from './TableViewCol';
 const CustomChip = (props) => {
   const { label, onDelete, columnNames, className, index } = props;
   return (<Chip
-      className={className}
-      variant="outlined"
-      color={columnNames[index].name === 'Company' ? 'secondary' : 'primary'}
-      label={label}
-      onDelete={onDelete}
+    className={className}
+    variant="outlined"
+    color={columnNames[index].name === 'Company' ? 'secondary' : 'primary'}
+    label={label}
+    onDelete={onDelete}
   />);
 };
 
 const CustomTooltip = (props) => {
   return (
-    <MuiTooltip 
-      title={props.title} 
-      interactive={true} 
-      TransitionComponent={Fade}
-      TransitionProps={{ timeout: 250 }}
+    <MuiTooltip
+      title={props.title}
+      slots={{ transition: Fade }}
+      slotProps={{ transition: { timeout: 250 } }}
       leaveDelay={250}>{props.children}</MuiTooltip>
   );
 };
@@ -72,31 +71,31 @@ class Example extends React.Component {
               return false;
             },
             display: (filterList, onChange, index, column) => (
-                <Select
-                    onChange={event => {
-                      filterList[index][0] = event.target.value;
-                      onChange(filterList[index], index, column);
-                    }}
-                    value={filterList[index]}
-                >
-                  <MenuItem value="Test Corp">{'Test Corp'}</MenuItem>
-                  <MenuItem value="Other Corp">{'Other Corp'}</MenuItem>
-                </Select>
+              <Select
+                onChange={event => {
+                  filterList[index][0] = event.target.value;
+                  onChange(filterList[index], index, column);
+                }}
+                value={filterList[index]}
+              >
+                <MenuItem value="Test Corp">{'Test Corp'}</MenuItem>
+                <MenuItem value="Other Corp">{'Other Corp'}</MenuItem>
+              </Select>
             )
           },
         },
       },
       { name: 'City', label: 'City Label', options: { filterList: ['Dallas'] } },
       { name: 'State' },
-      { 
-        name: 'Empty', 
-        options: { 
-          empty: true, 
-          filterType: 'checkbox', 
+      {
+        name: 'Empty',
+        options: {
+          empty: true,
+          filterType: 'checkbox',
           filterOptions: {
             renderValue: (val) => (val ? val : '(Empty)')
           }
-        } 
+        }
       },
     ];
     const data = [
@@ -116,16 +115,16 @@ class Example extends React.Component {
 
     return (
       <MUIDataTable
-          title={"ACME Employee list"}
-          data={data}
-          columns={columns}
-          options={options}
-          components={{
-            TableFilterList: CustomFilterList,
-            Tooltip: CustomTooltip,
-            Checkbox: CustomCheckbox,
-            TableViewCol: TableViewCol
-          }}
+        title={"ACME Employee list"}
+        data={data}
+        columns={columns}
+        options={options}
+        components={{
+          TableFilterList: CustomFilterList,
+          Tooltip: CustomTooltip,
+          Checkbox: CustomCheckbox,
+          TableViewCol: TableViewCol
+        }}
       />
     );
 

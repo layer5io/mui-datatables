@@ -37,15 +37,19 @@ class CustomFooter extends React.Component {
               page={page}
               labelRowsPerPage={textLabels.rowsPerPage}
               labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${textLabels.displayRows} ${count}`}
-              backIconButtonProps={{
-                'aria-label': textLabels.previous,
-              }}
-              nextIconButtonProps={{
-                'aria-label': textLabels.next,
+              slotProps={{
+                actions: {
+                  previousButton: {
+                    'aria-label': textLabels.previous,
+                  },
+                  nextButton: {
+                    'aria-label': textLabels.next,
+                  }
+                }
               }}
               rowsPerPageOptions={[10,20,100]}
-              onChangePage={this.handlePageChange}
-              onChangeRowsPerPage={this.handleRowChange}
+              onPageChange={this.handlePageChange}
+              onRowsPerPageChange={this.handleRowChange}
             />
           </TableCell>
         </TableRow>

@@ -218,10 +218,7 @@ class TableFilter extends React.Component {
     const width = (column.filterOptions && column.filterOptions.fullWidth) === true ? 12 : 6;
 
     return (
-      <Grid
-        key={index}
-        size={width}
-        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
+      <Grid key={index} size={width} className={classes.gridListTile}>
         <FormControl key={index} variant={'standard'} fullWidth>
           <InputLabel htmlFor={column.name}>{column.label}</InputLabel>
           <Select
@@ -253,10 +250,7 @@ class TableFilter extends React.Component {
     const width = (column.filterOptions && column.filterOptions.fullWidth) === true ? 12 : 6;
 
     return (
-      <Grid
-        key={index}
-        size={width}
-        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
+      <Grid key={index} size={width} className={classes.gridListTile}>
         <FormControl key={index} fullWidth>
           <TextField
             fullWidth
@@ -280,10 +274,7 @@ class TableFilter extends React.Component {
       column.filterOptions && column.filterOptions.renderValue ? column.filterOptions.renderValue : (v) => v;
     const width = (column.filterOptions && column.filterOptions.fullWidth) === true ? 12 : 6;
     return (
-      <Grid
-        key={index}
-        size={width}
-        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
+      <Grid key={index} size={width} className={classes.gridListTile}>
         <FormControl key={index} variant={'standard'} fullWidth>
           <InputLabel htmlFor={column.name}>{column.label}</InputLabel>
           <Select
@@ -333,10 +324,7 @@ class TableFilter extends React.Component {
     }
 
     return (
-      <Grid
-        key={index}
-        size={width}
-        classes={{ 'grid-xs-12': classes.gridListTile, 'grid-xs-6': classes.gridListTile }}>
+      <Grid key={index} size={width} className={classes.gridListTile}>
         <FormControl key={index} fullWidth>
           {display(filterList, this.handleCustomChange, index, column, filterData)}
         </FormControl>

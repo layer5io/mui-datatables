@@ -83,6 +83,7 @@
     "sinon": "^21.0.3",
     "style-loader": "^4.0.0",
     "swc-loader": "^0.2.6",
+    "unplugin-swc": "^1.5.9",
     "vitest": "^3.2.4",
     "webpack": "^5.105.4",
     "webpack-cli": "^7.0.2",

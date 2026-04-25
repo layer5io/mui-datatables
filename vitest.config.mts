@@ -1,11 +1,22 @@
+import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
-  esbuild: {
-    loader: 'jsx',
-    include: /.*\.[tj]sx?$/,
-    exclude: [],
-  },
+  plugins: [
+    swc.vite({
+      jsc: {
+        parser: {
+          syntax: 'ecmascript',
+          jsx: true,
+        },
+        transform: {
+          react: {
+            runtime: 'automatic',
+          },
+        },
+      },
+    }),
+  ],
   test: {
     environment: 'jsdom',
     setupFiles: ['./test/setup.js'],

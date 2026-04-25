@@ -166,7 +166,7 @@ class MUIDataTable extends React.Component {
       columnOrder: PropTypes.array,
       count: PropTypes.number,
       confirmFilters: PropTypes.bool,
-      consoleWarnings: PropTypes.bool,
+      consoleWarnings: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
       customFilterDialogFooter: PropTypes.func,
       customFooter: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
       customRowRender: PropTypes.func,

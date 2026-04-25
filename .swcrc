@@ -1,0 +1,24 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "development": false
+            }
+        },
+        "loose": false,
+        "externalHelpers": true
+    },
+    "env": {
+        "targets": "> 0.5%, last 2 versions, Firefox ESR, not dead, safari >= 15.4, iOS >= 15.4",
+        "mode": "usage",
+        "coreJs": "3"
+    },
+    "minify": false,
+    "isModule": true
+}

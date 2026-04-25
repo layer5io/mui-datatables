@@ -7,7 +7,7 @@ import TableToolbarSelect from '../src/components/TableToolbarSelect';
 import getTextLabels from '../src/textLabels';
 
 describe('<TableToolbarSelect />', function () {
-  before(() => {});
+  beforeAll(() => {});
 
   it('should render table toolbar select', () => {
     const onRowsDelete = () => {};
@@ -41,7 +41,7 @@ describe('<TableToolbarSelect />', function () {
     assert.strictEqual(customToolbarSelect.calledWith(selectedRows, displayData, match.typeOf('function')), true);
   });
 
-  it('should throw TypeError if selectedRows is not an array of numbers', (done) => {
+  it('should throw TypeError if selectedRows is not an array of numbers', () => {
     const onRowsDelete = () => {};
     const selectRowUpdate = () => {};
     const customToolbarSelect = (_, __, setSelectedRows) => {
@@ -58,8 +58,6 @@ describe('<TableToolbarSelect />', function () {
       }
 
       spySetSelectedRows.exceptions.forEach((error) => assert.strictEqual(error instanceof TypeError, true));
-
-      done();
     };
     const selectedRows = { data: [1] };
     const displayData = [1];

@@ -2,8 +2,7 @@
     "jsc": {
         "parser": {
             "syntax": "ecmascript",
-            "jsx": true,
-            "dynamicImport": true
+            "jsx": true
         },
         "transform": {
             "react": {

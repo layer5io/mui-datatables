@@ -382,7 +382,7 @@ class TableFilter extends React.Component {
           </div>
           <div className={classes.filtersSelected} />
         </div>
-        <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={4}>
+        <Grid container direction="row" spacing={4} sx={{ justifyContent: 'flex-start', alignItems: 'center' }}>
           {columns.map((column, index) => {
             if (column.filter) {
               const filterType = column.filterType || options.filterType;

@@ -448,9 +448,7 @@ describe('<TableFilter />', function () {
 
     cases.forEach(({ filterType, selector }) => {
       // Half-width: only the first column has options + no fullWidth.
-      const halfColumns = [
-        { name: 'firstName', label: 'First Name', display: true, sort: true, filter: true },
-      ];
+      const halfColumns = [{ name: 'firstName', label: 'First Name', display: true, sort: true, filter: true }];
       const halfFilterData = [['Joe James', 'John Walsh']];
       const halfFilterList = [[]];
       const halfWrapper = mount(
@@ -466,11 +464,7 @@ describe('<TableFilter />', function () {
         .find(Grid)
         .filterWhere((n) => !n.prop('container') && n.find(selector).length > 0)
         .first();
-      assert.strictEqual(
-        halfTile.prop('size'),
-        6,
-        `${filterType} default tile should be size=6 (half-width)`,
-      );
+      assert.strictEqual(halfTile.prop('size'), 6, `${filterType} default tile should be size=6 (half-width)`);
 
       // Full-width: same column with filterOptions.fullWidth = true.
       const fullColumns = [
@@ -496,11 +490,7 @@ describe('<TableFilter />', function () {
         .find(Grid)
         .filterWhere((n) => !n.prop('container') && n.find(selector).length > 0)
         .first();
-      assert.strictEqual(
-        fullTile.prop('size'),
-        12,
-        `${filterType} fullWidth tile should be size=12`,
-      );
+      assert.strictEqual(fullTile.prop('size'), 12, `${filterType} fullWidth tile should be size=12`);
     });
   });
 });

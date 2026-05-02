@@ -1,4 +1,5 @@
 import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -430,5 +431,76 @@ describe('<TableFilter />', function () {
 
     shallowWrapper.find(TextField).first().simulate('change', event);
     assert.strictEqual(onFilterUpdate.callCount, 3);
+  });
+
+  // Regression for the Grid v1 -> v2 migration. The previous code passed
+  // `xs={width}`; the v9-compatible code passes `size={width}`. Each filter
+  // type defaults to half-width (size=6) and goes full-width (size=12) when
+  // `column.filterOptions.fullWidth` is true. Asserts on the rendered Grid
+  // node so a silent regression in either direction (size ignored, wrong
+  // breakpoint, prop name typo) fails the test.
+  it('applies Grid size=6 by default and size=12 when filterOptions.fullWidth is true', () => {
+    const cases = [
+      { filterType: 'dropdown', selector: Select },
+      { filterType: 'multiselect', selector: Select },
+      { filterType: 'textField', selector: TextField },
+    ];
+
+    cases.forEach(({ filterType, selector }) => {
+      // Half-width: only the first column has options + no fullWidth.
+      const halfColumns = [
+        { name: 'firstName', label: 'First Name', display: true, sort: true, filter: true },
+      ];
+      const halfFilterData = [['Joe James', 'John Walsh']];
+      const halfFilterList = [[]];
+      const halfWrapper = mount(
+        <TableFilter
+          columns={halfColumns}
+          filterData={halfFilterData}
+          filterList={halfFilterList}
+          options={{ filterType, textLabels: getTextLabels() }}
+        />,
+      );
+
+      const halfTile = halfWrapper
+        .find(Grid)
+        .filterWhere((n) => !n.prop('container') && n.find(selector).length > 0)
+        .first();
+      assert.strictEqual(
+        halfTile.prop('size'),
+        6,
+        `${filterType} default tile should be size=6 (half-width)`,
+      );
+
+      // Full-width: same column with filterOptions.fullWidth = true.
+      const fullColumns = [
+        {
+          name: 'firstName',
+          label: 'First Name',
+          display: true,
+          sort: true,
+          filter: true,
+          filterOptions: { fullWidth: true },
+        },
+      ];
+      const fullWrapper = mount(
+        <TableFilter
+          columns={fullColumns}
+          filterData={halfFilterData}
+          filterList={halfFilterList}
+          options={{ filterType, textLabels: getTextLabels() }}
+        />,
+      );
+
+      const fullTile = fullWrapper
+        .find(Grid)
+        .filterWhere((n) => !n.prop('container') && n.find(selector).length > 0)
+        .first();
+      assert.strictEqual(
+        fullTile.prop('size'),
+        12,
+        `${filterType} fullWidth tile should be size=12`,
+      );
+    });
   });
 });

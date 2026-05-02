@@ -60,7 +60,7 @@ MUI-Datatables is a responsive datatables component built on [Material-UI](https
 
 `npm install mui-datatables --save`
 
-If your project doesn't already use them, you need to install MUI v7 and its icon pack:  
+If your project doesn't already use them, you need to install MUI v9 and its icon pack:  
 `npm --save install @mui/material @emotion/react @emotion/styled @mui/icons-material`
 
 ## Compatibility
@@ -72,6 +72,7 @@ If your project doesn't already use them, you need to install MUI v7 and its ico
 | ^3.8.0         | ^4.12.0     | `@material-ui/core`,`@material-ui/icons`            |
 | ^4.0.0         | ^5.9.3      | `@mui/material`,`@mui/icons-material`               |
 | ^5.0.0         | ^7.3.7      | `@mui/material`,`@mui/icons-material`               |
+| ^7.0.0         | ^9.0.0      | `@mui/material`,`@mui/icons-material`               |
 
 
 ## Usage

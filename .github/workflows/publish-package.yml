@@ -52,7 +52,11 @@ jobs:
         run: |
           set -e
           OLD_VERSION=$(node -e "console.log(require('./package.json').version)")
-          npm version "${RELEASE_VERSION}" --no-git-tag-version
+          # --allow-same-version lets the workflow run cleanly when the
+          # PR that introduced this release already bumped package.json
+          # to the target version (a normal pattern when the version
+          # change is part of the reviewable diff).
+          npm version "${RELEASE_VERSION}" --no-git-tag-version --allow-same-version
           NEW_VERSION=$(node -e "console.log(require('./package.json').version)")
           echo "Updated Package Version" >> $GITHUB_STEP_SUMMARY
           echo "info Old Version: ${OLD_VERSION}" >> $GITHUB_STEP_SUMMARY

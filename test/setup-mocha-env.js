@@ -89,10 +89,7 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
   // on the resulting fiber→DOM→fiber cycle. Skip Object.freeze for React
   // elements so we can null `_owner` at element creation time, then patch both
   // JSX entry points babel may emit.
-  const REACT_ELEMENT_SYMBOLS = new Set([
-    Symbol.for('react.element'),
-    Symbol.for('react.transitional.element'),
-  ]);
+  const REACT_ELEMENT_SYMBOLS = new Set([Symbol.for('react.element'), Symbol.for('react.transitional.element')]);
   const origFreeze = Object.freeze;
   Object.freeze = function patchedFreeze(obj) {
     if (obj && typeof obj === 'object' && REACT_ELEMENT_SYMBOLS.has(obj.$$typeof)) {
@@ -102,7 +99,11 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
   };
   const stripOwner = (el) => {
     if (el && typeof el === 'object' && REACT_ELEMENT_SYMBOLS.has(el.$$typeof)) {
-      try { el._owner = null; } catch (_) { /* still frozen elsewhere */ }
+      try {
+        el._owner = null;
+      } catch (_) {
+        /* still frozen elsewhere */
+      }
     }
     return el;
   };
@@ -121,7 +122,9 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
           };
         }
       }
-    } catch (_) { /* runtime variant not present */ }
+    } catch (_) {
+      /* runtime variant not present */
+    }
   }
 
   const internals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
@@ -167,13 +170,48 @@ if (!testUtils.Simulate) {
     return win.Event;
   };
   const eventNames = [
-    'click', 'doubleClick', 'mouseDown', 'mouseUp', 'mouseMove', 'mouseEnter', 'mouseLeave',
-    'mouseOver', 'mouseOut', 'change', 'input', 'keyDown', 'keyUp', 'keyPress',
-    'focus', 'blur', 'submit', 'select', 'paste', 'copy', 'cut', 'drag', 'drop',
-    'dragStart', 'dragEnd', 'dragEnter', 'dragLeave', 'dragOver', 'wheel',
-    'touchStart', 'touchEnd', 'touchMove', 'touchCancel', 'pointerDown', 'pointerUp',
-    'pointerMove', 'pointerEnter', 'pointerLeave', 'pointerOver', 'pointerOut',
-    'contextMenu', 'scroll',
+    'click',
+    'doubleClick',
+    'mouseDown',
+    'mouseUp',
+    'mouseMove',
+    'mouseEnter',
+    'mouseLeave',
+    'mouseOver',
+    'mouseOut',
+    'change',
+    'input',
+    'keyDown',
+    'keyUp',
+    'keyPress',
+    'focus',
+    'blur',
+    'submit',
+    'select',
+    'paste',
+    'copy',
+    'cut',
+    'drag',
+    'drop',
+    'dragStart',
+    'dragEnd',
+    'dragEnter',
+    'dragLeave',
+    'dragOver',
+    'wheel',
+    'touchStart',
+    'touchEnd',
+    'touchMove',
+    'touchCancel',
+    'pointerDown',
+    'pointerUp',
+    'pointerMove',
+    'pointerEnter',
+    'pointerLeave',
+    'pointerOver',
+    'pointerOut',
+    'contextMenu',
+    'scroll',
   ];
   const setInputValue = (node, value) => {
     // React 19 attaches a value tracker that suppresses onChange when the new
@@ -195,7 +233,9 @@ if (!testUtils.Simulate) {
     for (const key of Object.keys(mock)) {
       try {
         event[key] = mock[key];
-      } catch (e) { /* ignore non-writable getters */ }
+      } catch (e) {
+        /* ignore non-writable getters */
+      }
     }
   };
   // Most React event names lowercase cleanly to their native counterpart, but a
@@ -219,7 +259,10 @@ if (!testUtils.Simulate) {
           node.dispatchEvent(clickEvent);
           return;
         }
-        if ('value' in mock.target && (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA' || node.tagName === 'SELECT')) {
+        if (
+          'value' in mock.target &&
+          (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA' || node.tagName === 'SELECT')
+        ) {
           setInputValue(node, mock.target.value);
           const inputEvent = new win.Event('input', { bubbles: true, cancelable: true });
           node.dispatchEvent(inputEvent);

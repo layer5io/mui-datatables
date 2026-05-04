@@ -75,25 +75,29 @@ function TablePagination(props) {
               page={getPageValue(count, rowsPerPage, page)}
               labelRowsPerPage={textLabels.rowsPerPage}
               labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${textLabels.displayRows} ${count}`}
-              backIconButtonProps={{
-                id: 'pagination-back',
-                'data-testid': 'pagination-back',
-                'aria-label': textLabels.previous,
-                title: textLabels.previous || '',
-              }}
-              nextIconButtonProps={{
-                id: 'pagination-next',
-                'data-testid': 'pagination-next',
-                'aria-label': textLabels.next,
-                title: textLabels.next || '',
-              }}
-              SelectProps={{
-                id: 'pagination-input',
-                SelectDisplayProps: { id: 'pagination-rows', 'data-testid': 'pagination-rows' },
-                MenuProps: {
-                  id: 'pagination-menu',
-                  'data-testid': 'pagination-menu',
-                  MenuListProps: { id: 'pagination-menu-list', 'data-testid': 'pagination-menu-list' },
+              slotProps={{
+                actions: {
+                  previousButton: {
+                    id: 'pagination-back',
+                    'data-testid': 'pagination-back',
+                    'aria-label': textLabels.previous,
+                    title: textLabels.previous || '',
+                  },
+                  nextButton: {
+                    id: 'pagination-next',
+                    'data-testid': 'pagination-next',
+                    'aria-label': textLabels.next,
+                    title: textLabels.next || '',
+                  },
+                },
+                select: {
+                  id: 'pagination-input',
+                  SelectDisplayProps: { id: 'pagination-rows', 'data-testid': 'pagination-rows' },
+                  MenuProps: {
+                    id: 'pagination-menu',
+                    'data-testid': 'pagination-menu',
+                    MenuListProps: { id: 'pagination-menu-list', 'data-testid': 'pagination-menu-list' },
+                  },
                 },
               }}
               rowsPerPageOptions={options.rowsPerPageOptions}

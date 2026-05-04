@@ -161,7 +161,7 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
 const testUtils = require('react-dom/test-utils');
 if (!testUtils.Simulate) {
   const eventCtor = (win, type) => {
-    if (/^(click|mouse|drag|drop|wheel|context|pointer|touch)/.test(type) && win.MouseEvent) return win.MouseEvent;
+    if (/^(click|dbl|mouse|drag|drop|wheel|context|pointer|touch)/.test(type) && win.MouseEvent) return win.MouseEvent;
     if (/^key/.test(type) && win.KeyboardEvent) return win.KeyboardEvent;
     if (/^(focus|blur)/.test(type) && win.FocusEvent) return win.FocusEvent;
     return win.Event;
@@ -198,12 +198,15 @@ if (!testUtils.Simulate) {
       } catch (e) { /* ignore non-writable getters */ }
     }
   };
+  // Most React event names lowercase cleanly to their native counterpart, but a
+  // few don't — e.g. `doubleClick` is `dblclick`, not `doubleclick`.
+  const eventNameAliases = { doubleClick: 'dblclick' };
   testUtils.Simulate = {};
   for (const name of eventNames) {
     testUtils.Simulate[name] = (node, mock = {}) => {
       if (!node) return;
       const win = node.ownerDocument ? node.ownerDocument.defaultView : global.window;
-      const type = name.replace(/[A-Z]/g, (c) => c.toLowerCase()).toLowerCase();
+      const type = eventNameAliases[name] || name.toLowerCase();
       // React listens for native `input` (not `change`) on text inputs/textareas;
       // checkboxes/radios fire `change` from `click`. Mirror the host's behavior
       // so `simulate('change', { target: { value } })` actually updates state.
@@ -245,8 +248,8 @@ if (typeof ReactDOM.findDOMNode !== 'function') {
     const fiber = instance._reactInternals || instance._reactInternalFiber;
     if (!fiber) return null;
     const queue = [fiber];
-    while (queue.length) {
-      const f = queue.shift();
+    for (let i = 0; i < queue.length; i++) {
+      const f = queue[i];
       if (f.stateNode && f.stateNode.nodeType) return f.stateNode;
       let child = f.child;
       while (child) {

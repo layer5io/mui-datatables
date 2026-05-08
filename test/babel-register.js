@@ -1,5 +1,5 @@
 require('@babel/register')({
-  extensions: ['.js', '.jsx'],
+  extensions: ['.js', '.jsx', '.ts', '.tsx'],
   babelrc: false,
   configFile: false,
   presets: [
@@ -11,6 +11,7 @@ require('@babel/register')({
       },
     ],
     '@babel/preset-react',
+    '@babel/preset-typescript',
   ],
   plugins: [
     '@babel/plugin-transform-class-properties',

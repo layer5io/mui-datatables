@@ -19,7 +19,7 @@ export default defineConfig({
   ],
   test: {
     environment: 'jsdom',
-    setupFiles: ['./test/setup-vitest.cjs'],
+    setupFiles: ['./test/setup-vitest.js'],
     globals: true,
     include: ['test/**/*.test.js'],
     coverage: {

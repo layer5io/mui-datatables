@@ -32,7 +32,10 @@ if (global.window) {
 }
 
 const blobImpl = global.Blob || (global.window && global.window.Blob);
-if (blobImpl) { global.Blob = blobImpl; if (global.window) global.window.Blob = blobImpl; }
+if (blobImpl) {
+  global.Blob = blobImpl;
+  if (global.window) global.window.Blob = blobImpl;
+}
 
 // React 19 removed __SECRET_INTERNALS; reconstruct it so react-shallow-renderer (Enzyme dep) can install its dispatcher.
 const React = require('react');
@@ -53,19 +56,25 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
   };
   const stripOwner = (el) => {
     if (el && typeof el === 'object' && REACT_ELEMENT_SYMBOLS.has(el.$$typeof)) {
-      try { el._owner = null; } catch (_) {}
+      try {
+        el._owner = null;
+      } catch (_) {}
     }
     return el;
   };
   const origCreateElement = React.createElement;
-  React.createElement = function patchedCreateElement() { return stripOwner(origCreateElement.apply(this, arguments)); };
+  React.createElement = function patchedCreateElement() {
+    return stripOwner(origCreateElement.apply(this, arguments));
+  };
   for (const mod of ['react/jsx-runtime', 'react/jsx-dev-runtime']) {
     try {
       const rt = require(mod);
       for (const fn of ['jsx', 'jsxs', 'jsxDEV']) {
         if (typeof rt[fn] === 'function') {
           const orig = rt[fn];
-          rt[fn] = function patchedJsx() { return stripOwner(orig.apply(this, arguments)); };
+          rt[fn] = function patchedJsx() {
+            return stripOwner(orig.apply(this, arguments));
+          };
         }
       }
     } catch (_) {}
@@ -74,10 +83,21 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
   // Proxy React hook calls through whatever dispatcher the shallow renderer installs.
   const internals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
   const hooks = [
-    'useState', 'useReducer', 'useContext', 'useRef', 'useEffect',
-    'useLayoutEffect', 'useInsertionEffect', 'useCallback', 'useMemo',
-    'useImperativeHandle', 'useDebugValue', 'useTransition', 'useDeferredValue',
-    'useId', 'useSyncExternalStore',
+    'useState',
+    'useReducer',
+    'useContext',
+    'useRef',
+    'useEffect',
+    'useLayoutEffect',
+    'useInsertionEffect',
+    'useCallback',
+    'useMemo',
+    'useImperativeHandle',
+    'useDebugValue',
+    'useTransition',
+    'useDeferredValue',
+    'useId',
+    'useSyncExternalStore',
   ];
   for (const name of hooks) {
     const native = React[name];
@@ -99,25 +119,64 @@ if (!testUtils.Simulate) {
     return win.Event;
   };
   const eventNames = [
-    'click', 'doubleClick', 'mouseDown', 'mouseUp', 'mouseMove',
-    'mouseEnter', 'mouseLeave', 'mouseOver', 'mouseOut',
-    'change', 'input', 'keyDown', 'keyUp', 'keyPress',
-    'focus', 'blur', 'submit', 'select', 'paste', 'copy', 'cut',
-    'drag', 'drop', 'dragStart', 'dragEnd', 'dragEnter', 'dragLeave', 'dragOver',
-    'wheel', 'touchStart', 'touchEnd', 'touchMove', 'touchCancel',
-    'pointerDown', 'pointerUp', 'pointerMove', 'pointerEnter', 'pointerLeave',
-    'pointerOver', 'pointerOut', 'contextMenu', 'scroll',
+    'click',
+    'doubleClick',
+    'mouseDown',
+    'mouseUp',
+    'mouseMove',
+    'mouseEnter',
+    'mouseLeave',
+    'mouseOver',
+    'mouseOut',
+    'change',
+    'input',
+    'keyDown',
+    'keyUp',
+    'keyPress',
+    'focus',
+    'blur',
+    'submit',
+    'select',
+    'paste',
+    'copy',
+    'cut',
+    'drag',
+    'drop',
+    'dragStart',
+    'dragEnd',
+    'dragEnter',
+    'dragLeave',
+    'dragOver',
+    'wheel',
+    'touchStart',
+    'touchEnd',
+    'touchMove',
+    'touchCancel',
+    'pointerDown',
+    'pointerUp',
+    'pointerMove',
+    'pointerEnter',
+    'pointerLeave',
+    'pointerOver',
+    'pointerOut',
+    'contextMenu',
+    'scroll',
   ];
   const setInputValue = (node, value) => {
     // Reset React 19's value tracker so simulated changes always fire onChange.
     if (node._valueTracker && typeof node._valueTracker.setValue === 'function')
       node._valueTracker.setValue(String(value) + '__simulated__');
     const desc = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(node), 'value');
-    if (desc && desc.set) desc.set.call(node, value); else node.value = value;
+    if (desc && desc.set) desc.set.call(node, value);
+    else node.value = value;
   };
   const safeAssign = (event, mock) => {
     if (!mock) return;
-    for (const key of Object.keys(mock)) { try { event[key] = mock[key]; } catch (_) {} }
+    for (const key of Object.keys(mock)) {
+      try {
+        event[key] = mock[key];
+      } catch (_) {}
+    }
   };
   const eventNameAliases = { doubleClick: 'dblclick' };
   testUtils.Simulate = {};
@@ -133,13 +192,17 @@ if (!testUtils.Simulate) {
           node.dispatchEvent(new (win.MouseEvent || win.Event)('click', { bubbles: true, cancelable: true }));
           return;
         }
-        if ('value' in mock.target && (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA' || node.tagName === 'SELECT')) {
+        if (
+          'value' in mock.target &&
+          (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA' || node.tagName === 'SELECT')
+        ) {
           setInputValue(node, mock.target.value);
           node.dispatchEvent(new win.Event('input', { bubbles: true, cancelable: true }));
         }
       }
       const init = { bubbles: true, cancelable: true, ...(mock.nativeEvent || {}), ...mock };
-      delete init.target; delete init.nativeEvent;
+      delete init.target;
+      delete init.nativeEvent;
       const event = new (eventCtor(win, type))(type, init);
       safeAssign(event, mock);
       node.dispatchEvent(event);
@@ -160,7 +223,10 @@ if (typeof ReactDOM.findDOMNode !== 'function') {
       const f = queue[i];
       if (f.stateNode && f.stateNode.nodeType) return f.stateNode;
       let child = f.child;
-      while (child) { queue.push(child); child = child.sibling; }
+      while (child) {
+        queue.push(child);
+        child = child.sibling;
+      }
     }
     return null;
   };
@@ -182,6 +248,7 @@ console.error = function (...args) {
     msg.includes('ReactDOMTestUtils.act is deprecated') ||
     msg.includes('react-dom/test-utils') ||
     msg.includes('container that has already been passed to createRoot()')
-  ) return;
+  )
+    return;
   _origError.apply(console, args);
 };

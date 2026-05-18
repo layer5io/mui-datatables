@@ -1,18 +1,8 @@
 import React from 'react';
 import { Chip } from '@mui/material';
 import clsx from 'clsx';
-import type { ComponentProps, ReactNode } from 'react';
-
-export interface TableFilterListItemProps {
-  label: ReactNode;
-  onDelete: () => void;
-  className: string;
-  filterProps?: Record<string, unknown>;
-  itemKey?: number;
-  index?: number;
-  data?: string | string[];
-  columnNames?: Array<{ name: string; filterType: string }>;
-}
+import type { ComponentProps } from 'react';
+import type { TableFilterListItemProps } from '../types/components';
 
 const TableFilterListItem = ({ label, onDelete, className, filterProps }: TableFilterListItemProps) => {
   const mergedProps = (filterProps || {}) as ComponentProps<typeof Chip>;

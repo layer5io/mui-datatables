@@ -20,6 +20,26 @@ export interface ColumnDropTimers {
   columnShift?: ReturnType<typeof setTimeout>;
 }
 
+export interface HeadCellElement extends HTMLElement {
+  offsetLeft: number;
+  offsetWidth: number;
+  offsetParent: HTMLElement | null;
+}
+
+export interface HoverOptions {
+  item: HeaderDragItem;
+  mon: DropTargetMonitor<HeaderDragItem, unknown>;
+  index: number;
+  headCellRefs: HeadCellRefs;
+  updateColumnOrder: (columnOrder: number[], sourceColumnIndex: number, targetColumnIndex: number) => void;
+  columnOrder: number[];
+  transitionTime?: number;
+  tableRef: HTMLElement | null;
+  tableId: string;
+  timers: ColumnDropTimers;
+  columns: MUIDataTableColumnState[];
+}
+
 export interface UseColumnDropOptions {
   index: number;
   columnOrder: number[];

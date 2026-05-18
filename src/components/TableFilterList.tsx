@@ -1,8 +1,9 @@
 import React from 'react';
 import { makeStyles } from 'tss-react/mui';
-import TableFilterListItem, { type TableFilterListItemProps } from './TableFilterListItem';
+import TableFilterListItem from './TableFilterListItem';
 import type { ComponentType } from 'react';
 import type { MUIDataTableOptions, MUIDataTableFilterList } from '../types/options';
+import type { TableFilterListItemProps } from '../types/components';
 
 const useStyles = makeStyles({ name: 'MUIDataTableFilterList' })(() => ({
   root: {

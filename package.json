@@ -161,7 +161,7 @@
     "check-coverage": true,
     "all": true,
     "include": [
-      "src/**/*.js"
+      "src/**/*.{ts,tsx}"
     ],
     "exclude": [
       "test/**/*.test.js"

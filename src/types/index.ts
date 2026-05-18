@@ -55,5 +55,5 @@ export type {
   UseColumnDropOptions,
   UseColumnDropResult,
 } from './drag';
-export type { WithStyles, MUIDataTableComponents } from './components';
+export type { WithStyles, MUIDataTableComponents, TableFilterListItemProps } from './components';
 export type { SearchTextHandler, HideSearchHandler, CustomSearchRender } from './callbacks';

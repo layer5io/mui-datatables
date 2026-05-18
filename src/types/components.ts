@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import type { CSSObject } from 'tss-react';
 
 export type WithStyles<TStyleFn extends (...args: never[]) => Record<string, CSSObject>> = {
@@ -16,4 +16,15 @@ export interface MUIDataTableComponents {
   TableToolbarSelect: ComponentType<unknown>;
   Tooltip: ComponentType<unknown>;
   icons: Record<string, ComponentType<unknown>>;
+}
+
+export interface TableFilterListItemProps {
+  label: ReactNode;
+  onDelete: () => void;
+  className: string;
+  filterProps?: Record<string, unknown>;
+  itemKey?: number;
+  index?: number;
+  data?: string | string[];
+  columnNames?: Array<{ name: string; filterType: string }>;
 }

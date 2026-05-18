@@ -1,40 +1,15 @@
 import { useDrop } from 'react-dnd';
 import type { DropTargetMonitor } from 'react-dnd';
 import type { MUIDataTableColumnState } from '../types/columns';
-import type { HeaderDragItem, HeadCellRefs, ColumnModelItem, ColumnDropTimers } from '../types/drag';
-
-interface HeadCellElement extends HTMLElement {
-  offsetLeft: number;
-  offsetWidth: number;
-  offsetParent: HTMLElement | null;
-}
-
-interface HoverOptions {
-  item: HeaderDragItem;
-  mon: DropTargetMonitor<HeaderDragItem, unknown>;
-  index: number;
-  headCellRefs: HeadCellRefs;
-  updateColumnOrder: (columnOrder: number[], sourceColumnIndex: number, targetColumnIndex: number) => void;
-  columnOrder: number[];
-  transitionTime?: number;
-  tableRef: HTMLElement | null;
-  tableId: string;
-  timers: ColumnDropTimers;
-  columns: MUIDataTableColumnState[];
-}
-
-interface UseColumnDropOptions {
-  index: number;
-  columnOrder: number[];
-  columns: MUIDataTableColumnState[];
-  headCellRefs: HeadCellRefs;
-  tableRef: HTMLElement | null;
-  tableId: string;
-  timers: ColumnDropTimers;
-  transitionTime?: number;
-  drop?: (item: HeaderDragItem, monitor: DropTargetMonitor<HeaderDragItem, unknown>) => void;
-  updateColumnOrder: (columnOrder: number[], sourceColumnIndex: number, targetColumnIndex: number) => void;
-}
+import type {
+  HeaderDragItem,
+  HeadCellRefs,
+  ColumnModelItem,
+  ColumnDropTimers,
+  UseColumnDropOptions,
+  HeadCellElement,
+  HoverOptions,
+} from '../types/drag';
 
 const getColModel = (
   headCellRefs: HeadCellRefs,

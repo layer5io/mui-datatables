@@ -23,10 +23,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { load, save } from './localStorage';
 import type { ReactNode, ComponentType } from 'react';
 import type { Theme } from '@mui/material/styles';
+import type { MUIDataTableData } from './types/data';
 
 interface MUIDataTableProps {
   title: ReactNode;
-  data: unknown[][];
+  data: MUIDataTableData;
   columns: (string | Record<string, unknown>)[];
   options?: Record<string, unknown>;
   className?: string;

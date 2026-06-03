@@ -4,6 +4,13 @@ module.exports = {
   trailingComma: 'all',
   bracketSpacing: true,
   bracketSameLine: true,
-  parser: 'babel',
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      options: {
+        parser: 'babel-ts',
+      },
+    },
+  ],
   semi: true,
 };

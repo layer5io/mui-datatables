@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Popover as MuiPopover, IconButton } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import type { ReactNode } from 'react';
+import type { PopoverOrigin } from '@mui/material/Popover';
 
 interface PopoverProps {
   className?: string;
@@ -43,14 +44,14 @@ const Popover = ({ className, trigger, refExit, hide, content, ...providedProps 
     passedProps.classes = restClasses;
   }
 
-  const transformOriginSpecs = {
-    vertical: 'top' as const,
-    horizontal: 'center' as const,
+  const transformOriginSpecs: PopoverOrigin = {
+    vertical: 'top',
+    horizontal: 'center',
   };
 
-  const anchorOriginSpecs = {
-    vertical: 'bottom' as const,
-    horizontal: 'center' as const,
+  const anchorOriginSpecs: PopoverOrigin = {
+    vertical: 'bottom',
+    horizontal: 'center',
   };
 
   const handleOnExit = () => {

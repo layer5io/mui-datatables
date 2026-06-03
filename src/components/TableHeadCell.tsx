@@ -43,7 +43,7 @@ const useStyles = makeStyles({ name: 'MUIDataTableHeadCell' })((theme) => ({
     color: theme.palette.text.primary,
   },
   toolButton: {
-    textTransform: 'none' as const,
+    textTransform: 'none',
     marginLeft: '-8px',
     minWidth: 0,
     marginRight: '8px',

@@ -15,7 +15,7 @@ const useStyles = makeStyles({ name: 'MUIDataTableViewCol' })((theme) => ({
     marginRight: '24px',
     fontSize: '14px',
     color: theme.palette.text.secondary,
-    textAlign: 'left' as const,
+    textAlign: 'left',
     fontWeight: 500,
   },
   formGroup: {

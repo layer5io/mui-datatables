@@ -18,73 +18,75 @@ import clsx from 'clsx';
 import { withStyles } from 'tss-react/mui';
 import cloneDeep from 'lodash.clonedeep';
 import type { ComponentType } from 'react';
+import type { CSSObject } from 'tss-react';
 import type { MUIDataTableColumnState } from '../types/columns';
 import type { MUIDataTableOptions, MUIDataTableFilterList } from '../types/options';
 import type { Theme } from '@mui/material/styles';
 
-export const defaultFilterStyles = (theme: Theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.default,
-    padding: '24px 24px 36px 24px',
-    fontFamily: 'Roboto',
-  },
-  header: {
-    flex: '0 0 auto',
-    marginBottom: '16px',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  title: {
-    display: 'inline-block',
-    marginLeft: '7px',
-    color: theme.palette.text.primary,
-    fontSize: '14px',
-    fontWeight: 500,
-  },
-  noMargin: {
-    marginLeft: '0px',
-  },
-  reset: {
-    alignSelf: 'left',
-  },
-  resetLink: {
-    marginLeft: '16px',
-    fontSize: '12px',
-    cursor: 'pointer',
-  },
-  filtersSelected: {
-    alignSelf: 'right',
-  },
-  checkboxListTitle: {
-    marginLeft: '7px',
-    marginBottom: '8px',
-    fontSize: '14px',
-    color: theme.palette.text.secondary,
-    textAlign: 'left' as const,
-    fontWeight: 500,
-  },
-  checkboxFormGroup: {
-    marginTop: '8px',
-  },
-  checkboxFormControl: {
-    margin: '0px',
-  },
-  checkboxFormControlLabel: {
-    fontSize: '15px',
-    marginLeft: '8px',
-    color: theme.palette.text.primary,
-  },
-  checkboxIcon: {
-    width: '32px',
-    height: '32px',
-  },
-  checkbox: {},
-  checked: {},
-  gridListTile: {
-    marginTop: '16px',
-  },
-});
+export const defaultFilterStyles = (theme: Theme) =>
+  ({
+    root: {
+      backgroundColor: theme.palette.background.default,
+      padding: '24px 24px 36px 24px',
+      fontFamily: 'Roboto',
+    },
+    header: {
+      flex: '0 0 auto',
+      marginBottom: '16px',
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    title: {
+      display: 'inline-block',
+      marginLeft: '7px',
+      color: theme.palette.text.primary,
+      fontSize: '14px',
+      fontWeight: 500,
+    },
+    noMargin: {
+      marginLeft: '0px',
+    },
+    reset: {
+      alignSelf: 'left',
+    },
+    resetLink: {
+      marginLeft: '16px',
+      fontSize: '12px',
+      cursor: 'pointer',
+    },
+    filtersSelected: {
+      alignSelf: 'right',
+    },
+    checkboxListTitle: {
+      marginLeft: '7px',
+      marginBottom: '8px',
+      fontSize: '14px',
+      color: theme.palette.text.secondary,
+      textAlign: 'left',
+      fontWeight: 500,
+    },
+    checkboxFormGroup: {
+      marginTop: '8px',
+    },
+    checkboxFormControl: {
+      margin: '0px',
+    },
+    checkboxFormControlLabel: {
+      fontSize: '15px',
+      marginLeft: '8px',
+      color: theme.palette.text.primary,
+    },
+    checkboxIcon: {
+      width: '32px',
+      height: '32px',
+    },
+    checkbox: {},
+    checked: {},
+    gridListTile: {
+      marginTop: '16px',
+    },
+  }) satisfies Record<string, CSSObject>;
 
 interface TableFilterProps {
   filterData: string[][];

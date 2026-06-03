@@ -30,7 +30,7 @@ const useStyles = makeStyles({ name: 'MUIDataTableSelectCell' })((theme) => ({
     transform: 'rotate(90deg)',
   },
   hide: {
-    visibility: 'hidden' as const,
+    visibility: 'hidden',
   },
   headerCell: {
     zIndex: 110,

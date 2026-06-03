@@ -9,7 +9,7 @@ const useStyles = makeStyles({ name: 'MUIDataTableFilterList' })(() => ({
   root: {
     display: 'flex',
     justifyContent: 'left',
-    flexWrap: 'wrap' as const,
+    flexWrap: 'wrap',
     margin: '0px 16px 0px 16px',
   },
   chip: {

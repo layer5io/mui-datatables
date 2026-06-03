@@ -16,82 +16,84 @@ import find from 'lodash.find';
 import { withStyles } from 'tss-react/mui';
 import { createCSVDownload, downloadCSV } from '../utils';
 import type { ComponentType, ReactNode } from 'react';
+import type { CSSObject } from 'tss-react';
 import type { MUIDataTableColumnState } from '../types/columns';
 import type { MUIDataTableOptions, MUIDataTableDisplayRow, MUIDataTableFilterList } from '../types/options';
 import type { Theme } from '@mui/material/styles';
 
-export const defaultToolbarStyles = (theme: Theme) => ({
-  root: {
-    '@media print': { display: 'none' },
-    [theme.breakpoints.down('sm')]: {
-      display: 'block',
-      '@media print': { display: 'none !important' },
+export const defaultToolbarStyles = (theme: Theme) =>
+  ({
+    root: {
+      '@media print': { display: 'none' },
+      [theme.breakpoints.down('sm')]: {
+        display: 'block',
+        '@media print': { display: 'none !important' },
+      },
     },
-  },
-  fullWidthRoot: {},
-  leftContainer: {
-    flex: '1 1 auto',
-    [theme.breakpoints.down('md')]: {
-      padding: '8px 0px',
+    fullWidthRoot: {},
+    leftContainer: {
+      flex: '1 1 auto',
+      [theme.breakpoints.down('md')]: {
+        padding: '8px 0px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding: '8px 0px 0px 0px',
+      },
     },
-    [theme.breakpoints.down('sm')]: {
-      padding: '8px 0px 0px 0px',
+    fullWidthLeftContainer: {
+      flex: '1 1 auto',
     },
-  },
-  fullWidthLeftContainer: {
-    flex: '1 1 auto',
-  },
-  actions: {
-    flex: '1 1 auto',
-    textAlign: 'right' as const,
-    [theme.breakpoints.down('sm')]: {
-      textAlign: 'center' as const,
+    actions: {
+      flex: '1 1 auto',
+      textAlign: 'right',
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center',
+      },
     },
-  },
-  fullWidthActions: {
-    flex: '1 1 auto',
-    textAlign: 'right' as const,
-  },
-  titleRoot: {},
-  titleText: {
-    [theme.breakpoints.down('md')]: {
-      fontSize: '16px',
+    fullWidthActions: {
+      flex: '1 1 auto',
+      textAlign: 'right',
     },
-    [theme.breakpoints.down('sm')]: {
-      textAlign: 'center' as const,
+    titleRoot: {},
+    titleText: {
+      [theme.breakpoints.down('md')]: {
+        fontSize: '16px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center',
+      },
     },
-  },
-  fullWidthTitleText: {
-    textAlign: 'left' as const,
-  },
-  spacer: {
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
+    fullWidthTitleText: {
+      textAlign: 'left',
     },
-  },
-  icon: {
-    '&:hover': {
+    spacer: {
+      [theme.breakpoints.down('md')]: {
+        display: 'none',
+      },
+    },
+    icon: {
+      '&:hover': {
+        color: theme.palette.primary.main,
+      },
+    },
+    iconActive: {
       color: theme.palette.primary.main,
     },
-  },
-  iconActive: {
-    color: theme.palette.primary.main,
-  },
-  filterPaper: {
-    maxWidth: '50%',
-  },
-  filterCloseIcon: {
-    position: 'absolute' as const,
-    right: 0,
-    top: 0,
-    zIndex: 100,
-  },
-  searchIcon: {
-    display: 'inline-flex',
-    marginTop: '10px',
-    marginRight: '8px',
-  },
-});
+    filterPaper: {
+      maxWidth: '50%',
+    },
+    filterCloseIcon: {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      zIndex: 100,
+    },
+    searchIcon: {
+      display: 'inline-flex',
+      marginTop: '10px',
+      marginRight: '8px',
+    },
+  }) satisfies Record<string, CSSObject>;
 
 const RESPONSIVE_FULL_WIDTH_NAME = 'scrollFullHeightFullWidth';
 

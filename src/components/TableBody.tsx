@@ -8,6 +8,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { getPageValue } from '../utils';
 import clsx from 'clsx';
 import type { ComponentType } from 'react';
+import type { CSSObject } from 'tss-react';
 import type { MUIDataTableColumnState } from '../types/columns';
 import type {
   MUIDataTableOptions,
@@ -19,26 +20,27 @@ import type {
 } from '../types/options';
 import type { Theme } from '@mui/material/styles';
 
-const defaultBodyStyles = (theme: Theme) => ({
-  root: {},
-  emptyTitle: {
-    textAlign: 'center' as const,
-  },
-  lastStackedCell: {
-    [theme.breakpoints.down('md')]: {
-      '& td:last-child': {
-        borderBottom: 'none',
+const defaultBodyStyles = (theme: Theme) =>
+  ({
+    root: {},
+    emptyTitle: {
+      textAlign: 'center',
+    },
+    lastStackedCell: {
+      [theme.breakpoints.down('md')]: {
+        '& td:last-child': {
+          borderBottom: 'none',
+        },
       },
     },
-  },
-  lastSimpleCell: {
-    [theme.breakpoints.down('sm')]: {
-      '& td:last-child': {
-        borderBottom: 'none',
+    lastSimpleCell: {
+      [theme.breakpoints.down('sm')]: {
+        '& td:last-child': {
+          borderBottom: 'none',
+        },
       },
     },
-  },
-});
+  }) satisfies Record<string, CSSObject>;
 
 interface TableBodyProps {
   data: MUIDataTableDisplayRow[];

@@ -1,20 +1,21 @@
 import React from 'react';
 import { withStyles } from 'tss-react/mui';
 import type { MUIDataTableOptions } from '../types/options';
+import type { CSSObject } from 'tss-react';
 
 const defaultResizeStyles = {
   root: {
-    position: 'absolute' as const,
+    position: 'absolute',
   },
   resizer: {
-    position: 'absolute' as const,
+    position: 'absolute',
     width: '1px',
     height: '100%',
     left: '100px',
     cursor: 'ew-resize',
     border: '0.1px solid rgba(224, 224, 224, 1)',
   },
-};
+} satisfies Record<string, CSSObject>;
 
 function getParentOffsetLeft(tableEl: HTMLElement): number {
   let ii = 0;

@@ -3,32 +3,34 @@ import { Paper, IconButton, Typography, Tooltip as MuiTooltip } from '@mui/mater
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { withStyles } from 'tss-react/mui';
 import type { ComponentType } from 'react';
+import type { CSSObject } from 'tss-react';
 import type { MUIDataTableOptions, MUIDataTableSelectedRows, MUIDataTableDisplayRow } from '../types/options';
 import type { Theme } from '@mui/material/styles';
 
-const defaultToolbarSelectStyles = (theme: Theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.default,
-    flex: '1 1 100%',
-    display: 'flex',
-    position: 'relative' as const,
-    zIndex: 120,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    '@media print': {
-      display: 'none',
+const defaultToolbarSelectStyles = (theme: Theme) =>
+  ({
+    root: {
+      backgroundColor: theme.palette.background.default,
+      flex: '1 1 100%',
+      display: 'flex',
+      position: 'relative',
+      zIndex: 120,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+      '@media print': {
+        display: 'none',
+      },
     },
-  },
-  title: {
-    paddingLeft: '26px',
-  },
-  iconButton: {
-    marginRight: '24px',
-  },
-  deleteIcon: {},
-});
+    title: {
+      paddingLeft: '26px',
+    },
+    iconButton: {
+      marginRight: '24px',
+    },
+    deleteIcon: {},
+  }) satisfies Record<string, CSSObject>;
 
 interface TableToolbarSelectProps {
   options: MUIDataTableOptions;

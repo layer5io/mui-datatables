@@ -87,6 +87,18 @@ describe('<TableFilter />', function () {
     assert.strictEqual(actualResult.length, 4);
   });
 
+  it('should disable the select portal so filter menus stay inside the filter popover', () => {
+    const options = { filterType: 'select', textLabels: getTextLabels() };
+    const filterList = [['Joe James'], [], [], []];
+
+    const mountWrapper = mount(
+      <TableFilter columns={columns} filterData={filterData} filterList={filterList} options={options} />,
+    );
+
+    const actualResult = mountWrapper.find(Select);
+    assert.deepEqual(actualResult.first().prop('MenuProps'), { disablePortal: true });
+  });
+
   it('should render data table filter view no selects if filter=false for each column', () => {
     const options = { filterType: 'select', textLabels: getTextLabels() };
     const filterList = [['Joe James'], [], [], []];
@@ -110,6 +122,18 @@ describe('<TableFilter />', function () {
 
     const actualResult = mountWrapper.find(Select);
     assert.strictEqual(actualResult.length, 4);
+  });
+
+  it('should disable the multiselect portal so filter menus stay inside the filter popover', () => {
+    const options = { filterType: 'multiselect', textLabels: getTextLabels() };
+    const filterList = [['Joe James', 'John Walsh'], [], [], []];
+
+    const mountWrapper = mount(
+      <TableFilter columns={columns} filterData={filterData} filterList={filterList} options={options} />,
+    );
+
+    const actualResult = mountWrapper.find(Select);
+    assert.deepEqual(actualResult.first().prop('MenuProps'), { disablePortal: true });
   });
 
   it("should render data table filter view with custom rendering of items if filterType = 'select'", () => {

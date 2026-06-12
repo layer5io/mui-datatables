@@ -20,7 +20,7 @@ module.exports = [
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.mocha,
+        ...globals.vitest,
         ...globals.es2020,
       },
     },

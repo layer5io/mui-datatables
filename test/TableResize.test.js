@@ -8,7 +8,7 @@ import MUIDataTable from '../src/MUIDataTable';
 describe('<TableResize />', function () {
   let options;
 
-  before(() => {
+  beforeAll(() => {
     options = {
       resizableColumns: true,
       tableBodyHeight: '500px',

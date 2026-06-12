@@ -128,7 +128,9 @@ const TableHead = ({
           ({ column, index, colPos }) =>
             column.display === 'true' &&
             (column.customHeadRender ? (
-              column.customHeadRender({ index, ...column }, handleToggleColumn, sortOrder)
+              <React.Fragment key={index}>
+                {column.customHeadRender({ index, ...column }, handleToggleColumn, sortOrder)}
+              </React.Fragment>
             ) : (
               <TableHeadCell
                 cellHeaderProps={

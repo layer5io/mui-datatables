@@ -11,7 +11,7 @@ describe('<TableViewCol />', function () {
   let columns;
   let options;
 
-  before(() => {
+  beforeAll(() => {
     columns = [
       { name: 'a', label: 'A', display: 'true' },
       { name: 'b', label: 'B', display: 'true' },

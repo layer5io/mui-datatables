@@ -1,79 +1,43 @@
-// jsdom must be set up before react / enzyme / adapter are loaded so that
-// any module reading `globalThis.window` at import time sees the DOM.
-function setupDom() {
-  const { JSDOM } = require('jsdom');
-  const Node = require('jsdom/lib/jsdom/living/node-document-position');
+'use strict';
 
-  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
-    url: 'http://localhost',
-  });
+// React 19 + Enzyme compatibility shims for Vitest. Mirrors master's setup-mocha-env.js.
 
-  global.window = dom.window;
-  global.document = window.document;
-  global.Node = Node;
+// beforeAll/afterAll are Vitest globals (globals:true). Alias for Mocha-style tests.
+global.before = beforeAll;
+global.after = afterAll;
 
-  Object.defineProperty(global, 'navigator', {
-    value: { userAgent: 'node.js', appVersion: '' },
-    writable: true,
-    configurable: true,
-  });
-  global.localStorage = global.window.localStorage;
-  global.sessionStorage = global.window.sessionStorage;
+afterAll(async () => {
+  await new Promise((resolve) => setTimeout(resolve, 100));
+});
 
-  function copyProps(src, target) {
-    const props = Object.getOwnPropertyNames(src)
-      .filter((prop) => typeof target[prop] === 'undefined')
-      .map((prop) => Object.getOwnPropertyDescriptor(src, prop));
-    Object.defineProperties(target, props);
-  }
-
-  copyProps(dom.window, global);
-
-  const KEYS = ['HTMLElement'];
-  KEYS.forEach((key) => {
-    global[key] = window[key];
-  });
-
+// jsdom polyfills
+if (global.document) {
   global.document.createRange = () => ({
     setStart: () => {},
     setEnd: () => {},
     commonAncestorContainer: {
       nodeName: 'BODY',
-      ownerDocument: {
-        documentElement: window.document.body,
-        parent: {
-          nodeName: 'BODY',
-        },
-      },
+      ownerDocument: { documentElement: window.document.body, parent: { nodeName: 'BODY' } },
     },
   });
-
-  global.requestAnimationFrame = (callback) => {
-    setTimeout(callback, 0);
-  };
-
-  global.window.cancelAnimationFrame = () => {};
-  global.getComputedStyle = global.window.getComputedStyle;
-  global.HTMLInputElement = global.window.HTMLInputElement;
-  global.Element = global.window.Element;
-  // Intentionally not overriding global.Event / global.dispatchEvent: chai 6
-  // dispatches its own PluginEvent (extending Event) to a native EventTarget,
-  // and replacing Event with jsdom's class makes Node reject the dispatch.
-  global.window.getComputedStyle = () => ({});
-
-  Object.defineProperty(global.window.URL, 'createObjectURL', { value: () => {} });
-  const blobImpl = global.Blob || global.window.Blob;
-  global.Blob = blobImpl;
-  global.window.Blob = blobImpl;
 }
 
-setupDom();
+global.requestAnimationFrame = (callback) => setTimeout(callback, 0);
 
-// React 19 removed the legacy internals object that enzyme's React 18 adapter
-// (via react-shallow-renderer) writes its hook dispatcher into, and React 19's
-// hooks read from a module-private `ReactSharedInternals` we can't reach.
-// Reconstruct the React 18 surface and route React.use* calls through whatever
-// dispatcher the shallow renderer parks on it during a render pass.
+if (global.window) {
+  global.window.cancelAnimationFrame = () => {};
+  global.window.getComputedStyle = () => ({});
+  Object.defineProperty(global.window.URL, 'createObjectURL', { value: () => {} });
+  if (global.window.HTMLAnchorElement) global.window.HTMLAnchorElement.prototype.click = () => {};
+}
+
+const blobImpl = global.Blob || (global.window && global.window.Blob);
+if (blobImpl) {
+  global.Blob = blobImpl;
+  if (global.window) global.window.Blob = blobImpl;
+}
+
+// React 19 removed __SECRET_INTERNALS; reconstruct it so react-shallow-renderer (Enzyme dep) can install its dispatcher.
 const React = require('react');
 if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
   React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
@@ -82,28 +46,19 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
     ReactDebugCurrentFrame: { getCurrentStack: () => '' },
     ReactCurrentOwner: { current: null },
   };
-  // React 19 retains a `_owner` reference (to the parent FiberNode) on every
-  // element created during render and freezes the element so the back-reference
-  // can't be cleared after the fact. Tests that JSON.stringify state containing
-  // React elements (e.g. `customBodyRender` output stashed in displayData) trip
-  // on the resulting fiber→DOM→fiber cycle. Skip Object.freeze for React
-  // elements so we can null `_owner` at element creation time, then patch both
-  // JSX entry points babel may emit.
+
+  // Prevent JSON.stringify circular-ref failures on frozen React elements with _owner fiber refs.
   const REACT_ELEMENT_SYMBOLS = new Set([Symbol.for('react.element'), Symbol.for('react.transitional.element')]);
   const origFreeze = Object.freeze;
   Object.freeze = function patchedFreeze(obj) {
-    if (obj && typeof obj === 'object' && REACT_ELEMENT_SYMBOLS.has(obj.$$typeof)) {
-      return obj;
-    }
+    if (obj && typeof obj === 'object' && REACT_ELEMENT_SYMBOLS.has(obj.$$typeof)) return obj;
     return origFreeze.apply(Object, arguments);
   };
   const stripOwner = (el) => {
     if (el && typeof el === 'object' && REACT_ELEMENT_SYMBOLS.has(el.$$typeof)) {
       try {
         el._owner = null;
-      } catch (_) {
-        /* still frozen elsewhere */
-      }
+      } catch (_) {}
     }
     return el;
   };
@@ -122,11 +77,10 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
           };
         }
       }
-    } catch (_) {
-      /* runtime variant not present */
-    }
+    } catch (_) {}
   }
 
+  // Proxy React hook calls through whatever dispatcher the shallow renderer installs.
   const internals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
   const hooks = [
     'useState',
@@ -149,18 +103,13 @@ if (!React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) {
     const native = React[name];
     React[name] = function () {
       const dispatcher = internals.ReactCurrentDispatcher.current;
-      if (dispatcher && typeof dispatcher[name] === 'function') {
-        return dispatcher[name].apply(dispatcher, arguments);
-      }
+      if (dispatcher && typeof dispatcher[name] === 'function') return dispatcher[name].apply(dispatcher, arguments);
       return native.apply(React, arguments);
     };
   }
 }
 
-// React 19 stripped `Simulate` from `react-dom/test-utils`, but the enzyme
-// React 18 adapter calls `Simulate[event](hostNode, mock)`. Reconstruct it by
-// dispatching a native event on the host node — React 19 attaches its event
-// listeners on the root container, so a bubbled native event hits them.
+// React 19 removed Simulate from react-dom/test-utils; polyfill it via native DOM events.
 const testUtils = require('react-dom/test-utils');
 if (!testUtils.Simulate) {
   const eventCtor = (win, type) => {
@@ -214,32 +163,21 @@ if (!testUtils.Simulate) {
     'scroll',
   ];
   const setInputValue = (node, value) => {
-    // React 19 attaches a value tracker that suppresses onChange when the new
-    // value matches the last tracked one. Reset the tracker so an empty-to-
-    // empty assignment (a common test pattern) still produces a synthetic
-    // onChange.
-    if (node._valueTracker && typeof node._valueTracker.setValue === 'function') {
+    // Reset React 19's value tracker so simulated changes always fire onChange.
+    if (node._valueTracker && typeof node._valueTracker.setValue === 'function')
       node._valueTracker.setValue(String(value) + '__simulated__');
-    }
-    const proto = Object.getPrototypeOf(node);
-    const desc = Object.getOwnPropertyDescriptor(proto, 'value');
+    const desc = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(node), 'value');
     if (desc && desc.set) desc.set.call(node, value);
     else node.value = value;
   };
-  // `target` is a getter on native Event; skip it (and any other mock keys we
-  // can't reassign) when copying the user's mock onto the dispatched event.
   const safeAssign = (event, mock) => {
     if (!mock) return;
     for (const key of Object.keys(mock)) {
       try {
         event[key] = mock[key];
-      } catch (e) {
-        /* ignore non-writable getters */
-      }
+      } catch (_) {}
     }
   };
-  // Most React event names lowercase cleanly to their native counterpart, but a
-  // few don't — e.g. `doubleClick` is `dblclick`, not `doubleclick`.
   const eventNameAliases = { doubleClick: 'dblclick' };
   testUtils.Simulate = {};
   for (const name of eventNames) {
@@ -247,16 +185,11 @@ if (!testUtils.Simulate) {
       if (!node) return;
       const win = node.ownerDocument ? node.ownerDocument.defaultView : global.window;
       const type = eventNameAliases[name] || name.toLowerCase();
-      // React listens for native `input` (not `change`) on text inputs/textareas;
-      // checkboxes/radios fire `change` from `click`. Mirror the host's behavior
-      // so `simulate('change', { target: { value } })` actually updates state.
       if (type === 'change' && mock && mock.target) {
         const isCheckable = node.tagName === 'INPUT' && (node.type === 'checkbox' || node.type === 'radio');
         if (isCheckable) {
           if ('checked' in mock.target) node.checked = mock.target.checked;
-          // React's checkbox onChange handler is wired to native `click`.
-          const clickEvent = new (win.MouseEvent || win.Event)('click', { bubbles: true, cancelable: true });
-          node.dispatchEvent(clickEvent);
+          node.dispatchEvent(new (win.MouseEvent || win.Event)('click', { bubbles: true, cancelable: true }));
           return;
         }
         if (
@@ -264,25 +197,20 @@ if (!testUtils.Simulate) {
           (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA' || node.tagName === 'SELECT')
         ) {
           setInputValue(node, mock.target.value);
-          const inputEvent = new win.Event('input', { bubbles: true, cancelable: true });
-          node.dispatchEvent(inputEvent);
+          node.dispatchEvent(new win.Event('input', { bubbles: true, cancelable: true }));
         }
       }
-      const Ctor = eventCtor(win, type);
-      // Tests pass modifier keys via either `mock.shiftKey` or `mock.nativeEvent.shiftKey`;
-      // both end up reflected on the native event we dispatch.
       const init = { bubbles: true, cancelable: true, ...(mock.nativeEvent || {}), ...mock };
       delete init.target;
       delete init.nativeEvent;
-      const event = new Ctor(type, init);
+      const event = new (eventCtor(win, type))(type, init);
       safeAssign(event, mock);
       node.dispatchEvent(event);
     };
   }
 }
 
-// React 19 dropped `findDOMNode` from react-dom; the enzyme React 18 adapter
-// still calls it to resolve host nodes for class component instances.
+// React 19 removed ReactDOM.findDOMNode; polyfill via fiber tree walk.
 const ReactDOM = require('react-dom');
 if (typeof ReactDOM.findDOMNode !== 'function') {
   ReactDOM.findDOMNode = (instance) => {
@@ -304,10 +232,23 @@ if (typeof ReactDOM.findDOMNode !== 'function') {
   };
 }
 
+// Enzyme setup
 const Enzyme = require('enzyme');
 const AdapterPkg = require('@cfaester/enzyme-adapter-react-18');
-const Adapter = AdapterPkg.default || AdapterPkg;
+Enzyme.configure({ adapter: new (AdapterPkg.default || AdapterPkg)() });
 
-Enzyme.configure({ adapter: new Adapter() });
-
-console.error = function () {};
+// Suppress known React 19 / Enzyme noise; real errors still surface.
+const _origError = console.error;
+console.error = function (...args) {
+  const msg = typeof args[0] === 'string' ? args[0] : '';
+  if (
+    msg.includes('not wrapped in act(...)') ||
+    msg.includes('findDOMNode is deprecated') ||
+    msg.includes('roots directly with document.body is discouraged') ||
+    msg.includes('ReactDOMTestUtils.act is deprecated') ||
+    msg.includes('react-dom/test-utils') ||
+    msg.includes('container that has already been passed to createRoot()')
+  )
+    return;
+  _origError.apply(console, args);
+};

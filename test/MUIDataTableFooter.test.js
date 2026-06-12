@@ -40,14 +40,11 @@ describe('<TableFooter />', function () {
       textLabels: getTextLabels(),
       customFooter: (rowCount, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => {
         return (
-          <MuiTableFooter
-            changePage={changePage}
-            changeRowsPerPage={changeRowsPerPage}
-            page={page}
-            rowCount={rowCount}
-            rowsPerPage={rowsPerPage}
-            labelRowsPerPage={textLabels.rowsPerPage}
-          />
+          <MuiTableFooter>
+            <tr>
+              <td>Custom Footer</td>
+            </tr>
+          </MuiTableFooter>
         );
       },
     };

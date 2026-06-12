@@ -19,7 +19,7 @@ describe('<TableToolbar />', function () {
   let options;
   let setTableAction = () => {};
 
-  before(() => {
+  beforeAll(() => {
     options = {
       print: true,
       download: true,

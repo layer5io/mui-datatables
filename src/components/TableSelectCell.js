@@ -65,7 +65,7 @@ const TableSelectCell = ({
   const CheckboxComponent = components.Checkbox || Checkbox;
   const ExpandButtonComponent = components.ExpandButton || ExpandButton;
 
-  if (expandableOn === false && (selectableOn === 'none' || selectableRowsHideCheckboxes === true)) {
+  if (!expandableOn && (selectableOn === 'none' || selectableRowsHideCheckboxes === true)) {
     return null;
   }
 

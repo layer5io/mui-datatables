@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import { useCallback, type MouseEvent, type EventHandler, type SyntheticEvent, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { TableCell } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import type { MUIDataTableOptions } from '../types/options';
 
 const useStyles = makeStyles({ name: 'MUIDataTableBodyCell' })((theme) => ({
   root: {},
@@ -90,24 +91,40 @@ const useStyles = makeStyles({ name: 'MUIDataTableBodyCell' })((theme) => ({
   },
 }));
 
-function TableBodyCell(props) {
+interface TableBodyCellProps {
+  children: ReactNode | ((dataIndex: number, rowIndex: number) => ReactNode);
+  colIndex: number;
+  columnHeader: ReactNode;
+  options: MUIDataTableOptions;
+  dataIndex: number;
+  rowIndex: number;
+  className?: string | undefined;
+  print: boolean;
+  tableId?: string | undefined;
+  [key: string]: unknown;
+}
+
+function TableBodyCell(props: TableBodyCellProps) {
   const { classes } = useStyles();
   const { children, colIndex, columnHeader, options, dataIndex, rowIndex, className, print, tableId, ...otherProps } =
     props;
   const onCellClick = options.onCellClick;
 
   const handleClick = useCallback(
-    (event) => {
-      onCellClick(children, { colIndex, rowIndex, dataIndex, event });
+    (event: MouseEvent<HTMLElement>) => {
+      if (typeof children !== 'function') {
+        onCellClick?.(children, { colIndex, rowIndex, dataIndex, event });
+      }
     },
     [onCellClick, children, colIndex, rowIndex, dataIndex],
   );
 
-  // Event listeners. Avoid attaching them if they're not necessary.
-  let methods = {};
+  const methods: Record<string, EventHandler<SyntheticEvent>> = {};
   if (onCellClick) {
-    methods.onClick = handleClick;
+    methods['onClick'] = handleClick;
   }
+
+  const tableProps = options.setTableProps ? options.setTableProps() : {};
 
   let cells = [
     <div
@@ -126,7 +143,7 @@ function TableBodyCell(props) {
           [classes.cellStackedSmall]:
             options.responsive === 'stacked' ||
             (options.responsive === 'stackedFullWidth' &&
-              (options.setTableProps().padding === 'none' || options.setTableProps().size === 'small')),
+              (tableProps.padding === 'none' || tableProps.size === 'small')),
           [classes.simpleHeader]: options.responsive === 'simple',
           'datatables-noprint': !print,
         },
@@ -147,7 +164,7 @@ function TableBodyCell(props) {
           [classes.responsiveStackedSmall]:
             options.responsive === 'stacked' ||
             (options.responsive === 'stackedFullWidth' &&
-              (options.setTableProps().padding === 'none' || options.setTableProps().size === 'small')),
+              (tableProps.padding === 'none' || tableProps.size === 'small')),
           [classes.simpleCell]: options.responsive === 'simple',
           'datatables-noprint': !print,
         },
@@ -159,7 +176,10 @@ function TableBodyCell(props) {
 
   var innerCells;
   if (
-    ['standard', 'scrollMaxHeight', 'scrollFullHeight', 'scrollFullHeightFullWidth'].indexOf(options.responsive) !== -1
+    // ATTENTION
+    ['standard', 'scrollMaxHeight', 'scrollFullHeight', 'scrollFullHeightFullWidth'].indexOf(
+      options.responsive || '',
+    ) !== -1
   ) {
     innerCells = cells.slice(1, 2);
   } else {
@@ -183,7 +203,7 @@ function TableBodyCell(props) {
             options.responsive === 'vertical' ||
             options.responsive === 'stacked' ||
             (options.responsive === 'stackedFullWidth' &&
-              (options.setTableProps().padding === 'none' || options.setTableProps().size === 'small')),
+              (tableProps.padding === 'none' || tableProps.size === 'small')),
           [classes.simpleCell]: options.responsive === 'simple',
           'datatables-noprint': !print,
         },

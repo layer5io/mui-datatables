@@ -1,7 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Checkbox, Typography, FormControl, FormGroup, FormControlLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import type { ComponentType } from 'react';
+import type { MUIDataTableColumnState } from '../types/columns';
+import type { MUIDataTableOptions } from '../types/options';
 
 const useStyles = makeStyles({ name: 'MUIDataTableViewCol' })((theme) => ({
   root: {
@@ -34,19 +36,27 @@ const useStyles = makeStyles({ name: 'MUIDataTableViewCol' })((theme) => ({
   },
 }));
 
-const TableViewCol = ({ columns, options, components = {}, onColumnUpdate, updateColumns }) => {
+interface TableViewColProps {
+  columns: MUIDataTableColumnState[];
+  options: MUIDataTableOptions;
+  components?: { Checkbox?: ComponentType<unknown> };
+  onColumnUpdate: (index: number) => void;
+  updateColumns?: (columns: MUIDataTableColumnState[]) => void;
+}
+
+const TableViewCol = ({ columns, options, components = {}, onColumnUpdate }: TableViewColProps) => {
   const { classes } = useStyles();
-  const textLabels = options.textLabels.viewColumns;
+  const textLabels = options.textLabels?.viewColumns;
   const CheckboxComponent = components.Checkbox || Checkbox;
 
-  const handleColChange = (index) => {
+  const handleColChange = (index: number) => {
     onColumnUpdate(index);
   };
 
   return (
-    <FormControl component={'fieldset'} className={classes.root} aria-label={textLabels.titleAria}>
+    <FormControl component={'fieldset'} className={classes.root} aria-label={textLabels?.titleAria}>
       <Typography variant="caption" className={classes.title}>
-        {textLabels.title}
+        {textLabels?.title}
       </Typography>
       <FormGroup className={classes.formGroup}>
         {columns.map((column, index) => {
@@ -81,17 +91,6 @@ const TableViewCol = ({ columns, options, components = {}, onColumnUpdate, updat
       </FormGroup>
     </FormControl>
   );
-};
-
-TableViewCol.propTypes = {
-  /** Columns used to describe table */
-  columns: PropTypes.array.isRequired,
-  /** Options used to describe table */
-  options: PropTypes.object.isRequired,
-  /** Callback to trigger View column update */
-  onColumnUpdate: PropTypes.func,
-  /** Extend the style applied to components */
-  classes: PropTypes.object,
 };
 
 export default TableViewCol;

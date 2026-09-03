@@ -1,14 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { TableRow } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import type { ReactNode } from 'react';
 
 const useStyles = makeStyles({ name: 'MUIDataTableHeadRow' })(() => ({
   root: {},
 }));
 
-const TableHeadRow = ({ children }) => {
+interface TableHeadRowProps {
+  children?: ReactNode;
+}
+
+const TableHeadRow = ({ children }: TableHeadRowProps) => {
   const { classes } = useStyles();
 
   return (
@@ -19,10 +23,6 @@ const TableHeadRow = ({ children }) => {
       {children}
     </TableRow>
   );
-};
-
-TableHeadRow.propTypes = {
-  children: PropTypes.node,
 };
 
 export default TableHeadRow;

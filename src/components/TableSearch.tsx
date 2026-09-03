@@ -2,6 +2,7 @@ import React from 'react';
 import { Grow, TextField, IconButton } from '@mui/material';
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
+import type { MUIDataTableOptions } from '../types/options';
 
 const useStyles = makeStyles({ name: 'MUIDataTableSearch' })((theme) => ({
   main: {
@@ -23,14 +24,21 @@ const useStyles = makeStyles({ name: 'MUIDataTableSearch' })((theme) => ({
   },
 }));
 
-const TableSearch = ({ options, searchText, onSearch, onHide }) => {
+interface TableSearchProps {
+  options: MUIDataTableOptions;
+  searchText: string | null;
+  onSearch: (value: string) => void;
+  onHide: () => void;
+}
+
+const TableSearch = ({ options, searchText, onSearch, onHide }: TableSearchProps) => {
   const { classes } = useStyles();
 
-  const handleTextChange = (event) => {
+  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSearch(event.target.value);
   };
 
-  const onKeyDown = (event) => {
+  const onKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Escape') {
       onHide();
     }
@@ -46,11 +54,11 @@ const TableSearch = ({ options, searchText, onSearch, onHide }) => {
           className={classes.searchText}
           autoFocus={true}
           variant={'standard'}
-          InputProps={{
-            'data-test-id': options.textLabels.toolbar.search,
-          }}
-          inputProps={{
-            'aria-label': options.textLabels.toolbar.search,
+          slotProps={{
+            htmlInput: {
+              'aria-label': options.textLabels?.toolbar?.search,
+              'data-testid': options.textLabels?.toolbar?.search,
+            },
           }}
           value={searchText || ''}
           onKeyDown={onKeyDown}

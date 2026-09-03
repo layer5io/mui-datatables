@@ -2,7 +2,7 @@ import React from 'react';
 import { Table as MuiTable } from '@mui/material';
 import TablePagination from './TablePagination';
 import { makeStyles } from 'tss-react/mui';
-import PropTypes from 'prop-types';
+import type { MUIDataTableOptions } from '../types/options';
 
 const useStyles = makeStyles({ name: 'MUIDataTableFooter' })(() => ({
   root: {
@@ -12,20 +12,29 @@ const useStyles = makeStyles({ name: 'MUIDataTableFooter' })(() => ({
   },
 }));
 
-const TableFooter = ({ options, rowCount, page, rowsPerPage, changeRowsPerPage, changePage }) => {
+interface TableFooterProps {
+  options: MUIDataTableOptions;
+  rowCount: number;
+  page: number;
+  rowsPerPage: number;
+  changeRowsPerPage: (rowsPerPage: number) => void;
+  changePage: (page: number) => void;
+}
+
+const TableFooter = ({ options, rowCount, page, rowsPerPage, changeRowsPerPage, changePage }: TableFooterProps) => {
   const { classes } = useStyles();
   const { customFooter, pagination = true } = options;
 
-  if (customFooter) {
+  if (customFooter && typeof customFooter === 'function') {
     return (
       <MuiTable className={classes.root}>
-        {options.customFooter(
+        {customFooter(
           rowCount,
           page,
           rowsPerPage,
           changeRowsPerPage,
           changePage,
-          options.textLabels.pagination,
+          options.textLabels?.pagination as never,
         )}
       </MuiTable>
     );
@@ -40,7 +49,6 @@ const TableFooter = ({ options, rowCount, page, rowsPerPage, changeRowsPerPage, 
           rowsPerPage={rowsPerPage}
           changeRowsPerPage={changeRowsPerPage}
           changePage={changePage}
-          component={'div'}
           options={options}
         />
       </MuiTable>
@@ -48,27 +56,6 @@ const TableFooter = ({ options, rowCount, page, rowsPerPage, changeRowsPerPage, 
   }
 
   return null;
-};
-
-TableFooter.propTypes = {
-  /** Total number of table rows */
-  rowCount: PropTypes.number.isRequired,
-  /** Options used to describe table */
-  options: PropTypes.shape({
-    customFooter: PropTypes.func,
-    pagination: PropTypes.bool,
-    textLabels: PropTypes.shape({
-      pagination: PropTypes.object,
-    }),
-  }),
-  /** Current page index */
-  page: PropTypes.number.isRequired,
-  /** Total number allowed of rows per page */
-  rowsPerPage: PropTypes.number.isRequired,
-  /** Callback to trigger rows per page change */
-  changeRowsPerPage: PropTypes.func.isRequired,
-  /** Callback to trigger page change */
-  changePage: PropTypes.func.isRequired,
 };
 
 export default TableFooter;

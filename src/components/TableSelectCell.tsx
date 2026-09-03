@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Checkbox, TableCell } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import ExpandButton from './ExpandButton';
+import type { ReactNode, ComponentType } from 'react';
+import type { MUIDataTableExpandedRows, MUIDataTableOptions } from '../types/options';
 
 const useStyles = makeStyles({ name: 'MUIDataTableSelectCell' })((theme) => ({
   root: {
@@ -41,6 +42,29 @@ const useStyles = makeStyles({ name: 'MUIDataTableSelectCell' })((theme) => ({
   disabled: {},
 }));
 
+interface TableSelectCellProps {
+  fixedHeader?: boolean | undefined;
+  fixedSelectColumn?: boolean | undefined;
+  isHeaderCell?: boolean;
+  expandableOn?: boolean | undefined;
+  selectableOn?: string;
+  isRowExpanded?: boolean;
+  onExpand?: (() => void) | undefined;
+  isRowSelectable?: boolean;
+  selectableRowsHeader?: boolean | undefined;
+  hideExpandButton?: boolean | undefined;
+  expandableRowsHeader?: boolean | undefined;
+  expandedRows?: MUIDataTableExpandedRows | undefined;
+  areAllRowsExpanded?: () => boolean;
+  selectableRowsHideCheckboxes?: boolean | undefined;
+  setHeadCellRef?: ((index: number, pos: number, el: HTMLTableCellElement | null) => void) | undefined;
+  dataIndex?: number;
+  components?: { Checkbox?: ComponentType<unknown>; ExpandButton?: ComponentType<unknown> };
+  checked?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  [key: string]: unknown;
+}
+
 const TableSelectCell = ({
   fixedHeader,
   fixedSelectColumn,
@@ -60,12 +84,12 @@ const TableSelectCell = ({
   dataIndex,
   components = {},
   ...otherProps
-}) => {
+}: TableSelectCellProps) => {
   const { classes } = useStyles();
   const CheckboxComponent = components.Checkbox || Checkbox;
   const ExpandButtonComponent = components.ExpandButton || ExpandButton;
 
-  if (!expandableOn && (selectableOn === 'none' || selectableRowsHideCheckboxes === true)) {
+  if (expandableOn === false && (selectableOn === 'none' || selectableRowsHideCheckboxes === true)) {
     return null;
   }
 
@@ -85,21 +109,21 @@ const TableSelectCell = ({
     [classes.hide]: isHeaderCell && !expandableRowsHeader,
     [classes.expanded]: isRowExpanded || (isHeaderCell && areAllRowsExpanded()),
   });
+
   const iconIndeterminateClass = clsx({
     [classes.icon]: true,
     [classes.hide]: isHeaderCell && !expandableRowsHeader,
   });
 
-  let refProp = {};
+  const refProp: Record<string, unknown> = {};
   if (setHeadCellRef) {
-    refProp.ref = (el) => {
+    refProp['ref'] = (el: HTMLTableCellElement | null) => {
       setHeadCellRef(0, 0, el);
     };
   }
 
   const renderCheckBox = () => {
     if (isHeaderCell && (selectableOn !== 'multiple' || selectableRowsHeader === false)) {
-      // only display the header checkbox for multiple selection.
       return null;
     }
     return (
@@ -125,38 +149,18 @@ const TableSelectCell = ({
           <ExpandButtonComponent
             isHeaderCell={isHeaderCell}
             areAllRowsExpanded={areAllRowsExpanded}
-            expandedRows={expandedRows}
-            onExpand={onExpand}
-            expandableRowsHeader={expandableRowsHeader}
+            expandedRows={expandedRows ?? { data: [], lookup: {} }}
+            onExpand={onExpand ?? (() => {})}
+            expandableRowsHeader={expandableRowsHeader ?? false}
             buttonClass={buttonClass}
             iconIndeterminateClass={iconIndeterminateClass}
             iconClass={iconClass}
-            dataIndex={dataIndex}
           />
         )}
         {selectableOn !== 'none' && selectableRowsHideCheckboxes !== true && renderCheckBox()}
       </div>
     </TableCell>
   );
-};
-
-TableSelectCell.propTypes = {
-  /** Select cell checked on/off */
-  checked: PropTypes.bool.isRequired,
-  /** Select cell part of fixed header */
-  fixedHeader: PropTypes.bool,
-  /** Callback to trigger cell update */
-  onChange: PropTypes.func,
-  /** Extend the style applied to components */
-  classes: PropTypes.object,
-  /** Is expandable option enabled */
-  expandableOn: PropTypes.bool,
-  /** Adds extra class, `expandDisabled` when the row is not expandable. */
-  hideExpandButton: PropTypes.bool,
-  /** Is selectable option enabled */
-  selectableOn: PropTypes.string,
-  /** Select cell disabled on/off */
-  isRowSelectable: PropTypes.bool,
 };
 
 export default TableSelectCell;

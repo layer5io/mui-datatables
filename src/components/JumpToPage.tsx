@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { InputBase, MenuItem, Select, Toolbar, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import { getPageValue } from '../utils.js';
+import { getPageValue } from '../utils';
 import clsx from 'clsx';
+import type { SelectChangeEvent } from '@mui/material';
+import type { MUIDataTableTextLabels } from '../types/text-labels';
 
 const useStyles = makeStyles({ name: 'MUIDataTableJumpToPage' })((theme) => ({
   root: {
@@ -12,7 +14,6 @@ const useStyles = makeStyles({ name: 'MUIDataTableJumpToPage' })((theme) => ({
   caption: {
     flexShrink: 0,
   },
-  /*  Styles applied to the Select component root element */
   selectRoot: {
     marginRight: 32,
     marginLeft: 8,
@@ -26,36 +27,43 @@ const useStyles = makeStyles({ name: 'MUIDataTableJumpToPage' })((theme) => ({
     textAlignLast: 'right',
     fontSize: theme.typography.pxToRem(14),
   },
-  /* Styles applied to Select component icon class */
   selectIcon: {},
-  /* Styles applied to InputBase component */
   input: {
-    color: 'inhert',
-    fontSize: 'inhert',
+    color: 'inherit',
+    fontSize: 'inherit',
     flexShrink: 0,
   },
+  menuItem: {},
 }));
 
-function JumpToPage(props) {
+interface JumpToPageProps {
+  count: number;
+  page: number;
+  rowsPerPage: number;
+  textLabels: MUIDataTableTextLabels;
+  changePage: (page: number) => void;
+}
+
+function JumpToPage(props: JumpToPageProps) {
   const { classes } = useStyles();
 
-  const handlePageChange = (event) => {
-    props.changePage(parseInt(event.target.value, 10));
+  const handlePageChange = (event: SelectChangeEvent<number>) => {
+    props.changePage(event.target.value);
   };
 
-  const { count, textLabels, rowsPerPage, page, changePage } = props;
+  const { count, textLabels, rowsPerPage, page } = props;
 
   const textLabel = textLabels.pagination.jumpToPage;
 
-  let pages = [];
-  let lastPage = Math.min(1000, getPageValue(count, rowsPerPage, 1000000));
+  const pages: number[] = [];
+  const lastPage = Math.min(1000, getPageValue(count, rowsPerPage, 1000000));
 
   for (let ii = 0; ii <= lastPage; ii++) {
     pages.push(ii);
   }
   const MenuItemComponent = MenuItem;
 
-  let myStyle = {
+  const myStyle = {
     display: 'flex',
     minHeight: '52px',
     alignItems: 'center',
@@ -81,12 +89,5 @@ function JumpToPage(props) {
     </Toolbar>
   );
 }
-
-JumpToPage.propTypes = {
-  count: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-  textLabels: PropTypes.object.isRequired,
-};
 
 export default JumpToPage;

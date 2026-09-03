@@ -1,10 +1,13 @@
 /*
  * Default text labels.
  */
-const getTextLabels = () => ({
+import type { MUIDataTableTextLabels } from './types/text-labels';
+
+const getTextLabels = (): MUIDataTableTextLabels => ({
   body: {
     noMatch: 'Sorry, no matching records found',
     toolTip: 'Sort',
+    columnHeaderTooltip: (column: { label: string }) => `Sort for ${column.label}`,
   },
   pagination: {
     next: 'Next Page',

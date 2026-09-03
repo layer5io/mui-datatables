@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { type EventHandler, type ReactNode, type SyntheticEvent } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { TableRow } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
+import type { MUIDataTableOptions } from '../types/options';
+import type { Theme } from '@mui/material/styles';
 
-const defaultBodyRowStyles = (theme) => ({
+const defaultBodyRowStyles = (theme: Theme) => ({
   root: {
-    // material v4
     '&.Mui-selected': {
       backgroundColor: theme.palette.action.selected,
     },
-
-    // material v3 workaround
     '&.mui-row-selected': {
       backgroundColor: theme.palette.action.selected,
     },
@@ -35,24 +34,33 @@ const defaultBodyRowStyles = (theme) => ({
   },
 });
 
-class TableBodyRow extends React.Component {
-  static propTypes = {
-    /** Options used to describe table */
-    options: PropTypes.object.isRequired,
-    /** Callback to execute when row is clicked */
-    onClick: PropTypes.func,
-    /** Current row selected or not */
-    rowSelected: PropTypes.bool,
-    /** Extend the style applied to components */
-    classes: PropTypes.object,
-  };
+interface TableBodyRowProps {
+  options: MUIDataTableOptions;
+  onClick?: (event: React.MouseEvent<HTMLTableRowElement>) => void;
+  rowSelected?: boolean;
+  classes?: Record<keyof ReturnType<typeof defaultBodyRowStyles>, string>;
+  className?: string;
+  isRowSelectable?: boolean;
+  children?: ReactNode;
+  [key: string]: unknown;
+}
 
-  render() {
-    const { classes, options, rowSelected, onClick, className, isRowSelectable, ...rest } = this.props;
+class TableBodyRow extends React.Component<TableBodyRowProps> {
+  override render() {
+    const {
+      classes = {} as Record<keyof ReturnType<typeof defaultBodyRowStyles>, string>,
+      options,
+      rowSelected,
+      onClick,
+      className,
+      isRowSelectable,
+      ...rest
+    } = this.props;
 
-    var methods = {};
+    // ATTENTION
+    const methods: Record<string, EventHandler<SyntheticEvent>> = {};
     if (onClick) {
-      methods.onClick = onClick;
+      methods['onClick'] = onClick;
     }
 
     return (
@@ -62,7 +70,6 @@ class TableBodyRow extends React.Component {
         className={clsx(
           {
             [classes.root]: true,
-            [classes.hover]: options.rowHover,
             [classes.hoverCursor]: (options.selectableRowsOnClick && isRowSelectable) || options.expandableRowsOnClick,
             [classes.responsiveSimple]: options.responsive === 'simple',
             [classes.responsiveStacked]:

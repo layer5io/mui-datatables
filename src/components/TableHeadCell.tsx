@@ -1,11 +1,14 @@
+import React, { useState } from 'react';
 import { Button, TableCell, TableSortLabel, Tooltip as MuiTooltip } from '@mui/material';
 import { Help as HelpIcon } from '@mui/icons-material';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import useColumnDrop from '../hooks/useColumnDrop.js';
+import useColumnDrop from '../hooks/useColumnDrop';
 import { makeStyles } from 'tss-react/mui';
 import { useDrag } from 'react-dnd';
+import type { ComponentProps, ReactNode, ComponentType, RefCallback } from 'react';
+import type { MUIDataTableColumnState, MUIDataTableSortDirection } from '../types/columns';
+import type { MUIDataTableOptions } from '../types/options';
+import type { HeadCellRefs, ColumnDropTimers, HeaderDragItem } from '../types/drag';
 
 const useStyles = makeStyles({ name: 'MUIDataTableHeadCell' })((theme) => ({
   root: {},
@@ -60,6 +63,30 @@ const useStyles = makeStyles({ name: 'MUIDataTableHeadCell' })((theme) => ({
   },
 }));
 
+interface TableHeadCellProps {
+  cellHeaderProps?: ComponentProps<typeof TableCell>;
+  children?: ReactNode;
+  colPosition?: number;
+  column?: MUIDataTableColumnState;
+  columns?: MUIDataTableColumnState[];
+  columnOrder?: number[];
+  components?: { Tooltip?: ComponentType<unknown> };
+  draggableHeadCellRefs?: HeadCellRefs | undefined;
+  draggingHook?: [boolean, (val: boolean) => void];
+  hint?: string | undefined;
+  index: number;
+  options: MUIDataTableOptions;
+  print: boolean;
+  setCellRef?: ((index: number, pos: number, el: HTMLTableCellElement | null) => void) | undefined;
+  sort: boolean;
+  sortDirection?: MUIDataTableSortDirection | undefined;
+  tableRef?: (() => HTMLElement | null) | undefined;
+  tableId?: string | undefined;
+  timers?: ColumnDropTimers | undefined;
+  toggleSort: (index: number) => void;
+  updateColumnOrder?: ((columnOrder: number[], src: number, target: number) => void) | undefined;
+}
+
 const TableHeadCell = ({
   cellHeaderProps = {},
   children,
@@ -82,13 +109,13 @@ const TableHeadCell = ({
   timers,
   toggleSort,
   updateColumnOrder,
-}) => {
+}: TableHeadCellProps) => {
   const [sortTooltipOpen, setSortTooltipOpen] = useState(false);
   const [hintTooltipOpen, setHintTooltipOpen] = useState(false);
 
   const { classes } = useStyles();
 
-  const handleKeyboardSortInput = (e) => {
+  const handleKeyboardSortInput = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       toggleSort(index);
     }
@@ -100,16 +127,32 @@ const TableHeadCell = ({
     toggleSort(index);
   };
 
-  const [dragging, setDragging] = draggingHook ? draggingHook : [];
+  const [dragging, setDragging] = draggingHook ? draggingHook : ([] as unknown as [boolean, (val: boolean) => void]);
 
-  const { className, ...otherProps } = cellHeaderProps;
-  const Tooltip = components.Tooltip || MuiTooltip;
+  const { className, ...otherProps } = cellHeaderProps as { className?: string; [key: string]: unknown };
+  const Tooltip = (components.Tooltip || MuiTooltip) as typeof MuiTooltip;
   const sortActive = sortDirection !== 'none' && sortDirection !== undefined;
   const ariaSortDirection = sortDirection === 'none' ? false : sortDirection;
 
   const isDraggingEnabled = () => {
     if (!draggingHook) return false;
-    return options.draggableColumns && options.draggableColumns.enabled && column.draggable !== false;
+    return (
+      options.draggableColumns &&
+      options.draggableColumns.enabled &&
+      (column as unknown as Record<string, unknown>)?.['draggable'] !== false
+    );
+  };
+
+  const setDragRefButton: RefCallback<HTMLButtonElement> = (node) => {
+    if (isDraggingEnabled()) {
+      dragRef(node);
+    }
+  };
+
+  const setDragRefDiv: RefCallback<HTMLDivElement> = (node) => {
+    if (isDraggingEnabled()) {
+      dragRef(node);
+    }
   };
 
   const sortLabelProps = {
@@ -117,24 +160,24 @@ const TableHeadCell = ({
     tabIndex: -1,
     active: sortActive,
     hideSortIcon: true,
-    ...(ariaSortDirection ? { direction: sortDirection } : {}),
+    ...(ariaSortDirection ? { direction: sortDirection as 'asc' | 'desc' } : {}),
   };
 
-  const [{ opacity }, dragRef, preview] = useDrag({
+  const [{ opacity }, dragRef] = useDrag({
     type: 'HEADER',
     item: () => {
       setTimeout(() => {
         setHintTooltipOpen(false);
         setSortTooltipOpen(false);
-        setDragging(true);
+        if (setDragging) setDragging(true);
       }, 0);
       return {
         colIndex: index,
         headCellRefs: draggableHeadCellRefs,
       };
     },
-    end: (item, monitor) => {
-      setDragging(false);
+    end: () => {
+      if (setDragging) setDragging(false);
     },
     collect: (monitor) => {
       return {
@@ -144,40 +187,37 @@ const TableHeadCell = ({
   });
 
   const [drop] = useColumnDrop({
-    drop: (item, mon) => {
+    drop: () => {
       setSortTooltipOpen(false);
       setHintTooltipOpen(false);
-      setDragging(false);
+      if (setDragging) setDragging(false);
     },
     index,
-    headCellRefs: draggableHeadCellRefs,
-    updateColumnOrder,
+    headCellRefs: draggableHeadCellRefs || {},
+    updateColumnOrder: updateColumnOrder || (() => {}),
     columnOrder,
-    columns,
-    transitionTime: options.draggableColumns ? options.draggableColumns.transitionTime : 300,
+    columns: columns || [],
+    transitionTime: options.draggableColumns ? options.draggableColumns.transitionTime! : 300,
     tableRef: tableRef ? tableRef() : null,
     tableId: tableId || 'none',
-    timers,
+    timers: timers || {},
   });
 
   const cellClass = clsx({
     [classes.root]: true,
     [classes.fixedHeader]: options.fixedHeader,
     'datatables-noprint': !print,
-    [className]: className,
+    [className as string]: !!className,
   });
-
-  const showHintTooltip = () => {
-    setSortTooltipOpen(false);
-    setHintTooltipOpen(true);
-  };
+  // ??
 
   const getTooltipTitle = () => {
     if (dragging) return '';
     if (!options.textLabels) return '';
-    return options.textLabels.body.columnHeaderTooltip
-      ? options.textLabels.body.columnHeaderTooltip(column)
-      : options.textLabels.body.toolTip;
+    if (column && options.textLabels.body?.columnHeaderTooltip) {
+      return (options.textLabels.body as { columnHeaderTooltip: (col: unknown) => string }).columnHeaderTooltip(column);
+    }
+    return options.textLabels.body?.toolTip || '';
   };
 
   const closeTooltip = () => {
@@ -186,13 +226,13 @@ const TableHeadCell = ({
 
   return (
     <TableCell
-      ref={(ref) => {
+      ref={(ref: HTMLTableCellElement | null) => {
         drop && drop(ref);
-        setCellRef && setCellRef(index + 1, colPosition + 1, ref);
+        setCellRef && setCellRef(index + 1, (colPosition || 0) + 1, ref);
       }}
       className={cellClass}
       scope={'col'}
-      sortDirection={ariaSortDirection}
+      sortDirection={ariaSortDirection || undefined}
       data-colindex={index}
       data-tableid={tableId}
       onMouseDown={closeTooltip}
@@ -210,12 +250,12 @@ const TableHeadCell = ({
               popper: classes.mypopper,
             }}>
             <Button
-              variant=""
+              variant={'text'}
               onKeyUp={handleKeyboardSortInput}
               onClick={handleSortClick}
               className={classes.toolButton}
               data-testid={`headcol-${index}`}
-              ref={isDraggingEnabled() ? dragRef : null}>
+              ref={setDragRefButton}>
               <div className={classes.sortAction}>
                 <div
                   className={clsx({
@@ -241,14 +281,14 @@ const TableHeadCell = ({
           )}
         </span>
       ) : (
-        <div className={hint ? classes.sortAction : null} ref={isDraggingEnabled() ? dragRef : null}>
+        <div className={hint ? classes.sortAction : undefined} ref={setDragRefDiv}>
           {children}
           {hint && (
             <Tooltip
               title={hint}
               placement={'bottom-end'}
               open={hintTooltipOpen}
-              onOpen={() => showHintTooltip()}
+              onOpen={() => setHintTooltipOpen(true)}
               onClose={() => setHintTooltipOpen(false)}
               classes={{
                 tooltip: classes.tooltip,
@@ -262,25 +302,6 @@ const TableHeadCell = ({
       )}
     </TableCell>
   );
-};
-
-TableHeadCell.propTypes = {
-  /** Options used to describe table */
-  options: PropTypes.object.isRequired,
-  /** Current sort direction */
-  sortDirection: PropTypes.oneOf(['asc', 'desc', 'none']),
-  /** Callback to trigger column sort */
-  toggleSort: PropTypes.func.isRequired,
-  /** Sort enabled / disabled for this column **/
-  sort: PropTypes.bool.isRequired,
-  /** Hint tooltip text */
-  hint: PropTypes.string,
-  /** Column displayed in print */
-  print: PropTypes.bool.isRequired,
-  /** Optional to be used with `textLabels.body.columnHeaderTooltip` */
-  column: PropTypes.object,
-  /** Injectable component structure **/
-  components: PropTypes.object,
 };
 
 export default TableHeadCell;

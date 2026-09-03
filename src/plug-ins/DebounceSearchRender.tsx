@@ -2,24 +2,24 @@ import React from 'react';
 import { Grow, TextField, IconButton } from '@mui/material';
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { withStyles } from 'tss-react/mui';
+import type { MUIDataTableOptions } from '../types/options';
 
-function debounce(func, wait, immediate) {
-  var timeout;
-  return function () {
-    var context = this,
-      args = arguments;
-    var later = function () {
+function debounce<T extends (...args: never[]) => void>(func: T, wait: number, immediate?: boolean) {
+  let timeout: ReturnType<typeof setTimeout> | null;
+  return function (this: unknown, ...args: Parameters<T>) {
+    const context = this;
+    const later = function () {
       timeout = null;
       if (!immediate) func.apply(context, args);
     };
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
+    const callNow = immediate && !timeout;
+    if (timeout) clearTimeout(timeout);
     timeout = setTimeout(later, wait);
     if (callNow) func.apply(context, args);
   };
 }
 
-const defaultStyles = (theme) => ({
+const defaultStyles = (theme: { palette: { text: { secondary: string }; error: { main: string } } }) => ({
   main: {
     display: 'flex',
     flex: '1 0 auto',
@@ -39,31 +39,42 @@ const defaultStyles = (theme) => ({
   },
 });
 
-class _DebounceTableSearch extends React.Component {
-  handleTextChangeWrapper = (debouncedSearch) => {
-    return function (event) {
+interface DebounceSearchProps {
+  classes: Record<keyof ReturnType<typeof defaultStyles>, string>;
+  options: MUIDataTableOptions;
+  onSearch: (value: string) => void;
+  onHide: () => void;
+  searchText: string | null;
+  debounceWait: number;
+}
+
+class _DebounceTableSearch extends React.Component<DebounceSearchProps> {
+  searchField: HTMLInputElement | null = null;
+
+  handleTextChangeWrapper = (debouncedSearch: (value: string) => void) => {
+    return function (event: React.ChangeEvent<HTMLInputElement>) {
       debouncedSearch(event.target.value);
     };
   };
 
-  componentDidMount() {
+  override componentDidMount() {
     document.addEventListener('keydown', this.onKeyDown, false);
   }
 
-  componentWillUnmount() {
+  override componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown, false);
   }
 
-  onKeyDown = (event) => {
+  onKeyDown = (event: KeyboardEvent) => {
     if (event.keyCode === 27) {
       this.props.onHide();
     }
   };
 
-  render() {
+  override render() {
     const { classes, options, onHide, searchText, debounceWait } = this.props;
 
-    const debouncedSearch = debounce((value) => {
+    const debouncedSearch = debounce((value: string) => {
       this.props.onSearch(value);
     }, debounceWait);
 
@@ -77,14 +88,18 @@ class _DebounceTableSearch extends React.Component {
             variant={'standard'}
             className={classes.searchText}
             autoFocus={true}
-            InputProps={{
-              'data-test-id': options.textLabels.toolbar.search,
-              'aria-label': options.textLabels.toolbar.search,
+            slotProps={{
+              htmlInput: {
+                'data-testid': options.textLabels?.toolbar?.search,
+                'aria-label': options.textLabels?.toolbar?.search,
+              },
             }}
             defaultValue={searchText}
             onChange={this.handleTextChangeWrapper(debouncedSearch)}
             fullWidth={true}
-            inputRef={(el) => (this.searchField = el)}
+            inputRef={(el: HTMLInputElement | null) => {
+              this.searchField = el;
+            }}
             placeholder={options.searchPlaceholder}
             {...(options.searchProps ? options.searchProps : {})}
           />
@@ -97,11 +112,18 @@ class _DebounceTableSearch extends React.Component {
   }
 }
 
-var DebounceTableSearch = withStyles(_DebounceTableSearch, defaultStyles, { name: 'MUIDataTableSearch' });
+const DebounceTableSearch = withStyles(_DebounceTableSearch, defaultStyles, {
+  name: 'MUIDataTableSearch',
+}) as unknown as React.ComponentType<Omit<DebounceSearchProps, 'classes'>>;
 export { DebounceTableSearch };
 
 export function debounceSearchRender(debounceWait = 200) {
-  return (searchText, handleSearch, hideSearch, options) => {
+  return (
+    searchText: string,
+    handleSearch: (text: string) => void,
+    hideSearch: () => void,
+    options: MUIDataTableOptions,
+  ) => {
     return (
       <DebounceTableSearch
         searchText={searchText}

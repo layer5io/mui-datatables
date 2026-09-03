@@ -4,6 +4,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   plugins: [
     swc.vite({
+      tsconfigFile: false,
       jsc: {
         parser: {
           syntax: 'ecmascript',

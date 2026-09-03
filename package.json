@@ -3,6 +3,7 @@
   "version": "8.0.0",
   "description": "Datatables for React using Material-UI",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -16,9 +17,9 @@
     "docs:start": "next start docs",
     "coverage": "cross-env NODE_ENV=test vitest run --coverage --coverage.reporter=text",
     "coverage:html": "cross-env NODE_ENV=test vitest run --coverage",
-    "prettier": "find src/ docs/ test/ -type f -name \"*.js\" ! -path \"*/.next/*\" | xargs prettier --write",
+    "prettier": "find src/ -type f \\( -name \"*.ts\" -o -name \"*.tsx\" \\) | xargs prettier --write && find docs/ test/ -type f -name \"*.js\" ! -path \"*/.next/*\" | xargs prettier --write",
     "lint": "eslint src",
-    "build": "cross-env NODE_ENV=production npm run prettier && rollup -c",
+    "build": "cross-env NODE_ENV=production npm run prettier && rollup -c && tsc --emitDeclarationOnly",
     "prepare": "npm run build"
   },
   "repository": {
@@ -44,6 +45,7 @@
     "@mui/icons-material": "^9.0.0",
     "@mui/material": "^9.0.0",
     "@rollup/plugin-commonjs": "^29.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
     "@swc/core": "^1.11.11",
     "@types/lodash.assignwith": "^4.2.9",

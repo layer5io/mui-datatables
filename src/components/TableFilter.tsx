@@ -246,6 +246,7 @@ class TableFilter extends React.Component<TableFilterProps, TableFilterState> {
             onChange={(event) =>
               this.handleDropdownChange(event as unknown as React.ChangeEvent<{ value: unknown }>, index, column.name)
             }
+            MenuProps={{ disablePortal: true }}
             input={<Input name={column.name} id={column.name} />}>
             <MenuItem value={textLabels?.all} key={0}>
               {textLabels?.all}
@@ -313,6 +314,7 @@ class TableFilter extends React.Component<TableFilterProps, TableFilterState> {
             renderValue={(selected) => (selected as string[]).map(renderItem).join(', ')}
             name={column.name}
             onChange={(event) => this.handleMultiselectChange(index, event.target.value as string[], column.name)}
+            MenuProps={{ disablePortal: true }}
             input={<Input name={column.name} id={column.name} />}>
             {filterData[index]?.map((filterValue, filterIndex) => (
               <MenuItem value={filterValue} key={filterIndex + 1}>

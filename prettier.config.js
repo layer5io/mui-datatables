@@ -4,6 +4,5 @@ module.exports = {
   trailingComma: 'all',
   bracketSpacing: true,
   bracketSameLine: true,
-  parser: 'babel',
   semi: true,
 };

@@ -25,7 +25,7 @@ import type { ReactNode, ComponentType } from 'react';
 import type { Theme } from '@mui/material/styles';
 import type { MUIDataTableData } from './types/data';
 
-interface MUIDataTableProps {
+export interface MUIDataTableProps {
   title: ReactNode;
   data: MUIDataTableData;
   columns: (string | Record<string, unknown>)[];

@@ -2,20 +2,9 @@ import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
+  oxc: false,
   plugins: [
-    swc.vite({
-      jsc: {
-        parser: {
-          syntax: 'ecmascript',
-          jsx: true,
-        },
-        transform: {
-          react: {
-            runtime: 'automatic',
-          },
-        },
-      },
-    }),
+    swc.vite(),
   ],
   test: {
     environment: 'jsdom',

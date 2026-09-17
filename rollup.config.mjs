@@ -1,5 +1,6 @@
 import { swc } from 'rollup-plugin-swc3';
 import commonjs from '@rollup/plugin-commonjs';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import uglify from '@lopatnov/rollup-plugin-uglify';
 import packageJson from './package.json' with { type: 'json' };
@@ -15,9 +16,12 @@ const externalPackages = [
 const isExternal = (id) => externalPackages.some((pkg) => id === pkg || id.startsWith(`${pkg}/`));
 
 export default {
-  input: 'src/index.js',
+  input: 'src/index.tsx',
   external: isExternal,
   plugins: [
+    nodeResolve({
+      extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    }),
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
       preventAssignment: true,
@@ -26,13 +30,13 @@ export default {
       include: ['node_modules/**'],
     }),
     swc({
-      include: /\.(js|jsx)$/,
+      include: /\.(ts|tsx)$/,
       exclude: /node_modules/,
       tsconfig: false,
       jsc: {
         parser: {
-          syntax: 'ecmascript',
-          jsx: true,
+          syntax: 'typescript',
+          tsx: true,
         },
         transform: {
           react: {

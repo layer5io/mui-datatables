@@ -1,5 +1,5 @@
 import { Button, TableCell, TableSortLabel, Tooltip as MuiTooltip } from '@mui/material';
-import { Help as HelpIcon } from '@mui/icons-material';
+import HelpIcon from '@mui/icons-material/Help';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';

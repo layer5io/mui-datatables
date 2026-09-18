@@ -41,6 +41,19 @@ module.exports = [
       'no-undef': 2,
       'no-undef-init': 2,
       'no-tabs': 2,
+      // The @mui/icons-material barrel re-exports ~10,800 modules that every
+      // consumer's bundler has to parse. Import icons by path instead.
+      'no-restricted-imports': [
+        2,
+        {
+          paths: [
+            {
+              name: '@mui/icons-material',
+              message: "Import icons by path, e.g. '@mui/icons-material/Search'.",
+            },
+          ],
+        },
+      ],
       'react/self-closing-comp': 2,
       'react/no-typos': 2,
       'react/jsx-no-duplicate-props': 'warn',

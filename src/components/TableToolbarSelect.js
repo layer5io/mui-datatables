@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Paper, IconButton, Typography, Tooltip as MuiTooltip } from '@mui/material';
-import { Delete as DeleteIcon } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { withStyles } from 'tss-react/mui';
 
 const defaultToolbarSelectStyles = (theme) => ({

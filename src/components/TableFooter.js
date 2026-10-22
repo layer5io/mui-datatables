@@ -19,14 +19,9 @@ const TableFooter = ({ options, rowCount, page, rowsPerPage, changeRowsPerPage, 
   if (customFooter) {
     return (
       <MuiTable className={classes.root}>
-        {options.customFooter(
-          rowCount,
-          page,
-          rowsPerPage,
-          changeRowsPerPage,
-          changePage,
-          options.textLabels.pagination,
-        )}
+        {typeof customFooter === 'function'
+          ? customFooter(rowCount, page, rowsPerPage, changeRowsPerPage, changePage, options.textLabels.pagination)
+          : customFooter}
       </MuiTable>
     );
   }
@@ -55,7 +50,7 @@ TableFooter.propTypes = {
   rowCount: PropTypes.number.isRequired,
   /** Options used to describe table */
   options: PropTypes.shape({
-    customFooter: PropTypes.func,
+    customFooter: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     pagination: PropTypes.bool,
     textLabels: PropTypes.shape({
       pagination: PropTypes.object,

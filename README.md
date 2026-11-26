@@ -10,7 +10,7 @@
 <p align="center">
 <a href="https://github.com/layer5io/docs/graphs/contributors" alt="GitHub contributors">
 <img src="https://img.shields.io/github/contributors/layer5io/layer5.svg" /></a>
-<a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+(org%3Alayer5io+OR+org%3Ameshery+OR+org%3Alayer5labs+OR+org%3Aservice-mesh-performance+OR+org%3Aservice-mesh-patterns+OR+org%3Ameshery-extensions)+label%3A%22help+wanted%22" alt="Help wanted GitHub issues">
+<a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+(org%3Alayer5io+OR+org%3Ameshery+OR+org%3Alayer5labs+OR+org%3Aservice-mesh-performance+OR+org%3Aservice-mesh-patterns+OR+org%3Ameshery-extensions+OR+org%3Ablowhorn-ai)+label%3A%22help+wanted%22" alt="Help wanted GitHub issues">
 <img src="https://img.shields.io/github/issues/layer5io/layer5/help%20wanted.svg?color=%23DDDD00" /></a>
 <a href="https://slack.layer5.io" alt="Slack">
 <img src="https://img.shields.io/badge/Slack-@layer5.svg?logo=slack" /></a>
@@ -598,7 +598,7 @@ Find out more on the <a href="https://layer5.io/community">Layer5 community</a>.
 </div>
 <br /><br />
 <p align="left">
-&nbsp;&nbsp;&nbsp;&nbsp; <i>Not sure where to start?</i> Grab an open issue with the <a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+(org%3Alayer5io+OR+org%3Ameshery+OR+org%3Alayer5labs+OR+org%3Aservice-mesh-performance+OR+org%3Aservice-mesh-patterns+OR+org%3Ameshery-extensions)+label%3A%22help+wanted%22">help-wanted label</a>.</p>
+&nbsp;&nbsp;&nbsp;&nbsp; <i>Not sure where to start?</i> Grab an open issue with the <a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+(org%3Alayer5io+OR+org%3Ameshery+OR+org%3Alayer5labs+OR+org%3Aservice-mesh-performance+OR+org%3Aservice-mesh-patterns+OR+org%3Ameshery-extensions+OR+org%3Ablowhorn-ai)+label%3A%22help+wanted%22">help-wanted label</a>.</p>
 <br />
 <ul>
   <li>Find us on Twitter: <a href="https://x.com/layer5">@layer5</a>, <a href="https://x.com/mesheryio">@mesheryio</a>, and <a href="https://x.com/kanvas_new">@kanvas-new</a>.</li>
